@@ -36,7 +36,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.MenuMusicFile = new System.Windows.Forms.RichTextBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.label3 = new System.Windows.Forms.Label();
             this.VolumeNum = new System.Windows.Forms.Label();
@@ -117,17 +116,6 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(12, 175);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(122, 17);
-            this.checkBox1.TabIndex = 7;
-            this.checkBox1.Text = "Play when obscured";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
             // trackBar1
             // 
             this.trackBar1.Location = new System.Drawing.Point(302, 168);
@@ -201,7 +189,7 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(140, 175);
+            this.checkBox2.Location = new System.Drawing.Point(12, 177);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(83, 17);
             this.checkBox2.TabIndex = 14;
@@ -221,7 +209,6 @@
             this.Controls.Add(this.VolumeNum);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.trackBar1);
-            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.MenuMusicFile);
             this.Controls.Add(this.button2);
@@ -251,7 +238,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.RichTextBox MenuMusicFile;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label VolumeNum;
