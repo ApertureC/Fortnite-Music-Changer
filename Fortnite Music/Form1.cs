@@ -87,6 +87,7 @@ namespace Fortnite_Music
             // SETTINGS LOADING
             float sfx = (float)(Screen.PrimaryScreen.Bounds.Width / 1920);
             float sfy = (float)(Screen.PrimaryScreen.Bounds.Height / 1080);
+            int currentlyplaying = 0; // 0=nothing 1=title 2=menu 3=victory
             //
             //while (true)
             //{
@@ -118,6 +119,7 @@ namespace Fortnite_Music
                 Thread.CurrentThread.IsBackground = true;
                 while (true)
                 {
+                    Thread.Sleep(500);
                     MethodInvoker mouse = delegate
                     {
                         label1.Text = System.Windows.Forms.Cursor.Position.ToString();
@@ -144,41 +146,56 @@ namespace Fortnite_Music
                         }
                         try
                         {
+                            Debug.WriteLine(wplayer.playState);
                             var c = GetColorAt(new Point(Convert.ToInt32(1058 * sfx), Convert.ToInt32(28 * sfy)));
                             if (Int32.Parse(c.R.ToString()) > 250 && Int32.Parse(c.G.ToString()) > 250 && Int32.Parse(c.B.ToString()) > 250)
                             {
                                 c = GetColorAt(new Point(Convert.ToInt32(941 * sfx), Convert.ToInt32(1066 * sfy)));
                                 if (Int32.Parse(c.R.ToString()) == 220 && Int32.Parse(c.G.ToString()) == 229 && Int32.Parse(c.B.ToString()) == 244)
                                 {
-                                    if ((wplayer.URL != Globals.titlemenu))
+                                    if ((currentlyplaying != 1))
                                     {
+                                        currentlyplaying = 1;
                                         wplayer.URL = Globals.titlemenu;
                                         wplayer.controls.play();
                                     }
                                 }
                             }
-                            else if (mainmenumusic(sfx, sfy) == true || wplayer.playState == WMPPlayState.wmppsPaused)
+                            else if (mainmenumusic(sfx, sfy) == true)
                             {
-                                if ((wplayer.URL != Globals.mainmenu))
+                                if ((currentlyplaying != 2))
                                 {
+                                    currentlyplaying = 2;
                                     wplayer.URL = Globals.mainmenu;
+                                }
+                                if (wplayer.playState == WMPPlayState.wmppsPaused || wplayer.playState == WMPPlayState.wmppsStopped || wplayer.playState == WMPPlayState.wmppsUndefined)
+                                {
                                     wplayer.controls.play();
                                 }
                             }
-                            else if (victorymusic(sfx, sfy) == true || wplayer.playState == WMPPlayState.wmppsPaused)
+                            else if (victorymusic(sfx, sfy) == true)
                             {
-                                if ((wplayer.URL != Globals.victory))
+                                if ((currentlyplaying != 3))
                                 {
+                                    currentlyplaying = 3;
                                     wplayer.URL = Globals.victory;
+                                }
+                                if (wplayer.playState == WMPPlayState.wmppsPaused || wplayer.playState == WMPPlayState.wmppsStopped || wplayer.playState == WMPPlayState.wmppsUndefined)
+                                {
+
                                     wplayer.controls.play();
                                 }
                             }
                             else
                             {
-                                if (checkBox1.Checked == false || focused == true)
+                                if (checkBox1.Checked == false && focused == false)
                                 {
                                     wplayer.controls.pause();
-                                    wplayer.URL = "";
+                                    //wplayer.URL = "";
+                                }
+                                if (focused==true)
+                                {
+                                    wplayer.controls.pause();
                                 }
                             }
                         } catch
