@@ -70,5 +70,29 @@ namespace Fortnite_Music.Properties {
                 this["Volume"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Party {
+            get {
+                return ((bool)(this["Party"]));
+            }
+            set {
+                this["Party"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Victory {
+            get {
+                return ((string)(this["Victory"]));
+            }
+            set {
+                this["Victory"] = value;
+            }
+        }
     }
 }

@@ -30,18 +30,53 @@ namespace Fortnite_Music
         {
             public static string titlemenu = "";
             public static string mainmenu = "";
+            public static string victory = "";
+            public static bool party = false;
         }
-        private bool mainmenumusic()
+        private bool mainmenumusic(float sfx, float sfy)
         {
-            var c = GetColorAt(new Point(512, 36));
-            if (Int32.Parse(c.R.ToString()) == 28 && Int32.Parse(c.G.ToString()) == 34 && Int32.Parse(c.B.ToString()) == 56)
+            Color colorAt = GetColorAt(new Point(Convert.ToInt32(428f * sfx), Convert.ToInt32(548f * sfy)));
+            if (int.Parse(colorAt.R.ToString()) == 11 && int.Parse(colorAt.G.ToString()) == 19 && int.Parse(colorAt.B.ToString()) == 47)
             {
-                c = GetColorAt(new Point(909, 1047));
-                if (Int32.Parse(c.R.ToString()) == 21 && Int32.Parse(c.G.ToString()) == 24 && Int32.Parse(c.B.ToString()) == 43) {
-                    c = GetColorAt(new Point(20, 1043));
-                    if (Int32.Parse(c.R.ToString()) == 255 && Int32.Parse(c.G.ToString()) == 255 && Int32.Parse(c.B.ToString()) == 255) {
+                return false;
+            }
+            colorAt = GetColorAt(new Point(Convert.ToInt32(512f * sfx), Convert.ToInt32(36f * sfy)));
+            if (int.Parse(colorAt.R.ToString()) == 28 && int.Parse(colorAt.G.ToString()) == 34 && int.Parse(colorAt.B.ToString()) == 56)
+            {
+                colorAt = GetColorAt(new Point(Convert.ToInt32(909f * sfx), Convert.ToInt32(1047f * sfy)));
+                if (int.Parse(colorAt.R.ToString()) == 21 && int.Parse(colorAt.G.ToString()) == 24 && int.Parse(colorAt.B.ToString()) == 43)
+                {
+                    colorAt = GetColorAt(new Point(Convert.ToInt32(20f * sfx), Convert.ToInt32(1043f * sfy)));
+                    if (int.Parse(colorAt.R.ToString()) == 255 && int.Parse(colorAt.G.ToString()) == 255 && int.Parse(colorAt.B.ToString()) == 255)
+                    {
                         return true;
                     }
+                    if (int.Parse(colorAt.R.ToString()) == 99 && int.Parse(colorAt.G.ToString()) == 188 && int.Parse(colorAt.B.ToString()) == 80 && Globals.party)
+                    {
+                        return true;
+                    }
+                }
+            }
+            colorAt = GetColorAt(new Point(Convert.ToInt32(1897f * sfx), Convert.ToInt32(10f * sfy)));
+            if (int.Parse(colorAt.R.ToString()) == 255 && int.Parse(colorAt.G.ToString()) == 255 && int.Parse(colorAt.B.ToString()) == 255)
+            {
+                colorAt = GetColorAt(new Point(Convert.ToInt32(1825f * sfx), Convert.ToInt32(10f * sfy)));
+                if (int.Parse(colorAt.R.ToString()) == 232 && int.Parse(colorAt.G.ToString()) == 232 && int.Parse(colorAt.B.ToString()) == 232)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        private bool victorymusic(float sfx, float sfy)
+        {
+            Color colorAt = GetColorAt(new Point(Convert.ToInt32(911f * sfx), Convert.ToInt32(251f * sfy)));
+            if (int.Parse(colorAt.R.ToString()) == 242 && int.Parse(colorAt.G.ToString()) == 247 && int.Parse(colorAt.B.ToString()) == 252)
+            {
+                colorAt = GetColorAt(new Point(Convert.ToInt32(1087f * sfx), Convert.ToInt32(271f * sfy)));
+                if (int.Parse(colorAt.R.ToString()) == 255 && int.Parse(colorAt.G.ToString()) == 255 && int.Parse(colorAt.B.ToString()) == 255)
+                {
+                    return true;
                 }
             }
             return false;
@@ -50,7 +85,8 @@ namespace Fortnite_Music
         {
             InitializeComponent();
             // SETTINGS LOADING
-
+            float sfx = (float)(Screen.PrimaryScreen.Bounds.Width / 1920);
+            float sfy = (float)(Screen.PrimaryScreen.Bounds.Height / 1080);
             //
             //while (true)
             //{
@@ -62,15 +98,18 @@ namespace Fortnite_Music
 
             Debug.WriteLine("Loaded");
             Globals.mainmenu = Properties.Settings.Default.MainMenu;
+            Globals.victory = Properties.Settings.Default.Victory;
+            Globals.party = Properties.Settings.Default.Party;
             Debug.WriteLine(Globals.mainmenu);
             Globals.titlemenu = Properties.Settings.Default.TitleMenu;
             checkBox1.Checked = Properties.Settings.Default.Obscure;
+            checkBox2.Checked = Properties.Settings.Default.Party;
             trackBar1.Value = Properties.Settings.Default.Volume;
 
             // APPLY SETTINGS
             MenuMusicFile.Text = Globals.mainmenu;
             TitleMenuFile.Text = Globals.titlemenu;
-
+            VictoryMusicFile.Text = Globals.victory;
             //
             new Thread(() =>
             {
@@ -103,32 +142,48 @@ namespace Fortnite_Music
                                 
                             }
                         }
-                        var c = GetColorAt(new Point(1058, 28));
-                        if (Int32.Parse(c.R.ToString())>250 && Int32.Parse(c.G.ToString())>250 && Int32.Parse(c.B.ToString())>250)
+                        try
                         {
-                            c = GetColorAt(new Point(941, 1066));
-                            if (Int32.Parse(c.R.ToString())== 220 && Int32.Parse(c.G.ToString()) == 229 && Int32.Parse(c.B.ToString())==244)
+                            var c = GetColorAt(new Point(Convert.ToInt32(1058 * sfx), Convert.ToInt32(28 * sfy)));
+                            if (Int32.Parse(c.R.ToString()) > 250 && Int32.Parse(c.G.ToString()) > 250 && Int32.Parse(c.B.ToString()) > 250)
                             {
-                                if ((wplayer.URL != Globals.titlemenu))
+                                c = GetColorAt(new Point(Convert.ToInt32(941 * sfx), Convert.ToInt32(1066 * sfy)));
+                                if (Int32.Parse(c.R.ToString()) == 220 && Int32.Parse(c.G.ToString()) == 229 && Int32.Parse(c.B.ToString()) == 244)
                                 {
-                                    wplayer.URL = Globals.titlemenu;
+                                    if ((wplayer.URL != Globals.titlemenu))
+                                    {
+                                        wplayer.URL = Globals.titlemenu;
+                                        wplayer.controls.play();
+                                    }
+                                }
+                            }
+                            else if (mainmenumusic(sfx, sfy) == true || wplayer.playState == WMPPlayState.wmppsPaused)
+                            {
+                                if ((wplayer.URL != Globals.mainmenu))
+                                {
+                                    wplayer.URL = Globals.mainmenu;
                                     wplayer.controls.play();
                                 }
                             }
-                        } else if (mainmenumusic()==true)
-                        {
-                            if ((wplayer.URL != Globals.mainmenu))
+                            else if (victorymusic(sfx, sfy) == true || wplayer.playState == WMPPlayState.wmppsPaused)
                             {
-                                wplayer.URL = Globals.mainmenu;
-                                wplayer.controls.play();
+                                if ((wplayer.URL != Globals.victory))
+                                {
+                                    wplayer.URL = Globals.victory;
+                                    wplayer.controls.play();
+                                }
                             }
-                        } else
-                        {
-                            if (checkBox1.Checked == false || focused==true)
+                            else
                             {
-                                wplayer.controls.pause();
-                                wplayer.URL = "";
+                                if (checkBox1.Checked == false || focused == true)
+                                {
+                                    wplayer.controls.pause();
+                                    wplayer.URL = "";
+                                }
                             }
+                        } catch
+                        {
+
                         }
                     } else
                     {
@@ -149,16 +204,6 @@ namespace Fortnite_Music
                 Properties.Settings.Default.Reload();
                 Debug.WriteLine("Hi");
             }
-        }
-
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
         }
         //public static extern int BitBlt(IntPtr hDC, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc, int ySrc, int dwRop);
         [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
@@ -199,16 +244,6 @@ namespace Fortnite_Music
             }
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -239,9 +274,24 @@ namespace Fortnite_Music
 
         }
 
-        private void label4_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e)
         {
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Globals.victory = openFileDialog1.FileName;
+                VictoryMusicFile.Text = openFileDialog1.FileName;
+                Properties.Settings.Default.Victory = openFileDialog1.FileName;
+                Properties.Settings.Default.Save();
+                Properties.Settings.Default.Reload();
+            }
+        }
 
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Party = checkBox2.Checked;
+            Globals.party = checkBox2.Checked;
+            Properties.Settings.Default.Save();
+            Properties.Settings.Default.Reload();
         }
     }
 }
