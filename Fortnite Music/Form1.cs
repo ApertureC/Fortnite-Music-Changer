@@ -103,6 +103,7 @@ namespace Fortnite_Music
             Globals.party = Properties.Settings.Default.Party;
             Debug.WriteLine(Globals.mainmenu);
             Globals.titlemenu = Properties.Settings.Default.TitleMenu;
+            checkBox1.Checked = Properties.Settings.Default.Obscure;
             checkBox2.Checked = Properties.Settings.Default.Party;
             trackBar1.Value = Properties.Settings.Default.Volume;
 
@@ -135,18 +136,19 @@ namespace Fortnite_Music
                         {
                             if (p.Id == pid)
                             {
-                                if (p.ProcessName== "FortniteClient-Win64-Shipping")
+                                if (p.ProcessName == "FortniteClient-Win64-Shipping")
                                 {
                                     focused = true;
                                     break;
                                 }
-                                
+
                             }
                         }
                         try
                         {
+                            Debug.WriteLine(wplayer.playState);
                             var c = GetColorAt(new Point(Convert.ToInt32(1058 * sfx), Convert.ToInt32(28 * sfy)));
-                            if (Int32.Parse(c.R.ToString()) > 250 && Int32.Parse(c.G.ToString()) > 250 && Int32.Parse(c.B.ToString()) > 250 && focused==true)
+                            if (Int32.Parse(c.R.ToString()) > 250 && Int32.Parse(c.G.ToString()) > 250 && Int32.Parse(c.B.ToString()) > 250)
                             {
                                 c = GetColorAt(new Point(Convert.ToInt32(941 * sfx), Convert.ToInt32(1066 * sfy)));
                                 if (Int32.Parse(c.R.ToString()) == 220 && Int32.Parse(c.G.ToString()) == 229 && Int32.Parse(c.B.ToString()) == 244)
@@ -159,7 +161,7 @@ namespace Fortnite_Music
                                     }
                                 }
                             }
-                            else if (mainmenumusic(sfx, sfy) == true && focused==true)
+                            else if (mainmenumusic(sfx, sfy) == true)
                             {
                                 if ((currentlyplaying != 2))
                                 {
@@ -171,7 +173,7 @@ namespace Fortnite_Music
                                     wplayer.controls.play();
                                 }
                             }
-                            else if (victorymusic(sfx, sfy) == true && focused==true)
+                            else if (victorymusic(sfx, sfy) == true)
                             {
                                 if ((currentlyplaying != 3))
                                 {
@@ -186,24 +188,23 @@ namespace Fortnite_Music
                             }
                             else
                             {
-                                Debug.WriteLine("-------------");
-                                Debug.WriteLine(focused);
-                               
-                                if (focused == false)
+                                if (checkBox1.Checked == false)
                                 {
                                     wplayer.controls.pause();
                                     //wplayer.URL = "";
                                 }
-                                else
+                                else if (focused == true)
                                 {
                                     wplayer.controls.pause();
                                 }
                             }
-                        } catch
+                        }
+                        catch
                         {
 
                         }
-                    } else
+                    }
+                    else
                     {
                         wplayer.controls.pause();
                         wplayer.URL = "";
@@ -213,7 +214,7 @@ namespace Fortnite_Music
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog()==System.Windows.Forms.DialogResult.OK)
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Globals.titlemenu = openFileDialog1.FileName;
                 TitleMenuFile.Text = openFileDialog1.FileName;
@@ -274,6 +275,14 @@ namespace Fortnite_Music
             }
         }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Obscure = checkBox1.Checked;
+            Properties.Settings.Default.Save();
+            Properties.Settings.Default.Reload();
+
+        }
+
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             wplayer.settings.volume = trackBar1.Value;
@@ -303,5 +312,6 @@ namespace Fortnite_Music
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
         }
+
     }
 }
