@@ -13,6 +13,7 @@ using System.Threading;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Configuration;
+using Microsoft.Win32;
 namespace Fortnite_Music
 {
     public partial class Form1 : Form
@@ -33,21 +34,25 @@ namespace Fortnite_Music
             public static string victory = "";
             public static bool party = false;
         }
-        private bool mainmenumusic(float sfx, float sfy)
+        private bool mainmenumusic(double sfx, double sfy)
         {
-            Color colorAt = GetColorAt(new Point(Convert.ToInt32(428f * sfx), Convert.ToInt32(548f * sfy)));
+            Color colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(428f * sfx)), Convert.ToInt32(Math.Round(548f * sfy))));
             if (int.Parse(colorAt.R.ToString()) == 11 && int.Parse(colorAt.G.ToString()) == 19 && int.Parse(colorAt.B.ToString()) == 47)
             {
                 return false;
             }
-            colorAt = GetColorAt(new Point(Convert.ToInt32(512f * sfx), Convert.ToInt32(36f * sfy)));
+            colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(512f * sfx)), Convert.ToInt32(Math.Round(36f * sfy))));
+            Debug.WriteLine(colorAt);
             if (int.Parse(colorAt.R.ToString()) == 28 && int.Parse(colorAt.G.ToString()) == 34 && int.Parse(colorAt.B.ToString()) == 56)
             {
-                colorAt = GetColorAt(new Point(Convert.ToInt32(909f * sfx), Convert.ToInt32(1047f * sfy)));
+                colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(909f * sfx)), Convert.ToInt32(Math.Round(1047f * sfy))));
+                Debug.WriteLine(colorAt);
+
                 if (int.Parse(colorAt.R.ToString()) == 21 && int.Parse(colorAt.G.ToString()) == 24 && int.Parse(colorAt.B.ToString()) == 43)
                 {
-                    colorAt = GetColorAt(new Point(Convert.ToInt32(20f * sfx), Convert.ToInt32(1043f * sfy)));
-                    if (int.Parse(colorAt.R.ToString()) == 255 && int.Parse(colorAt.G.ToString()) == 255 && int.Parse(colorAt.B.ToString()) == 255)
+                    colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(20f * sfx)), Convert.ToInt32(Math.Round(1043f * sfy))));
+
+                    if (int.Parse(colorAt.R.ToString()) >= 200 && int.Parse(colorAt.G.ToString()) >=200 && int.Parse(colorAt.B.ToString()) >= 200)
                     {
                         return true;
                     }
@@ -57,10 +62,10 @@ namespace Fortnite_Music
                     }
                 }
             }
-            colorAt = GetColorAt(new Point(Convert.ToInt32(1897f * sfx), Convert.ToInt32(10f * sfy)));
-            if (int.Parse(colorAt.R.ToString()) == 255 && int.Parse(colorAt.G.ToString()) == 255 && int.Parse(colorAt.B.ToString()) == 255)
+            colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(1897f * sfx)), Convert.ToInt32(Math.Round(10f * sfy))));
+            if (int.Parse(colorAt.R.ToString()) >= 250 && int.Parse(colorAt.G.ToString()) >= 250 && int.Parse(colorAt.B.ToString()) >= 250)
             {
-                colorAt = GetColorAt(new Point(Convert.ToInt32(1825f * sfx), Convert.ToInt32(10f * sfy)));
+                colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(1825f * sfx)), Convert.ToInt32(Math.Round(10f * sfy))));
                 if (int.Parse(colorAt.R.ToString()) == 232 && int.Parse(colorAt.G.ToString()) == 232 && int.Parse(colorAt.B.ToString()) == 232)
                 {
                     return true;
@@ -68,12 +73,13 @@ namespace Fortnite_Music
             }
             return false;
         }
-        private bool victorymusic(float sfx, float sfy)
+        private bool victorymusic(double sfx, double sfy)
         {
-            Color colorAt = GetColorAt(new Point(Convert.ToInt32(911f * sfx), Convert.ToInt32(251f * sfy)));
+            Color colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(911f * sfx)), Convert.ToInt32(Math.Round(251f * sfy))));
+           
             if (int.Parse(colorAt.R.ToString()) == 242 && int.Parse(colorAt.G.ToString()) == 247 && int.Parse(colorAt.B.ToString()) == 252)
             {
-                colorAt = GetColorAt(new Point(Convert.ToInt32(1087f * sfx), Convert.ToInt32(271f * sfy)));
+                colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(1087f * sfx)), Convert.ToInt32(Math.Round(271f * sfy))));
                 if (int.Parse(colorAt.R.ToString()) == 255 && int.Parse(colorAt.G.ToString()) == 255 && int.Parse(colorAt.B.ToString()) == 255)
                 {
                     return true;
@@ -85,8 +91,51 @@ namespace Fortnite_Music
         {
             InitializeComponent();
             // SETTINGS LOADING
-            float sfx = (float)(Screen.PrimaryScreen.Bounds.Width / 1920);
-            float sfy = (float)(Screen.PrimaryScreen.Bounds.Height / 1080);
+            var DPI=(int)Registry.GetValue("HKEY_CURRENT_USER\\Control Panel\\Desktop", "LogPixels", 96);
+            var scale = 96 / (float)DPI;
+            PointF dpi = PointF.Empty;
+            using (Graphics g = this.CreateGraphics())
+            {
+                dpi.X = g.DpiX;
+                dpi.Y = g.DpiY;
+            }
+            // to do: just ask for resolution
+            Debug.WriteLine(Properties.Settings.Default.ResX);
+            if (Properties.Settings.Default.ResX == 0) {
+                while (true)
+                {
+                    string x = Microsoft.VisualBasic.Interaction.InputBox("Please enter your monitors X Resolution", "Please enter your monitors X Resolution", "1920", 0, 0);
+                    try
+                    {
+                        int ix = Convert.ToInt32(x);
+                        Properties.Settings.Default.ResX = ix;
+                        Properties.Settings.Default.Save();
+                        Properties.Settings.Default.Reload();
+                        break;
+                    } catch
+                    {
+                        Microsoft.VisualBasic.Interaction.MsgBox("The value you entered was not a valid value. Please enter a number",Microsoft.VisualBasic.MsgBoxStyle.Information,"Invalid value");
+                    }
+                }
+                while (true)
+                {
+                    string y = Microsoft.VisualBasic.Interaction.InputBox("Please enter your monitors Y Resolution", "Please enter your monitors Y Resolution", "1080", 0, 0);
+                    try
+                    {
+                        int iy = Convert.ToInt32(y);
+                        Properties.Settings.Default.ResY = iy;
+                        Properties.Settings.Default.Save();
+                        Properties.Settings.Default.Reload();
+                        break;
+                    }
+                    catch
+                    {
+                        Microsoft.VisualBasic.Interaction.MsgBox("The value you entered was not a valid value. Please enter a number", Microsoft.VisualBasic.MsgBoxStyle.Information, "Invalid value");
+                    }
+                }
+            }
+            var sfx = Properties.Settings.Default.ResX / 1920.0;
+            var sfy = Properties.Settings.Default.ResY / 1080.0;
             int currentlyplaying = 0; // 0=nothing 1=title 2=menu 3=victory
             //
             //while (true)
@@ -123,10 +172,11 @@ namespace Fortnite_Music
                     MethodInvoker mouse = delegate
                     {
                         label1.Text = System.Windows.Forms.Cursor.Position.ToString();
+                        //label1.Text = System.Windows.Forms.Screen.PrimaryScreen;
                         //label2.Text = GetColorAt();
                         return;
                     };
-                    //this.Invoke(mouse);
+                    this.Invoke(mouse);
                     if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0)
                     {
                         bool focused = false;
@@ -147,10 +197,10 @@ namespace Fortnite_Music
                         try
                         {
                             Debug.WriteLine(wplayer.playState);
-                            var c = GetColorAt(new Point(Convert.ToInt32(1058 * sfx), Convert.ToInt32(28 * sfy)));
+                            var c = GetColorAt(new Point(Convert.ToInt32(Math.Round(1058 * sfx)), Convert.ToInt32(Math.Round(28 * sfy))));
                             if (Int32.Parse(c.R.ToString()) > 250 && Int32.Parse(c.G.ToString()) > 250 && Int32.Parse(c.B.ToString()) > 250)
                             {
-                                c = GetColorAt(new Point(Convert.ToInt32(985 * sfx), Convert.ToInt32(780 * sfy)));
+                                c = GetColorAt(new Point(Convert.ToInt32(Math.Round(985 * sfx)), Convert.ToInt32(Math.Round(780 * sfy))));
                                 if (Int32.Parse(c.R.ToString()) == 230 && Int32.Parse(c.G.ToString()) == 237 && Int32.Parse(c.B.ToString()) == 247)
                                 {
                                     if ((currentlyplaying != 1))
@@ -259,7 +309,7 @@ namespace Fortnite_Music
                 Thread.Sleep(100);
             }
         }
-
+        //
         private void button2_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -308,6 +358,44 @@ namespace Fortnite_Music
             Globals.party = checkBox2.Checked;
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            while (true)
+            {
+                string x = Microsoft.VisualBasic.Interaction.InputBox("Please enter your monitors X Resolution", "Please enter your monitors X Resolution", "1920", 0, 0);
+                try
+                {
+                    int ix = Convert.ToInt32(x);
+                    Properties.Settings.Default.ResX = ix;
+                    Properties.Settings.Default.Save();
+                    Properties.Settings.Default.Reload();
+                    break;
+                }
+                catch
+                {
+                    Microsoft.VisualBasic.Interaction.MsgBox("The value you entered was not a valid value. Please enter a number", Microsoft.VisualBasic.MsgBoxStyle.Information, "Invalid value");
+                }
+            }
+            while (true)
+            {
+                string y = Microsoft.VisualBasic.Interaction.InputBox("Please enter your monitors Y Resolution", "Please enter your monitors Y Resolution", "1080", 0, 0);
+                try
+                {
+                    int iy = Convert.ToInt32(y);
+                    Properties.Settings.Default.ResY = iy;
+                    Properties.Settings.Default.Save();
+                    Properties.Settings.Default.Reload();
+                    break;
+                }
+                catch
+                {
+                    Microsoft.VisualBasic.Interaction.MsgBox("The value you entered was not a valid value. Please enter a number", Microsoft.VisualBasic.MsgBoxStyle.Information, "Invalid value");
+                }
+            }
+            Microsoft.VisualBasic.Interaction.MsgBox("Please Restart the program", Microsoft.VisualBasic.MsgBoxStyle.Information, "Restart required");
+
         }
     }
 }

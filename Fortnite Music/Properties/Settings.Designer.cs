@@ -94,5 +94,29 @@ namespace Fortnite_Music.Properties {
                 this["Victory"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ResX {
+            get {
+                return ((int)(this["ResX"]));
+            }
+            set {
+                this["ResX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ResY {
+            get {
+                return ((int)(this["ResY"]));
+            }
+            set {
+                this["ResY"] = value;
+            }
+        }
     }
 }
