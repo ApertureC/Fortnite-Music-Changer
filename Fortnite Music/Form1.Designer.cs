@@ -44,6 +44,7 @@
             this.VictoryMusicFile = new System.Windows.Forms.RichTextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
             this.SuspendLayout();
@@ -62,7 +63,6 @@
             this.button1.TabIndex = 0;
             this.button1.Text = "Browse";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // TitleMenuFile
             // 
@@ -189,7 +189,7 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(12, 177);
+            this.checkBox2.Location = new System.Drawing.Point(170, 177);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(83, 17);
             this.checkBox2.TabIndex = 14;
@@ -197,11 +197,23 @@
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(12, 180);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(122, 17);
+            this.checkBox1.TabIndex = 15;
+            this.checkBox1.Text = "Play when obscured";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 211);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.VictoryMusicFile);
@@ -245,6 +257,7 @@
         private System.Windows.Forms.RichTextBox VictoryMusicFile;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 
