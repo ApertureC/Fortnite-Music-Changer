@@ -126,7 +126,7 @@ namespace Fortnite_Music
                         //label2.Text = GetColorAt();
                         return;
                     };
-                    this.Invoke(mouse);
+                    //this.Invoke(mouse);
                     if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0)
                     {
                         bool focused = false;
@@ -210,6 +210,7 @@ namespace Fortnite_Music
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            Debug.WriteLine("open");
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Globals.titlemenu = openFileDialog1.FileName;
@@ -308,6 +309,5 @@ namespace Fortnite_Music
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
         }
-
     }
 }
