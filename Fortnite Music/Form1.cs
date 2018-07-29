@@ -126,7 +126,7 @@ namespace Fortnite_Music
                         //label2.Text = GetColorAt();
                         return;
                     };
-                    //this.Invoke(mouse);
+                    this.Invoke(mouse);
                     if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0)
                     {
                         bool focused = false;
@@ -150,15 +150,16 @@ namespace Fortnite_Music
                             var c = GetColorAt(new Point(Convert.ToInt32(1058 * sfx), Convert.ToInt32(28 * sfy)));
                             if (Int32.Parse(c.R.ToString()) > 250 && Int32.Parse(c.G.ToString()) > 250 && Int32.Parse(c.B.ToString()) > 250)
                             {
-                                c = GetColorAt(new Point(Convert.ToInt32(941 * sfx), Convert.ToInt32(1066 * sfy)));
-                                if (Int32.Parse(c.R.ToString()) == 220 && Int32.Parse(c.G.ToString()) == 229 && Int32.Parse(c.B.ToString()) == 244)
+                                c = GetColorAt(new Point(Convert.ToInt32(985 * sfx), Convert.ToInt32(780 * sfy)));
+                                if (Int32.Parse(c.R.ToString()) == 230 && Int32.Parse(c.G.ToString()) == 237 && Int32.Parse(c.B.ToString()) == 247)
                                 {
                                     if ((currentlyplaying != 1))
                                     {
                                         currentlyplaying = 1;
+                                        wplayer.controls.stop();
                                         wplayer.URL = Globals.titlemenu;
-                                        wplayer.controls.play();
                                     }
+                                    wplayer.controls.play();
                                 }
                             }
                             else if (mainmenumusic(sfx, sfy) == true)
@@ -166,25 +167,20 @@ namespace Fortnite_Music
                                 if ((currentlyplaying != 2))
                                 {
                                     currentlyplaying = 2;
+                                    wplayer.controls.stop();
                                     wplayer.URL = Globals.mainmenu;
                                 }
-                                if (wplayer.playState == WMPPlayState.wmppsPaused || wplayer.playState == WMPPlayState.wmppsStopped || wplayer.playState == WMPPlayState.wmppsUndefined)
-                                {
-                                    wplayer.controls.play();
-                                }
+                                wplayer.controls.play();
                             }
                             else if (victorymusic(sfx, sfy) == true)
                             {
                                 if ((currentlyplaying != 3))
                                 {
                                     currentlyplaying = 3;
+                                    wplayer.controls.stop();
                                     wplayer.URL = Globals.victory;
                                 }
-                                if (wplayer.playState == WMPPlayState.wmppsPaused || wplayer.playState == WMPPlayState.wmppsStopped || wplayer.playState == WMPPlayState.wmppsUndefined)
-                                {
-
-                                    wplayer.controls.play();
-                                }
+                                wplayer.controls.play();
                             }
                             else
                             {
