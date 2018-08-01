@@ -118,5 +118,89 @@ namespace Fortnite_Music.Properties {
                 this["ResY"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
+        public global::System.Drawing.Color title1 {
+            get {
+                return ((global::System.Drawing.Color)(this["title1"]));
+            }
+            set {
+                this["title1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
+        public global::System.Drawing.Color title2 {
+            get {
+                return ((global::System.Drawing.Color)(this["title2"]));
+            }
+            set {
+                this["title2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
+        public global::System.Drawing.Color menu2 {
+            get {
+                return ((global::System.Drawing.Color)(this["menu2"]));
+            }
+            set {
+                this["menu2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
+        public global::System.Drawing.Color menu3 {
+            get {
+                return ((global::System.Drawing.Color)(this["menu3"]));
+            }
+            set {
+                this["menu3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
+        public global::System.Drawing.Color menu4 {
+            get {
+                return ((global::System.Drawing.Color)(this["menu4"]));
+            }
+            set {
+                this["menu4"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
+        public global::System.Drawing.Color menu5 {
+            get {
+                return ((global::System.Drawing.Color)(this["menu5"]));
+            }
+            set {
+                this["menu5"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
+        public global::System.Drawing.Color menu6 {
+            get {
+                return ((global::System.Drawing.Color)(this["menu6"]));
+            }
+            set {
+                this["menu6"] = value;
+            }
+        }
     }
 }
