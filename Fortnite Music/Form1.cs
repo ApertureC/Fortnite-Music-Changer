@@ -33,43 +33,49 @@ namespace Fortnite_Music
             public static string mainmenu = "";
             public static string victory = "";
             public static bool party = false;
-            public const bool writelogs = false; // enable this is for want logs to be created. Else only the initialized message will be written.
+            public const bool writelogs = true; // enable this is for want logs to be created. Else only the initialized message will be written.
+            public static double sfx = 1;
+            public static double sfy = 1;
         }
         private bool mainmenumusic(double sfx, double sfy)
         {
             writetolog("----- MAIN MENU -----");
             Color colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(428f * sfx)), Convert.ToInt32(Math.Round(548f * sfy))));
+            Debug.WriteLine(colorAt);
             writetolog(colorAt.ToString());
             if (int.Parse(colorAt.R.ToString()) == 11 && int.Parse(colorAt.G.ToString()) == 19 && int.Parse(colorAt.B.ToString()) == 47)
             {
                 return false;
             }
             colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(512f * sfx)), Convert.ToInt32(Math.Round(36f * sfy))));
+            Debug.WriteLine("2");
             writetolog(colorAt.ToString());
-            if (int.Parse(colorAt.R.ToString()) == 28 && int.Parse(colorAt.G.ToString()) == 34 && int.Parse(colorAt.B.ToString()) == 56)
+            if (int.Parse(colorAt.R.ToString()) == Properties.Settings.Default.menu2.R && int.Parse(colorAt.G.ToString()) == Properties.Settings.Default.menu2.G && int.Parse(colorAt.B.ToString()) == Properties.Settings.Default.menu2.B)
             {
                 colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(909f * sfx)), Convert.ToInt32(Math.Round(1047f * sfy))));
+                Debug.WriteLine("3");
                 writetolog(colorAt.ToString());
 
-                if (int.Parse(colorAt.R.ToString()) == 21 && int.Parse(colorAt.G.ToString()) == 24 && int.Parse(colorAt.B.ToString()) == 43)
+                if (int.Parse(colorAt.R.ToString()) == Properties.Settings.Default.menu3.R && int.Parse(colorAt.G.ToString()) == Properties.Settings.Default.menu3.G && int.Parse(colorAt.B.ToString()) == Properties.Settings.Default.menu3.B)
                 {
                     colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(20f * sfx)), Convert.ToInt32(Math.Round(1043f * sfy))));
+                    Debug.WriteLine("4");
                     writetolog(colorAt.ToString());
-                    if (int.Parse(colorAt.R.ToString()) >= 200 && int.Parse(colorAt.G.ToString()) >=200 && int.Parse(colorAt.B.ToString()) >= 200)
+                    if (int.Parse(colorAt.R.ToString()) == Properties.Settings.Default.menu4.R && int.Parse(colorAt.G.ToString()) >= Properties.Settings.Default.menu4.G && int.Parse(colorAt.B.ToString()) >= Properties.Settings.Default.menu4.B)
                     {
                         return true;
                     }
-                    if (int.Parse(colorAt.R.ToString()) == 99 && int.Parse(colorAt.G.ToString()) == 188 && int.Parse(colorAt.B.ToString()) == 80 && Globals.party)
+                    if (int.Parse(colorAt.R.ToString()) == Properties.Settings.Default.menu4.R && int.Parse(colorAt.G.ToString()) == Properties.Settings.Default.menu4.G && int.Parse(colorAt.B.ToString()) == Properties.Settings.Default.menu4.B && Globals.party)
                     {
                         return true;
                     }
                 }
             }
             colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(1897f * sfx)), Convert.ToInt32(Math.Round(10f * sfy))));
-            if (int.Parse(colorAt.R.ToString()) >= 250 && int.Parse(colorAt.G.ToString()) >= 250 && int.Parse(colorAt.B.ToString()) >= 250)
+            if (int.Parse(colorAt.R.ToString()) == Properties.Settings.Default.menu5.R && int.Parse(colorAt.G.ToString()) == Properties.Settings.Default.menu5.G && int.Parse(colorAt.B.ToString()) == Properties.Settings.Default.menu5.B)
             {
                 colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(1825f * sfx)), Convert.ToInt32(Math.Round(10f * sfy))));
-                if (int.Parse(colorAt.R.ToString()) == 232 && int.Parse(colorAt.G.ToString()) == 232 && int.Parse(colorAt.B.ToString()) == 232)
+                if (int.Parse(colorAt.R.ToString()) == Properties.Settings.Default.menu6.R && int.Parse(colorAt.G.ToString()) == Properties.Settings.Default.menu6.G && int.Parse(colorAt.B.ToString()) == Properties.Settings.Default.menu6.B)
                 {
                     return true;
                 }
@@ -106,11 +112,12 @@ namespace Fortnite_Music
             // SETTINGS LOADING
             //var DPI=(int)Registry.GetValue("HKEY_CURRENT_USER\\Control Panel\\Desktop", "LogPixels", 96);
             //var scale = 96 / (float)DPI;
-            System.IO.File.WriteAllText(System.Environment.CurrentDirectory+"\\log.txt","Initizalized!"+System.Environment.NewLine); // to do create logs //
+            System.IO.File.WriteAllText(System.Environment.CurrentDirectory + "\\log.txt", "Initizalized!" + System.Environment.NewLine); // to do create logs //
             PointF dpi = PointF.Empty;
             // to do: just ask for resolution
             Debug.WriteLine(Properties.Settings.Default.ResX);
-            if (Properties.Settings.Default.ResX == 0) {
+            if (Properties.Settings.Default.ResX == 0)
+            {
                 while (true)
                 {
                     string x = Microsoft.VisualBasic.Interaction.InputBox("Please enter your monitors X Resolution", "Please enter your monitors X Resolution", "1920", 0, 0);
@@ -121,9 +128,10 @@ namespace Fortnite_Music
                         Properties.Settings.Default.Save();
                         Properties.Settings.Default.Reload();
                         break;
-                    } catch
+                    }
+                    catch
                     {
-                        Microsoft.VisualBasic.Interaction.MsgBox("The value you entered was not a valid value. Please enter a number",Microsoft.VisualBasic.MsgBoxStyle.Information,"Invalid value");
+                        Microsoft.VisualBasic.Interaction.MsgBox("The value you entered was not a valid value. Please enter a number", Microsoft.VisualBasic.MsgBoxStyle.Information, "Invalid value");
                     }
                 }
                 while (true)
@@ -145,7 +153,83 @@ namespace Fortnite_Music
             }
             var sfx = Properties.Settings.Default.ResX / 1920.0;
             var sfy = Properties.Settings.Default.ResY / 1080.0;
-            writetolog("Scale factor X: "+sfx.ToString());
+            //
+            Globals.sfx = sfx;
+            Globals.sfy = sfy;
+            if (Properties.Settings.Default.title1 == Color.FromArgb(0, 0, 0, 0))
+            {
+                Microsoft.VisualBasic.Interaction.MsgBox("1. Go to the title screen (STW or BR selection) on fortnite" + Environment.NewLine + "2. Press Ok on this message" + Environment.NewLine + "3.Click back onto fortnite", Microsoft.VisualBasic.MsgBoxStyle.Information, "Sampling");
+                var done = false;
+                while (true)
+                {
+                    if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0)
+                    {
+                        uint pid;
+                        GetWindowThreadProcessId(GetForegroundWindow(), out pid);
+                        foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
+                        {
+                            if (p.Id == pid)
+                            {
+                                if (p.ProcessName == "FortniteClient-Win64-Shipping")
+                                {
+                                    Properties.Settings.Default.title1 = GetColorAt(new Point(Convert.ToInt32(Math.Round(1058 * sfx)), Convert.ToInt32(Math.Round(28 * sfy))));
+                                    Properties.Settings.Default.title2 = GetColorAt(new Point(Convert.ToInt32(Math.Round(985 * sfx)), Convert.ToInt32(Math.Round(780 * sfy))));
+                                    Properties.Settings.Default.Save();
+                                    Properties.Settings.Default.Reload();
+                                    done = true;
+                                }
+
+                            }
+                        }
+                    }
+                    if (done == true)
+                    {
+                        this.Activate();
+
+                        Microsoft.VisualBasic.Interaction.MsgBox("Done", Microsoft.VisualBasic.MsgBoxStyle.Information, "Done");
+                        break;
+                    }
+                }
+            }
+            if (Properties.Settings.Default.menu2 == Color.FromArgb(0, 0, 0, 0))
+            {
+                Microsoft.VisualBasic.Interaction.MsgBox("1. Go to the BR menu on fortnite " + Environment.NewLine + "2. Press Ok on this message" + Environment.NewLine + "3.Click back onto fortnite", Microsoft.VisualBasic.MsgBoxStyle.Information, "Sampling");
+                var done = false;
+                while (true)
+                {
+                    if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0)
+                    {
+                        uint pid;
+                        GetWindowThreadProcessId(GetForegroundWindow(), out pid);
+                        foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
+                        {
+                            if (p.Id == pid)
+                            {
+                                if (p.ProcessName == "FortniteClient-Win64-Shipping")
+                                {
+                                    Properties.Settings.Default.menu2 = GetColorAt(new Point(Convert.ToInt32(Math.Round(512f * sfx)), Convert.ToInt32(Math.Round(36f * sfy))));
+                                    Properties.Settings.Default.menu3 = GetColorAt(new Point(Convert.ToInt32(Math.Round(909f * sfx)), Convert.ToInt32(Math.Round(1047f * sfy))));
+                                    Properties.Settings.Default.menu4 = GetColorAt(new Point(Convert.ToInt32(Math.Round(20f * sfx)), Convert.ToInt32(Math.Round(1043f * sfy))));
+                                    Properties.Settings.Default.menu5 = GetColorAt(new Point(Convert.ToInt32(Math.Round(1897f * sfx)), Convert.ToInt32(Math.Round(10f * sfy))));
+                                    Properties.Settings.Default.menu6 = GetColorAt(new Point(Convert.ToInt32(Math.Round(1825f * sfx)), Convert.ToInt32(Math.Round(10f * sfy))));
+                                    Properties.Settings.Default.Save();
+                                    Properties.Settings.Default.Reload();
+                                    done = true;
+                                }
+
+                            }
+                        }
+                    }
+                    if (done == true)
+                    {
+                        this.Activate();
+                        Microsoft.VisualBasic.Interaction.MsgBox("Done", Microsoft.VisualBasic.MsgBoxStyle.Information, "Done");
+                        break;
+                    }
+                }
+            }
+
+            writetolog("Scale factor X: " + sfx.ToString());
             writetolog("Scale factor Y: " + sfy.ToString());
             //
             writetolog("Resolution X " + Properties.Settings.Default.ResX);
@@ -165,10 +249,10 @@ namespace Fortnite_Music
             Globals.victory = Properties.Settings.Default.Victory;
             Globals.party = Properties.Settings.Default.Party;
             Globals.titlemenu = Properties.Settings.Default.TitleMenu;
-            writetolog("Menu "+Globals.mainmenu);
-            writetolog("Title "+Globals.titlemenu);
-            writetolog("Victory "+Globals.victory);
-            writetolog("Party "+Globals.party.ToString());
+            writetolog("Menu " + Globals.mainmenu);
+            writetolog("Title " + Globals.titlemenu);
+            writetolog("Victory " + Globals.victory);
+            writetolog("Party " + Globals.party.ToString());
             checkBox1.Checked = Properties.Settings.Default.Obscure;
             checkBox2.Checked = Properties.Settings.Default.Party;
             trackBar1.Value = Properties.Settings.Default.Volume;
@@ -212,7 +296,7 @@ namespace Fortnite_Music
 
                             }
                         }
-                        writetolog("focus: "+focused.ToString());
+                        writetolog("focus: " + focused.ToString());
 
                         try
                         {
@@ -220,11 +304,11 @@ namespace Fortnite_Music
                             Debug.WriteLine(wplayer.playState);
                             var c = GetColorAt(new Point(Convert.ToInt32(Math.Round(1058 * sfx)), Convert.ToInt32(Math.Round(28 * sfy))));
                             writetolog(c.ToString());
-                            if (Int32.Parse(c.R.ToString()) > 250 && Int32.Parse(c.G.ToString()) > 250 && Int32.Parse(c.B.ToString()) > 250)
+                            if (Int32.Parse(c.R.ToString()) == Properties.Settings.Default.title1.R && Int32.Parse(c.G.ToString()) == Properties.Settings.Default.title1.G && Int32.Parse(c.B.ToString()) == Properties.Settings.Default.title1.B)
                             {
                                 c = GetColorAt(new Point(Convert.ToInt32(Math.Round(985 * sfx)), Convert.ToInt32(Math.Round(780 * sfy))));
                                 writetolog(c.ToString());
-                                if (Int32.Parse(c.R.ToString()) == 230 && Int32.Parse(c.G.ToString()) == 237 && Int32.Parse(c.B.ToString()) == 247)
+                                if (Int32.Parse(c.R.ToString()) == Properties.Settings.Default.title2.R && Int32.Parse(c.G.ToString()) == Properties.Settings.Default.title2.G && Int32.Parse(c.B.ToString()) == Properties.Settings.Default.title2.B)
                                 {
                                     writetolog("Started playing title menu");
 
@@ -263,11 +347,13 @@ namespace Fortnite_Music
                             {
                                 if (checkBox1.Checked == false)
                                 {
+                                    Debug.WriteLine("STOPHERE");
                                     wplayer.controls.pause();
                                     //wplayer.URL = "";
                                 }
                                 else if (focused == true)
                                 {
+                                    Debug.WriteLine("STOPHERE2");
                                     wplayer.controls.pause();
                                 }
                             }
@@ -424,6 +510,78 @@ namespace Fortnite_Music
             }
             Microsoft.VisualBasic.Interaction.MsgBox("Please Restart the program", Microsoft.VisualBasic.MsgBoxStyle.Information, "Restart required");
 
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            var sfx = Globals.sfx;
+            var sfy = Globals.sfy;
+            Microsoft.VisualBasic.Interaction.MsgBox("1. Go to the title screen (STW or BR selection) on fortnite" + Environment.NewLine + "2. Press Ok on this message" + Environment.NewLine + "3.Click back onto fortnite", Microsoft.VisualBasic.MsgBoxStyle.Information, "Sampling");
+            var done = false;
+            while (true)
+            {
+                if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0)
+                {
+                    uint pid;
+                    GetWindowThreadProcessId(GetForegroundWindow(), out pid);
+                    foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
+                    {
+                        if (p.Id == pid)
+                        {
+                            if (p.ProcessName == "FortniteClient-Win64-Shipping")
+                            {
+                                Properties.Settings.Default.title1 = GetColorAt(new Point(Convert.ToInt32(Math.Round(1058 * sfx)), Convert.ToInt32(Math.Round(28 * sfy))));
+                                Properties.Settings.Default.title2 = GetColorAt(new Point(Convert.ToInt32(Math.Round(985 * sfx)), Convert.ToInt32(Math.Round(780 * sfy))));
+                                Properties.Settings.Default.Save();
+                                Properties.Settings.Default.Reload();
+                                done = true;
+                            }
+
+                        }
+                    }
+                }
+                if (done == true)
+                {
+                    this.Activate();
+
+                    Microsoft.VisualBasic.Interaction.MsgBox("Done", Microsoft.VisualBasic.MsgBoxStyle.Information, "Done");
+                    break;
+                }
+            }
+            Microsoft.VisualBasic.Interaction.MsgBox("1. Go to the BR menu on fortnite " + Environment.NewLine + "2. Press Ok on this message" + Environment.NewLine + "3.Click back onto fortnite", Microsoft.VisualBasic.MsgBoxStyle.Information, "Sampling");
+            done = false;
+            while (true)
+            {
+                if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0)
+                {
+                    uint pid;
+                    GetWindowThreadProcessId(GetForegroundWindow(), out pid);
+                    foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
+                    {
+                        if (p.Id == pid)
+                        {
+                            if (p.ProcessName == "FortniteClient-Win64-Shipping")
+                            {
+                                Properties.Settings.Default.menu2 = GetColorAt(new Point(Convert.ToInt32(Math.Round(512f * sfx)), Convert.ToInt32(Math.Round(36f * sfy))));
+                                Properties.Settings.Default.menu3 = GetColorAt(new Point(Convert.ToInt32(Math.Round(909f * sfx)), Convert.ToInt32(Math.Round(1047f * sfy))));
+                                Properties.Settings.Default.menu4 = GetColorAt(new Point(Convert.ToInt32(Math.Round(20f * sfx)), Convert.ToInt32(Math.Round(1043f * sfy))));
+                                Properties.Settings.Default.menu5 = GetColorAt(new Point(Convert.ToInt32(Math.Round(1897f * sfx)), Convert.ToInt32(Math.Round(10f * sfy))));
+                                Properties.Settings.Default.menu6 = GetColorAt(new Point(Convert.ToInt32(Math.Round(1825f * sfx)), Convert.ToInt32(Math.Round(10f * sfy))));
+                                Properties.Settings.Default.Save();
+                                Properties.Settings.Default.Reload();
+                                done = true;
+                            }
+
+                        }
+                    }
+                }
+                if (done == true)
+                {
+                    this.Activate();
+                    Microsoft.VisualBasic.Interaction.MsgBox("Done", Microsoft.VisualBasic.MsgBoxStyle.Information, "Done");
+                    break;
+                }
+            }
         }
     }
 }
