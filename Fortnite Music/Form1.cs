@@ -33,25 +33,28 @@ namespace Fortnite_Music
             public static string mainmenu = "";
             public static string victory = "";
             public static bool party = false;
+            public const bool writelogs = false; // enable this is for want logs to be created. Else only the initialized message will be written.
         }
         private bool mainmenumusic(double sfx, double sfy)
         {
+            writetolog("----- MAIN MENU -----");
             Color colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(428f * sfx)), Convert.ToInt32(Math.Round(548f * sfy))));
+            writetolog(colorAt.ToString());
             if (int.Parse(colorAt.R.ToString()) == 11 && int.Parse(colorAt.G.ToString()) == 19 && int.Parse(colorAt.B.ToString()) == 47)
             {
                 return false;
             }
             colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(512f * sfx)), Convert.ToInt32(Math.Round(36f * sfy))));
-            Debug.WriteLine(colorAt);
+            writetolog(colorAt.ToString());
             if (int.Parse(colorAt.R.ToString()) == 28 && int.Parse(colorAt.G.ToString()) == 34 && int.Parse(colorAt.B.ToString()) == 56)
             {
                 colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(909f * sfx)), Convert.ToInt32(Math.Round(1047f * sfy))));
-                Debug.WriteLine(colorAt);
+                writetolog(colorAt.ToString());
 
                 if (int.Parse(colorAt.R.ToString()) == 21 && int.Parse(colorAt.G.ToString()) == 24 && int.Parse(colorAt.B.ToString()) == 43)
                 {
                     colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(20f * sfx)), Convert.ToInt32(Math.Round(1043f * sfy))));
-
+                    writetolog(colorAt.ToString());
                     if (int.Parse(colorAt.R.ToString()) >= 200 && int.Parse(colorAt.G.ToString()) >=200 && int.Parse(colorAt.B.ToString()) >= 200)
                     {
                         return true;
@@ -75,11 +78,14 @@ namespace Fortnite_Music
         }
         private bool victorymusic(double sfx, double sfy)
         {
+            writetolog("----- VICTORY -----");
             Color colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(911f * sfx)), Convert.ToInt32(Math.Round(251f * sfy))));
-           
+            writetolog(colorAt.ToString());
             if (int.Parse(colorAt.R.ToString()) == 242 && int.Parse(colorAt.G.ToString()) == 247 && int.Parse(colorAt.B.ToString()) == 252)
             {
                 colorAt = GetColorAt(new Point(Convert.ToInt32(Math.Round(1087f * sfx)), Convert.ToInt32(Math.Round(271f * sfy))));
+                writetolog(colorAt.ToString());
+
                 if (int.Parse(colorAt.R.ToString()) == 255 && int.Parse(colorAt.G.ToString()) == 255 && int.Parse(colorAt.B.ToString()) == 255)
                 {
                     return true;
@@ -87,18 +93,21 @@ namespace Fortnite_Music
             }
             return false;
         }
+        private void writetolog(string towrite)
+        {
+            if (Globals.writelogs == true)
+            {
+                System.IO.File.WriteAllText(System.Environment.CurrentDirectory + "\\log.txt", System.IO.File.ReadAllText(System.Environment.CurrentDirectory + "\\log.txt") + towrite + System.Environment.NewLine);
+            }
+        }
         public Form1()
         {
             InitializeComponent();
             // SETTINGS LOADING
-            var DPI=(int)Registry.GetValue("HKEY_CURRENT_USER\\Control Panel\\Desktop", "LogPixels", 96);
-            var scale = 96 / (float)DPI;
+            //var DPI=(int)Registry.GetValue("HKEY_CURRENT_USER\\Control Panel\\Desktop", "LogPixels", 96);
+            //var scale = 96 / (float)DPI;
+            System.IO.File.WriteAllText(System.Environment.CurrentDirectory+"\\log.txt","Initizalized!"+System.Environment.NewLine); // to do create logs //
             PointF dpi = PointF.Empty;
-            using (Graphics g = this.CreateGraphics())
-            {
-                dpi.X = g.DpiX;
-                dpi.Y = g.DpiY;
-            }
             // to do: just ask for resolution
             Debug.WriteLine(Properties.Settings.Default.ResX);
             if (Properties.Settings.Default.ResX == 0) {
@@ -136,6 +145,11 @@ namespace Fortnite_Music
             }
             var sfx = Properties.Settings.Default.ResX / 1920.0;
             var sfy = Properties.Settings.Default.ResY / 1080.0;
+            writetolog("Scale factor X: "+sfx.ToString());
+            writetolog("Scale factor Y: " + sfy.ToString());
+            //
+            writetolog("Resolution X " + Properties.Settings.Default.ResX);
+            writetolog("Resolution Y " + Properties.Settings.Default.ResY);
             int currentlyplaying = 0; // 0=nothing 1=title 2=menu 3=victory
             //
             //while (true)
@@ -150,8 +164,11 @@ namespace Fortnite_Music
             Globals.mainmenu = Properties.Settings.Default.MainMenu;
             Globals.victory = Properties.Settings.Default.Victory;
             Globals.party = Properties.Settings.Default.Party;
-            Debug.WriteLine(Globals.mainmenu);
             Globals.titlemenu = Properties.Settings.Default.TitleMenu;
+            writetolog("Menu "+Globals.mainmenu);
+            writetolog("Title "+Globals.titlemenu);
+            writetolog("Victory "+Globals.victory);
+            writetolog("Party "+Globals.party.ToString());
             checkBox1.Checked = Properties.Settings.Default.Obscure;
             checkBox2.Checked = Properties.Settings.Default.Party;
             trackBar1.Value = Properties.Settings.Default.Volume;
@@ -169,6 +186,7 @@ namespace Fortnite_Music
                 while (true)
                 {
                     Thread.Sleep(500);
+                    writetolog("----- NEW CYCLE -----");
                     MethodInvoker mouse = delegate
                     {
                         label1.Text = System.Windows.Forms.Cursor.Position.ToString();
@@ -176,7 +194,7 @@ namespace Fortnite_Music
                         //label2.Text = GetColorAt();
                         return;
                     };
-                    this.Invoke(mouse);
+                    //this.Invoke(mouse);
                     if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0)
                     {
                         bool focused = false;
@@ -194,15 +212,22 @@ namespace Fortnite_Music
 
                             }
                         }
+                        writetolog("focus: "+focused.ToString());
+
                         try
                         {
+                            writetolog("----- TITLE MENU -----");
                             Debug.WriteLine(wplayer.playState);
                             var c = GetColorAt(new Point(Convert.ToInt32(Math.Round(1058 * sfx)), Convert.ToInt32(Math.Round(28 * sfy))));
+                            writetolog(c.ToString());
                             if (Int32.Parse(c.R.ToString()) > 250 && Int32.Parse(c.G.ToString()) > 250 && Int32.Parse(c.B.ToString()) > 250)
                             {
                                 c = GetColorAt(new Point(Convert.ToInt32(Math.Round(985 * sfx)), Convert.ToInt32(Math.Round(780 * sfy))));
+                                writetolog(c.ToString());
                                 if (Int32.Parse(c.R.ToString()) == 230 && Int32.Parse(c.G.ToString()) == 237 && Int32.Parse(c.B.ToString()) == 247)
                                 {
+                                    writetolog("Started playing title menu");
+
                                     if ((currentlyplaying != 1))
                                     {
                                         currentlyplaying = 1;
@@ -214,6 +239,7 @@ namespace Fortnite_Music
                             }
                             else if (mainmenumusic(sfx, sfy) == true)
                             {
+                                writetolog("Started playing main menu");
                                 if ((currentlyplaying != 2))
                                 {
                                     currentlyplaying = 2;
@@ -224,6 +250,7 @@ namespace Fortnite_Music
                             }
                             else if (victorymusic(sfx, sfy) == true)
                             {
+                                writetolog("Started playing victory");
                                 if ((currentlyplaying != 3))
                                 {
                                     currentlyplaying = 3;
@@ -252,6 +279,7 @@ namespace Fortnite_Music
                     }
                     else
                     {
+                        writetolog("Fortnite not open");
                         wplayer.controls.pause();
                         wplayer.URL = "";
                     }
