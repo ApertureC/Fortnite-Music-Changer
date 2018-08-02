@@ -232,6 +232,7 @@ namespace Fortnite_Music
                 }
                 Microsoft.VisualBasic.Interaction.MsgBox("Please restart the application (no idea why but it doesn't work without a restart)", Microsoft.VisualBasic.MsgBoxStyle.Information, "Restart");
                 Application.Restart();
+                Application.Exit();
             }
             writetolog("Scale factor X: " + sfx.ToString());
             writetolog("Scale factor Y: " + sfy.ToString());
@@ -316,7 +317,7 @@ namespace Fortnite_Music
                                 {
                                     writetolog("Started playing title menu");
 
-                                    if ((currentlyplaying != 1))
+                                    if ((currentlyplaying != 1 || wplayer.URL != Globals.titlemenu))
                                     {
                                         currentlyplaying = 1;
                                         wplayer.controls.stop();
@@ -328,7 +329,7 @@ namespace Fortnite_Music
                             else if (mainmenumusic(sfx, sfy) == true)
                             {
                                 writetolog("Started playing main menu");
-                                if ((currentlyplaying != 2))
+                                if ((currentlyplaying != 2 || wplayer.URL != Globals.mainmenu))
                                 {
                                     currentlyplaying = 2;
                                     wplayer.controls.stop();
@@ -339,7 +340,7 @@ namespace Fortnite_Music
                             else if (victorymusic(sfx, sfy) == true)
                             {
                                 writetolog("Started playing victory");
-                                if ((currentlyplaying != 3))
+                                if ((currentlyplaying != 3 || wplayer.URL != Globals.victory))
                                 {
                                     currentlyplaying = 3;
                                     wplayer.controls.stop();
@@ -588,6 +589,7 @@ namespace Fortnite_Music
             }
             Microsoft.VisualBasic.Interaction.MsgBox("Please restart the application (no idea why but it doesn't work without a restart)", Microsoft.VisualBasic.MsgBoxStyle.Information, "Restart");
             Application.Restart();
+            Application.Exit();
         }
     }
 }
