@@ -231,7 +231,6 @@ namespace Fortnite_Music
                     }
                 }
                 Microsoft.VisualBasic.Interaction.MsgBox("Please restart the application (no idea why but it doesn't work without a restart)", Microsoft.VisualBasic.MsgBoxStyle.Information, "Restart");
-                Application.Restart();
                 Application.Exit();
             }
             writetolog("Scale factor X: " + sfx.ToString());
@@ -588,7 +587,6 @@ namespace Fortnite_Music
                 }
             }
             Microsoft.VisualBasic.Interaction.MsgBox("Please restart the application (no idea why but it doesn't work without a restart)", Microsoft.VisualBasic.MsgBoxStyle.Information, "Restart");
-            Application.Restart();
             Application.Exit();
         }
     }
