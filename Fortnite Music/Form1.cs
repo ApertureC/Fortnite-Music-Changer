@@ -113,7 +113,7 @@ namespace Fortnite_Music
         }
         public Form1()
         {
-            string tag = "1.2.3";
+            string tag = "1.3.0";
             InitializeComponent();
             // Auto update
             string html;
@@ -127,15 +127,16 @@ namespace Fortnite_Music
             {
                 html= reader.ReadToEnd();
             }
-            Debug.WriteLine(html);
             dynamic data = JObject.Parse(html);
-            if (data.name != tag) {
+            if (data.tag_name != tag) {
                 if (Microsoft.VisualBasic.Interaction.MsgBox("An update is available, would you like to view the latest version?", Microsoft.VisualBasic.MsgBoxStyle.YesNo, "Update")==Microsoft.VisualBasic.MsgBoxResult.Yes)
                 {
                     Debug.WriteLine("going");
                     System.Diagnostics.Process.Start("https://github.com/ApertureC/Fortnite-Music-Changer/releases/latest");
                 }
             }
+            Debug.WriteLine(html);
+
             // SETTINGS LOADING
             //var DPI=(int)Registry.GetValue("HKEY_CURRENT_USER\\Control Panel\\Desktop", "LogPixels", 96);
             //var scale = 96 / (float)DPI;
