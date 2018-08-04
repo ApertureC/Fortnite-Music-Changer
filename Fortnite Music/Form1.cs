@@ -14,6 +14,11 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Configuration;
 using Microsoft.Win32;
+using System.Net;
+using System.IO;
+using System.Runtime.Serialization;
+using Newtonsoft.Json.Linq;
+
 namespace Fortnite_Music
 {
     public partial class Form1 : Form
@@ -108,7 +113,29 @@ namespace Fortnite_Music
         }
         public Form1()
         {
+            string tag = "1.2.3";
             InitializeComponent();
+            // Auto update
+            string html;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.github.com/repos/ApertureC/Fortnite-Music-Changer/releases/latest?UserAgent=hi");
+            request.ContentType = "application/json";
+            request.UserAgent = "e";
+            request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                html= reader.ReadToEnd();
+            }
+            Debug.WriteLine(html);
+            dynamic data = JObject.Parse(html);
+            if (data.name != tag) {
+                if (Microsoft.VisualBasic.Interaction.MsgBox("An update is available, would you like to view the latest version?", Microsoft.VisualBasic.MsgBoxStyle.YesNo, "Update")==Microsoft.VisualBasic.MsgBoxResult.Yes)
+                {
+                    Debug.WriteLine("going");
+                    System.Diagnostics.Process.Start("https://github.com/ApertureC/Fortnite-Music-Changer/releases/latest");
+                }
+            }
             // SETTINGS LOADING
             //var DPI=(int)Registry.GetValue("HKEY_CURRENT_USER\\Control Panel\\Desktop", "LogPixels", 96);
             //var scale = 96 / (float)DPI;
@@ -314,7 +341,7 @@ namespace Fortnite_Music
                         //label2.Text = GetColorAt();
                         return;
                     };
-                    this.Invoke(mouse);
+                    //this.Invoke(mouse);
                     if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0)
                     {
                         bool focused = false;
