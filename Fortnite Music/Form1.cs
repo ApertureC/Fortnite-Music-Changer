@@ -156,7 +156,7 @@ namespace Fortnite_Music
             //
             Globals.sfx = sfx;
             Globals.sfy = sfy;
-            if (Properties.Settings.Default.title1 == Color.FromArgb(0, 0, 0, 0) || Properties.Settings.Default.menu2== Color.FromArgb(0, 0, 0, 0))
+            if (Properties.Settings.Default.title1 == Color.FromArgb(0, 0, 0, 0) || Properties.Settings.Default.menu2 == Color.FromArgb(0, 0, 0, 0) || Properties.Settings.Default.menu5 == Color.FromArgb(0, 0, 0, 0))
             {
                 if (Properties.Settings.Default.title1 == Color.FromArgb(0, 0, 0, 0))
                 {
@@ -195,7 +195,7 @@ namespace Fortnite_Music
                 }
                 if (Properties.Settings.Default.menu2 == Color.FromArgb(0, 0, 0, 0))
                 {
-                    Microsoft.VisualBasic.Interaction.MsgBox("1. Go to the BR menu on fortnite " + Environment.NewLine + "2. Press Ok on this message" + Environment.NewLine + "3.Click back onto fortnite", Microsoft.VisualBasic.MsgBoxStyle.Information, "Sampling");
+                    Microsoft.VisualBasic.Interaction.MsgBox("1. Go to the settings menu on fortnite " + Environment.NewLine + "2. Press Ok on this message" + Environment.NewLine + "3.Click back onto fortnite", Microsoft.VisualBasic.MsgBoxStyle.Information, "Sampling");
                     var done = false;
                     while (true)
                     {
@@ -212,6 +212,38 @@ namespace Fortnite_Music
                                         Properties.Settings.Default.menu2 = GetColorAt(new Point(Convert.ToInt32(Math.Round(512f * sfx)), Convert.ToInt32(Math.Round(36f * sfy))));
                                         Properties.Settings.Default.menu3 = GetColorAt(new Point(Convert.ToInt32(Math.Round(909f * sfx)), Convert.ToInt32(Math.Round(1047f * sfy))));
                                         Properties.Settings.Default.menu4 = GetColorAt(new Point(Convert.ToInt32(Math.Round(20f * sfx)), Convert.ToInt32(Math.Round(1043f * sfy))));
+                                        Properties.Settings.Default.Save();
+                                        Properties.Settings.Default.Reload();
+                                        done = true;
+                                    }
+
+                                }
+                            }
+                        }
+                        if (done == true)
+                        {
+                            this.Activate();
+                            Microsoft.VisualBasic.Interaction.MsgBox("Done", Microsoft.VisualBasic.MsgBoxStyle.Information, "Done");
+                            break;
+                        }
+                    }
+                }
+                if (Properties.Settings.Default.menu5 == Color.FromArgb(0, 0, 0, 0))
+                {
+                    Microsoft.VisualBasic.Interaction.MsgBox("1. Go to the BR menu on fortnite " + Environment.NewLine + "2. Press Ok on this message" + Environment.NewLine + "3.Click back onto fortnite", Microsoft.VisualBasic.MsgBoxStyle.Information, "Sampling");
+                    var done = false;
+                    while (true)
+                    {
+                        if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0)
+                        {
+                            uint pid;
+                            GetWindowThreadProcessId(GetForegroundWindow(), out pid);
+                            foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
+                            {
+                                if (p.Id == pid)
+                                {
+                                    if (p.ProcessName == "FortniteClient-Win64-Shipping")
+                                    {
                                         Properties.Settings.Default.menu5 = GetColorAt(new Point(Convert.ToInt32(Math.Round(1897f * sfx)), Convert.ToInt32(Math.Round(10f * sfy))));
                                         Properties.Settings.Default.menu6 = GetColorAt(new Point(Convert.ToInt32(Math.Round(1825f * sfx)), Convert.ToInt32(Math.Round(10f * sfy))));
                                         Properties.Settings.Default.Save();
@@ -282,7 +314,7 @@ namespace Fortnite_Music
                         //label2.Text = GetColorAt();
                         return;
                     };
-                    //this.Invoke(mouse);
+                    this.Invoke(mouse);
                     if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0)
                     {
                         bool focused = false;
@@ -569,6 +601,35 @@ namespace Fortnite_Music
                                 Properties.Settings.Default.menu2 = GetColorAt(new Point(Convert.ToInt32(Math.Round(512f * sfx)), Convert.ToInt32(Math.Round(36f * sfy))));
                                 Properties.Settings.Default.menu3 = GetColorAt(new Point(Convert.ToInt32(Math.Round(909f * sfx)), Convert.ToInt32(Math.Round(1047f * sfy))));
                                 Properties.Settings.Default.menu4 = GetColorAt(new Point(Convert.ToInt32(Math.Round(20f * sfx)), Convert.ToInt32(Math.Round(1043f * sfy))));
+                                Properties.Settings.Default.Save();
+                                Properties.Settings.Default.Reload();
+                                done = true;
+                            }
+
+                        }
+                    }
+                }
+                if (done == true)
+                {
+                    this.Activate();
+                    Microsoft.VisualBasic.Interaction.MsgBox("Done", Microsoft.VisualBasic.MsgBoxStyle.Information, "Done");
+                    break;
+                }
+            }
+            Microsoft.VisualBasic.Interaction.MsgBox("1. Go to the Settings menu on fortnite " + Environment.NewLine + "2. Press Ok on this message" + Environment.NewLine + "3.Click back onto fortnite", Microsoft.VisualBasic.MsgBoxStyle.Information, "Sampling");
+            done = false;
+            while (true)
+            {
+                if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0)
+                {
+                    uint pid;
+                    GetWindowThreadProcessId(GetForegroundWindow(), out pid);
+                    foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
+                    {
+                        if (p.Id == pid)
+                        {
+                            if (p.ProcessName == "FortniteClient-Win64-Shipping")
+                            {
                                 Properties.Settings.Default.menu5 = GetColorAt(new Point(Convert.ToInt32(Math.Round(1897f * sfx)), Convert.ToInt32(Math.Round(10f * sfy))));
                                 Properties.Settings.Default.menu6 = GetColorAt(new Point(Convert.ToInt32(Math.Round(1825f * sfx)), Convert.ToInt32(Math.Round(10f * sfy))));
                                 Properties.Settings.Default.Save();
