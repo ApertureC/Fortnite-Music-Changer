@@ -113,7 +113,7 @@ namespace Fortnite_Music
         }
         public Form1()
         {
-            string tag = "1.3.0";
+            string tag = "1.3.1";
             InitializeComponent();
             // Auto update
             string html;
@@ -223,7 +223,7 @@ namespace Fortnite_Music
                 }
                 if (Properties.Settings.Default.menu2 == Color.FromArgb(0, 0, 0, 0))
                 {
-                    Microsoft.VisualBasic.Interaction.MsgBox("1. Go to the settings menu on fortnite " + Environment.NewLine + "2. Press Ok on this message" + Environment.NewLine + "3.Click back onto fortnite", Microsoft.VisualBasic.MsgBoxStyle.Information, "Sampling");
+                    Microsoft.VisualBasic.Interaction.MsgBox("1. Go to the BR menu on fortnite " + Environment.NewLine + "2. Press Ok on this message" + Environment.NewLine + "3.Click back onto fortnite", Microsoft.VisualBasic.MsgBoxStyle.Information, "Sampling");
                     var done = false;
                     while (true)
                     {
@@ -258,7 +258,7 @@ namespace Fortnite_Music
                 }
                 if (Properties.Settings.Default.menu5 == Color.FromArgb(0, 0, 0, 0))
                 {
-                    Microsoft.VisualBasic.Interaction.MsgBox("1. Go to the BR menu on fortnite " + Environment.NewLine + "2. Press Ok on this message" + Environment.NewLine + "3.Click back onto fortnite", Microsoft.VisualBasic.MsgBoxStyle.Information, "Sampling");
+                    Microsoft.VisualBasic.Interaction.MsgBox("1. Go to the Settings menu on fortnite " + Environment.NewLine + "2. Press Ok on this message" + Environment.NewLine + "3.Click back onto fortnite", Microsoft.VisualBasic.MsgBoxStyle.Information, "Sampling");
                     var done = false;
                     while (true)
                     {
