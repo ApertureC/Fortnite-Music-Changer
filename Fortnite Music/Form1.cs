@@ -113,7 +113,7 @@ namespace Fortnite_Music
         }
         public Form1()
         {
-            string tag = "1.3.1";
+            string tag = "1.3.3";
             InitializeComponent();
             // Auto update
             string html;
@@ -144,6 +144,13 @@ namespace Fortnite_Music
             PointF dpi = PointF.Empty;
             // to do: just ask for resolution
             Debug.WriteLine(Properties.Settings.Default.ResX);
+            if (Properties.Settings.Default.SeenCopyright == false) {
+                // Good Links: http://www.gnu.org/licenses If you want to attribute properly - I'd recommend linking to the repo and stating the license
+                Microsoft.VisualBasic.Interaction.MsgBox(" This software is a tool to allow people to play different music at different menus " + Environment.NewLine + "Copyright(C) 2018 ApertureC (/u/ApertureCoder) " + Environment.NewLine + "This program is free software: you can redistribute it and / or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. " + Environment.NewLine + "This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/. More info: Disclose your source code + If you distribute - Attribute properly! Useful links are on line 148 of Form1.cs.", Microsoft.VisualBasic.MsgBoxStyle.OkOnly, "Copyright notice");
+                Properties.Settings.Default.SeenCopyright = true;
+                Properties.Settings.Default.Save();
+                Properties.Settings.Default.Reload(); 
+            }
             if (Properties.Settings.Default.ResX == 0)
             {
                 while (true)
@@ -680,3 +687,4 @@ namespace Fortnite_Music
         }
     }
 }
+// Source Repository: https://github.com/ApertureC/Fortnite-Music-Changer
