@@ -202,5 +202,17 @@ namespace Fortnite_Music.Properties {
                 this["menu6"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SeenCopyright {
+            get {
+                return ((bool)(this["SeenCopyright"]));
+            }
+            set {
+                this["SeenCopyright"] = value;
+            }
+        }
     }
 }
