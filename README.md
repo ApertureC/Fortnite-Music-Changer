@@ -1,5 +1,5 @@
 # Fortnite-Music-Changer
-# YOU MUST BE IN WINDOWED FULLSCREEN FOR THIS TO WORK
+# YOU MUST BE IN WINDOWED FULLSCREEN OR FULLSCREEN OR STRETCHED FOR THIS TO WORK
 ## Also if you're going to distribute please put this git repo *next to* your download link, ty.
 Allows you to play music based on where you are in the game - At the title screen, Main Menu and at victory
 
