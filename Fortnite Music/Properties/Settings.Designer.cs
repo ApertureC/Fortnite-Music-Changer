@@ -74,12 +74,12 @@ namespace Fortnite_Music.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Party {
+        public bool stretched {
             get {
-                return ((bool)(this["Party"]));
+                return ((bool)(this["stretched"]));
             }
             set {
-                this["Party"] = value;
+                this["stretched"] = value;
             }
         }
         
@@ -206,12 +206,60 @@ namespace Fortnite_Music.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool SeenCopyright {
+        public bool StartMinimized {
             get {
-                return ((bool)(this["SeenCopyright"]));
+                return ((bool)(this["StartMinimized"]));
             }
             set {
-                this["SeenCopyright"] = value;
+                this["StartMinimized"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool FirstStartup {
+            get {
+                return ((bool)(this["FirstStartup"]));
+            }
+            set {
+                this["FirstStartup"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Startup {
+            get {
+                return ((bool)(this["Startup"]));
+            }
+            set {
+                this["Startup"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool optimize {
+            get {
+                return ((bool)(this["optimize"]));
+            }
+            set {
+                this["optimize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool PlayInParty {
+            get {
+                return ((bool)(this["PlayInParty"]));
+            }
+            set {
+                this["PlayInParty"] = value;
             }
         }
     }
