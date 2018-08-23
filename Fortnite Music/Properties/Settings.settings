@@ -14,7 +14,7 @@
     <Setting Name="Volume" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
-    <Setting Name="Party" Type="System.Boolean" Scope="User">
+    <Setting Name="stretched" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="Victory" Type="System.String" Scope="User">
@@ -47,7 +47,19 @@
     <Setting Name="menu6" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">0, 0, 0, 0</Value>
     </Setting>
-    <Setting Name="SeenCopyright" Type="System.Boolean" Scope="User">
+    <Setting Name="StartMinimized" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="FirstStartup" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Startup" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="optimize" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="PlayInParty" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
