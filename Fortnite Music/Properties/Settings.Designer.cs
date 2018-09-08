@@ -262,5 +262,65 @@ namespace Fortnite_Music.Properties {
                 this["PlayInParty"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool WriteLogs {
+            get {
+                return ((bool)(this["WriteLogs"]));
+            }
+            set {
+                this["WriteLogs"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
+        public global::System.Drawing.Color gamemenufn {
+            get {
+                return ((global::System.Drawing.Color)(this["gamemenufn"]));
+            }
+            set {
+                this["gamemenufn"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
+        public global::System.Drawing.Color gamesettingsfn {
+            get {
+                return ((global::System.Drawing.Color)(this["gamesettingsfn"]));
+            }
+            set {
+                this["gamesettingsfn"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
+        public global::System.Drawing.Color victory1 {
+            get {
+                return ((global::System.Drawing.Color)(this["victory1"]));
+            }
+            set {
+                this["victory1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
+        public global::System.Drawing.Color victory2 {
+            get {
+                return ((global::System.Drawing.Color)(this["victory2"]));
+            }
+            set {
+                this["victory2"] = value;
+            }
+        }
     }
 }
