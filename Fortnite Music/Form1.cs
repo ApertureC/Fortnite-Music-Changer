@@ -15,6 +15,7 @@ using System.Collections.Generic;
 // Fixed startup
 // Cleaned up install
 // Issue checker
+// Message box telling people that it not responding is fine
 namespace Fortnite_Music
 {
 	public partial class Form1 : Form
@@ -439,7 +440,8 @@ namespace Fortnite_Music
 			}
 			if (Properties.Settings.Default.title1 == System.Drawing.Color.FromArgb(0, 0, 0, 0) || Properties.Settings.Default.menu2 == System.Drawing.Color.FromArgb(0, 0, 0, 0) || Properties.Settings.Default.menu5 == System.Drawing.Color.FromArgb(0, 0, 0, 0))
 			{
-				int waittime;
+                Microsoft.VisualBasic.Interaction.MsgBox("The program will say it isn't responding while waiting for you to click onto fortnite, this is normal, ignore it.",Microsoft.VisualBasic.MsgBoxStyle.Exclamation,"Not responding is fine");
+                int waittime;
 				while (true)
 				{
 					string wts = Microsoft.VisualBasic.Interaction.InputBox("Enter the wait time (in seconds) between clicking OK and taking a screenshot **IF YOU EXPERIENCE ISSUES WITH MUSIC PLAYING PRESS 'MENU SETUP' AND INCREASE THE TIME AND TRY AGAIN**", "Wait Time", "2", 0, 0);
@@ -1044,7 +1046,8 @@ namespace Fortnite_Music
 			var sfx = Globals.sfx;
 			var sfy = Globals.sfy;
 			int waittime;
-			while (true)
+            Microsoft.VisualBasic.Interaction.MsgBox("The program will say it isn't responding while waiting for you to click onto fortnite, this is normal, ignore it.", Microsoft.VisualBasic.MsgBoxStyle.Exclamation, "Not responding is fine");
+            while (true)
 			{
 				string wts = Microsoft.VisualBasic.Interaction.InputBox("Enter the wait time (in seconds) between clicking OK and taking a screenshot **IF YOU EXPERIENCE ISSUES WITH MUSIC PLAYING PRESS 'MENU SETUP' AND INCREASE THE TIME AND TRY AGAIN**", "Wait Time", "2", 0, 0);
 				try
