@@ -348,7 +348,7 @@ namespace Fortnite_Music
 			//frame.
 			//ibf=new 
 			//dd.Capture();
-			string tag = "2.2";
+			string tag = "2.3";
             // minimized
             if (Properties.Settings.Default.StartMinimized)
             {
