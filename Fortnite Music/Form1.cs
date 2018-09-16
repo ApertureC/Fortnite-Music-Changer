@@ -11,28 +11,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Collections.Generic;
-// This update:
-// Better logging
-// Added an option to logging in user.config
-// Mega performance boost 
-// Added a recovery if the user Alt-Tabs causing the above method to fail (can cause stutter)
-// Made my bottom left credit clickable
-// Stretched victory royale
-// Changed how victory is detected
-// Fix volume being stupid
-// Victory firing when at black screen (stop it firing when it has 0,0,0,0 color)
-// Preloading
-// Victory music on stretched working - to do with the DesktopDuplication thing
-// Stretched supports selection screen n' stuff (stretched global)
-// Auto enable stretched mode
-// Creates log file if there isn't one.
-
-// funny things from development of this: took 3 hours fixing a bug that was so obvious it's actually not funny
-
-// to do:
-
-// Fix not starting for some reason with launch on startup
-
+// This release's updates:
+// Fixed startup
+// Cleaned up install
+// Issue checker
 namespace Fortnite_Music
 {
 	public partial class Form1 : Form
@@ -287,7 +269,7 @@ namespace Fortnite_Music
 		}
 		private void WriteToLog(string towrite, bool overrde)
 		{
-			if (Globals.writelogs == true || overrde == true)
+			if (Globals.writelogs == true)
 			{
 				while (true)
 				{
@@ -310,7 +292,7 @@ namespace Fortnite_Music
 		}
 		private void SetStartup()
 		{
-			/*RegistryKey rk = Registry.CurrentUser.OpenSubKey
+			RegistryKey rk = Registry.CurrentUser.OpenSubKey
 				("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
 			if (launchOnStartupToolStripMenuItem.Checked)
@@ -318,15 +300,15 @@ namespace Fortnite_Music
 				Properties.Settings.Default.Startup = true;
 				Properties.Settings.Default.Save();
 				Properties.Settings.Default.Reload();
-				//rk.SetValue("Fortnite Music", Application.ExecutablePath);
+				rk.SetValue("Fortnite Music", Application.ExecutablePath);
 			}
 			else
 			{
 				Properties.Settings.Default.Startup = false;
 				Properties.Settings.Default.Save();
 				Properties.Settings.Default.Reload();
-				//rk.DeleteValue("Fortnite Music", false);
-			} */
+				rk.DeleteValue("Fortnite Music", false);
+			} 
 
 		}
 		private void HandleHotkey()
@@ -366,16 +348,14 @@ namespace Fortnite_Music
 			//ibf=new 
 			//dd.Capture();
 			string tag = "2.2";
-			// minimized
-			if (Properties.Settings.Default.StartMinimized)
-			{
-				this.WindowState = FormWindowState.Minimized;
-				startMinimizedToolStripMenuItem.Checked = true;
-			}
-			// first startup
-
-			// Auto update
-			string html;
+            // minimized
+            if (Properties.Settings.Default.StartMinimized)
+            {
+                this.WindowState = FormWindowState.Minimized;
+                startMinimizedToolStripMenuItem.Checked = true;
+            }
+            // Auto update
+            string html;
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.github.com/repos/ApertureC/Fortnite-Music-Changer/releases/latest?UserAgent=hi");
 			request.ContentType = "application/json";
 			request.UserAgent = "e";
@@ -660,9 +640,9 @@ namespace Fortnite_Music
 			WriteToLog("Title " + Globals.titlemenu, false);
 			WriteToLog("Victory " + Globals.victory, false);
 			checkBox1.Checked = Properties.Settings.Default.Obscure;
-			launchOnStartupToolStripMenuItem.Checked = Properties.Settings.Default.Startup;
+            launchOnStartupToolStripMenuItem.Checked = Properties.Settings.Default.Startup;
 
-			trackBar1.Value = Properties.Settings.Default.Volume;
+            trackBar1.Value = Properties.Settings.Default.Volume;
 			VolumeNum.Text = Properties.Settings.Default.Volume.ToString();
 			wplayer.settings.volume = Properties.Settings.Default.Volume;
 			// APPLY SETTINGS
@@ -941,7 +921,18 @@ namespace Fortnite_Music
 		public static System.Drawing.Color GetColorAt(System.Drawing.Point location)
 		{
 			Bitmap screenPixel = new Bitmap(1, 1, PixelFormat.Format32bppArgb);
-			while (true)
+            ////
+            Rectangle bounds = Screen.GetBounds(Point.Empty);
+            using (Bitmap bitmap = new Bitmap(Globals.resX, Globals.resY))
+            {
+                using (Graphics g = Graphics.FromImage(bitmap))
+                {
+                    g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
+                }
+                //bitmap.Save("test.bmp", ImageFormat.Bmp);
+            }
+            //
+            while (true)
 			{
 				using (Graphics gdest = Graphics.FromImage(screenPixel))
 				{
@@ -1206,13 +1197,30 @@ namespace Fortnite_Music
 
 		private void licensesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Microsoft.VisualBasic.Interaction.MsgBox(@"(C) All rights reserved. 
+			Microsoft.VisualBasic.Interaction.MsgBox(@"MIT License
 
-However you CAN distribute releases FROM THIS REPOSITORIES RELEASE PAGE (https://github.com/ApertureC/Fortnite-Music-Changer/releases) on any hosting platform, as well as use it in videos and on social media.
+Copyright (c) 2018 ApertureC
 
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the 'Software'), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-Message me on reddit /u/ApertureCoder", Microsoft.VisualBasic.MsgBoxStyle.Information, "Fortnite Music Changer");
-			Microsoft.VisualBasic.Interaction.MsgBox(@"The MIT License (MIT)
+            The above copyright notice and this permission notice shall be included in all
+            copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Original source code here: https://github.com/ApertureC/Fortnite-Music-Changer", Microsoft.VisualBasic.MsgBoxStyle.Information, "Fortnite Music Changer");
+            Microsoft.VisualBasic.Interaction.MsgBox(@"The MIT License (MIT)
 
 Copyright (c) 2007 James Newton-King
 
@@ -1232,7 +1240,6 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.", Microsoft.VisualBasic.MsgBoxStyle.Information, "Newtonsoft.Json");
-			Microsoft.VisualBasic.Interaction.MsgBox(@"Special thanks:" + Environment.NewLine + "Jason Pang - For creating desktop-duplication-net (https://github.com/jasonpang/desktop-duplication-net), which pointed me in the right direction to improve performance :)", Microsoft.VisualBasic.MsgBoxStyle.Information, "Special Thanks");
 		}
 		private void githubToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -1242,20 +1249,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.", Mic
 		private void redditToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Process.Start("https://reddit.com/u/ApertureCoder");
-		}
-
-		private void launchOnStartupToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			launchOnStartupToolStripMenuItem.Checked = false;
-			Microsoft.VisualBasic.Interaction.MsgBox("This feature is broken and no longer works, Add a shortcut to the program to the Start Up folder, maybe that'll work. Do a quick google search.", Microsoft.VisualBasic.MsgBoxStyle.Critical, "Broken feature");
-			//SetStartup();
-		}
-
-		private void startMinimizedToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Properties.Settings.Default.StartMinimized = startMinimizedToolStripMenuItem.Checked;
-			Properties.Settings.Default.Save();
-			Properties.Settings.Default.Reload();
 		}
 
 
@@ -1326,6 +1319,38 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.", Mic
 		{
 			System.Diagnostics.Process.Start("http://reddit.com/u/aperturecoder");
 		}
-	}
+
+
+        private void launchOnStartupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetStartup();
+        }
+
+        private void startMinimizedToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.StartMinimized = startMinimizedToolStripMenuItem.Checked;
+            Properties.Settings.Default.Save();
+            Properties.Settings.Default.Reload();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            // check for 0,0,0,0 values
+            if (Properties.Settings.Default.title1 == Color.FromArgb(0,0,0,0) ||
+                Properties.Settings.Default.title2 == Color.FromArgb(0, 0, 0, 0) ||
+                Properties.Settings.Default.menu2 == Color.FromArgb(0, 0, 0, 0) ||
+                Properties.Settings.Default.menu3 == Color.FromArgb(0, 0, 0, 0) ||
+                Properties.Settings.Default.menu4 == Color.FromArgb(0, 0, 0, 0) ||
+                Properties.Settings.Default.menu5 == Color.FromArgb(0, 0, 0, 0) ||
+                Properties.Settings.Default.menu6 == Color.FromArgb(0, 0, 0, 0))
+            {
+                Microsoft.VisualBasic.Interaction.MsgBox(@"Some pixel values aren't set. Do menu setup again but increase the wait time.", Microsoft.VisualBasic.MsgBoxStyle.Critical, "0,0,0,0 values");
+            }
+            if (Properties.Settings.Default.stretched)
+            {
+                Microsoft.VisualBasic.Interaction.MsgBox(@"Stretched detected. Stretched is a bit weird with how it works, try using CRU (Custom Resolution Utility) to set your fortnite fullscreen resolution", Microsoft.VisualBasic.MsgBoxStyle.Exclamation, "Stretched");
+            }
+        }
+    }
 }
 // Source Repository: https://github.com/ApertureC/Fortnite-Music-Changer
