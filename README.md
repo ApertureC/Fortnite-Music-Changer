@@ -3,7 +3,7 @@ Allows you to play music based on where you are in the game - At the title scree
 
 # @FNBRleaks go fuck yourself don't do license violations and shove "Developed by @FNBRLeaks" on it.
 
-## tl;dr : Project abandoned and I'm probably not doing an open source project again. 
+Summary : Project abandoned and I'm probably not doing an open source project again. 
 
 # THIS PROJECT IS ABANDONED
 1. FNBRLeaks claiming he made it (Didn't include license and shoved "Developed by @FNBRLeaks" on it, fuck you.)
