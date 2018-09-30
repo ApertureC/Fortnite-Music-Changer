@@ -1,10 +1,9 @@
 # Fortnite-Music-Changer
 Allows you to play music based on where you are in the game - At the title screen, Main Menu and at victory
 
-# not abandoned yet (also not made by fnbrleaks)
-Summary : Project abandoned and I'm probably not doing an open source project again. 
+# abandoned
 
-# THIS WILL BE ABANDONED SOON:
+# ABANDONED :
 1. FNBRLeaks claiming he made it (Didn't include license and shoved "Developed by @FNBRLeaks" on it, fuck you.)
 2. Epic games has added it back
 
