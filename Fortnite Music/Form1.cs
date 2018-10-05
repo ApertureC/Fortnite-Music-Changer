@@ -348,7 +348,7 @@ namespace Fortnite_Music
             else
             {
                 launchOnStartupToolStripMenuItem.Checked = File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk");
-                Microsoft.VisualBasic.Interaction.MsgBox("Setting this to run on startup requires admin privileges", Microsoft.VisualBasic.MsgBoxStyle.Exclamation, "Administrator privileges required");
+                Microsoft.VisualBasic.Interaction.MsgBox("Setting this to run on startup requires admin privileges (Close the program, right click, Run as administrator)", Microsoft.VisualBasic.MsgBoxStyle.Exclamation, "Administrator privileges required");
 
             }
 
