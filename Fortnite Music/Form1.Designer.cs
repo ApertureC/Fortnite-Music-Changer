@@ -45,6 +45,8 @@
             this.githubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.launchOnStartupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startMinimizedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label5 = new System.Windows.Forms.Label();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.button5 = new System.Windows.Forms.Button();
@@ -55,8 +57,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.TitleMenuFile = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.launchOnStartupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.startMinimizedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -211,14 +211,31 @@
             this.startupToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.startupToolStripMenuItem.Text = "Startup";
             // 
+            // launchOnStartupToolStripMenuItem
+            // 
+            this.launchOnStartupToolStripMenuItem.CheckOnClick = true;
+            this.launchOnStartupToolStripMenuItem.Name = "launchOnStartupToolStripMenuItem";
+            this.launchOnStartupToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.launchOnStartupToolStripMenuItem.Text = "Launch On Startup";
+            this.launchOnStartupToolStripMenuItem.Click += new System.EventHandler(this.launchOnStartupToolStripMenuItem_Click);
+            // 
+            // startMinimizedToolStripMenuItem
+            // 
+            this.startMinimizedToolStripMenuItem.CheckOnClick = true;
+            this.startMinimizedToolStripMenuItem.Name = "startMinimizedToolStripMenuItem";
+            this.startMinimizedToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.startMinimizedToolStripMenuItem.Text = "Start Minimized";
+            this.startMinimizedToolStripMenuItem.Click += new System.EventHandler(this.startMinimizedToolStripMenuItem_Click_1);
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(119, 262);
+            this.label5.Location = new System.Drawing.Point(119, 226);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(181, 13);
             this.label5.TabIndex = 20;
             this.label5.Text = "(Click About -> Github to report bugs)";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // checkBox4
             // 
@@ -244,7 +261,7 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(7, 262);
+            this.linkLabel1.Location = new System.Drawing.Point(7, 226);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(106, 13);
             this.linkLabel1.TabIndex = 24;
@@ -314,22 +331,6 @@
             this.label1.Text = "Title menu ";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // launchOnStartupToolStripMenuItem
-            // 
-            this.launchOnStartupToolStripMenuItem.CheckOnClick = true;
-            this.launchOnStartupToolStripMenuItem.Name = "launchOnStartupToolStripMenuItem";
-            this.launchOnStartupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.launchOnStartupToolStripMenuItem.Text = "Launch On Startup";
-            this.launchOnStartupToolStripMenuItem.Click += new System.EventHandler(this.launchOnStartupToolStripMenuItem_Click);
-            // 
-            // startMinimizedToolStripMenuItem
-            // 
-            this.startMinimizedToolStripMenuItem.CheckOnClick = true;
-            this.startMinimizedToolStripMenuItem.Name = "startMinimizedToolStripMenuItem";
-            this.startMinimizedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.startMinimizedToolStripMenuItem.Text = "Start Minimized";
-            this.startMinimizedToolStripMenuItem.Click += new System.EventHandler(this.startMinimizedToolStripMenuItem_Click_1);
-            // 
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(163, 21);
@@ -345,7 +346,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(484, 282);
+            this.ClientSize = new System.Drawing.Size(484, 251);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.button5);

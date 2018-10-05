@@ -11,6 +11,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Collections.Generic;
+using System.Security.Principal;
 // This release's updates:
 // Fixed startup
 // Cleaned up install
@@ -298,9 +299,13 @@ namespace Fortnite_Music
                 }
             }
         }
+        public static bool IsAdministrator()
+        {
+            return (new WindowsPrincipal(WindowsIdentity.GetCurrent()))
+                      .IsInRole(WindowsBuiltInRole.Administrator);
+        }
         private void SetStartup()
         {
-            Microsoft.VisualBasic.Interaction.InputBox("This is bugged and doesn't work - add a shortcut to start menu.", "Broken", "", 0, 0);
             /*RegistryKey rk = Registry.CurrentUser.OpenSubKey
                 ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
@@ -319,16 +324,33 @@ namespace Fortnite_Music
                 rk.DeleteValue("Fortnite Music", false);
             }*/
             //create shortcut to file in startup
-            IWshRuntimeLibrary.WshShell wsh = new IWshRuntimeLibrary.WshShell();
-            IWshRuntimeLibrary.IWshShortcut shortcut = wsh.CreateShortcut(
-                Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk") as IWshRuntimeLibrary.IWshShortcut;
-            shortcut.Arguments = "";
-            shortcut.TargetPath = Environment.CurrentDirectory + @"\Fortnite Music Changer.exe";
-            shortcut.WindowStyle = 1;
-            shortcut.Description = "Fortnite Music Changer";
-            shortcut.WorkingDirectory = Environment.CurrentDirectory + @"\";
-            //shortcut.IconLocation = "specify icon location";
-            shortcut.Save();
+            if (IsAdministrator())
+            {
+                if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk"))
+                {
+                    File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk");
+                }
+                else
+                {
+
+                    IWshRuntimeLibrary.WshShell wsh = new IWshRuntimeLibrary.WshShell();
+                    IWshRuntimeLibrary.IWshShortcut shortcut = wsh.CreateShortcut(
+                        Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk") as IWshRuntimeLibrary.IWshShortcut;
+                    shortcut.Arguments = "";
+                    shortcut.TargetPath = Environment.CurrentDirectory + @"\Fortnite Music.exe";
+                    shortcut.WindowStyle = 1;
+                    shortcut.Description = "Fortnite Music Changer";
+                    shortcut.WorkingDirectory = Environment.CurrentDirectory + @"\";
+                    //shortcut.IconLocation = "specify icon location";
+                    shortcut.Save();
+                }
+            }
+            else
+            {
+                launchOnStartupToolStripMenuItem.Checked = File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk");
+                Microsoft.VisualBasic.Interaction.MsgBox("Setting this to run on startup requires admin privileges", Microsoft.VisualBasic.MsgBoxStyle.Exclamation, "Administrator privileges required");
+
+            }
 
         }
         private void HandleHotkey()
@@ -381,11 +403,11 @@ namespace Fortnite_Music
                                         {
                                             Rectangle bounds = Screen.GetBounds(Point.Empty);
                                             g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
-                                            var result=viewImage("Is this the title menu?", bitmap);
-                                            if (result==DialogResult.OK)
+                                            var result = viewImage("Is this the title menu?", bitmap);
+                                            if (result == DialogResult.OK)
                                             {
-                                                Properties.Settings.Default.title1 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1058 * Globals.sfx)), Convert.ToInt32(Math.Round(28 * Globals.sfy))),bitmap);
-                                                Properties.Settings.Default.title2 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(985 * Globals.sfx)), Convert.ToInt32(Math.Round(780 * Globals.sfy))),bitmap);
+                                                Properties.Settings.Default.title1 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1058 * Globals.sfx)), Convert.ToInt32(Math.Round(28 * Globals.sfy))), bitmap);
+                                                Properties.Settings.Default.title2 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(985 * Globals.sfx)), Convert.ToInt32(Math.Round(780 * Globals.sfy))), bitmap);
                                                 Properties.Settings.Default.Save();
                                                 Properties.Settings.Default.Reload();
                                                 if (GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1058 * Globals.sfx)), Convert.ToInt32(Math.Round(28 * Globals.sfy)))).A != 0)
@@ -393,7 +415,7 @@ namespace Fortnite_Music
                                                     done = true;
                                                 }
                                             }
-                                            if (result==DialogResult.Cancel)
+                                            if (result == DialogResult.Cancel)
                                             {
                                                 Environment.Exit(0);
                                             }
@@ -440,20 +462,20 @@ namespace Fortnite_Music
                                             var result = viewImage("Is this the Battle Royale menu?", bitmap);
                                             if (result == DialogResult.OK)
                                             {
-                                                Properties.Settings.Default.menu2 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(512f * Globals.sfx)), Convert.ToInt32(Math.Round(36f * Globals.sfy))),bitmap);
-                                                Properties.Settings.Default.menu3 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(909f * Globals.sfx)), Convert.ToInt32(Math.Round(1047f * Globals.sfy))),bitmap);
+                                                Properties.Settings.Default.menu2 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(512f * Globals.sfx)), Convert.ToInt32(Math.Round(36f * Globals.sfy))), bitmap);
+                                                Properties.Settings.Default.menu3 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(909f * Globals.sfx)), Convert.ToInt32(Math.Round(1047f * Globals.sfy))), bitmap);
                                                 if (Globals.stretched == false)
                                                 {
-                                                    Properties.Settings.Default.menu4 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(20f * Globals.sfx)), Convert.ToInt32(Math.Round(1043f * Globals.sfy))),bitmap);
+                                                    Properties.Settings.Default.menu4 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(20f * Globals.sfx)), Convert.ToInt32(Math.Round(1043f * Globals.sfy))), bitmap);
                                                 }
                                                 else
                                                 {
-                                                    Properties.Settings.Default.menu4 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(13f * (Globals.sfx / 1440.0))), Convert.ToInt32(Math.Round(1055f * (Globals.sfy / 1080.0)))),bitmap);
+                                                    Properties.Settings.Default.menu4 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(13f * (Globals.sfx / 1440.0))), Convert.ToInt32(Math.Round(1055f * (Globals.sfy / 1080.0)))), bitmap);
                                                 }
-                                                Properties.Settings.Default.gamemenufn = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(30 * Globals.sfx)), Convert.ToInt32(Math.Round(16 * Globals.sfy))),bitmap);
+                                                Properties.Settings.Default.gamemenufn = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(30 * Globals.sfx)), Convert.ToInt32(Math.Round(16 * Globals.sfy))), bitmap);
                                                 Properties.Settings.Default.Save();
                                                 Properties.Settings.Default.Reload();
-                                                if (GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(512f * Globals.sfx)), Convert.ToInt32(Math.Round(36f * Globals.sfy))),bitmap).A != 0)
+                                                if (GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(512f * Globals.sfx)), Convert.ToInt32(Math.Round(36f * Globals.sfy))), bitmap).A != 0)
                                                 {
                                                     done = true;
                                                 }
@@ -510,18 +532,18 @@ namespace Fortnite_Music
                                                 Debug.WriteLine(GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1897f * Globals.sfx)), Convert.ToInt32(Math.Round(10f * Globals.sfy)))));
                                                 if (Globals.stretched == false)
                                                 {
-                                                    Properties.Settings.Default.menu5 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1897f * Globals.sfx)), Convert.ToInt32(Math.Round(10f * Globals.sfy))),bitmap);
-                                                    Properties.Settings.Default.menu6 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1825f * Globals.sfx)), Convert.ToInt32(Math.Round(10f * Globals.sfy))),bitmap);
+                                                    Properties.Settings.Default.menu5 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1897f * Globals.sfx)), Convert.ToInt32(Math.Round(10f * Globals.sfy))), bitmap);
+                                                    Properties.Settings.Default.menu6 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1825f * Globals.sfx)), Convert.ToInt32(Math.Round(10f * Globals.sfy))), bitmap);
                                                 }
                                                 else
                                                 {
-                                                    Properties.Settings.Default.menu5 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1422f * (Globals.resX / 1440.0))), Convert.ToInt32(Math.Round(8f * (Globals.resY / 1080)))),bitmap);
-                                                    Properties.Settings.Default.menu6 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1370f * (Globals.resX / 1440.0))), Convert.ToInt32(Math.Round(8f * (Globals.resY / 1080)))),bitmap);
+                                                    Properties.Settings.Default.menu5 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1422f * (Globals.resX / 1440.0))), Convert.ToInt32(Math.Round(8f * (Globals.resY / 1080)))), bitmap);
+                                                    Properties.Settings.Default.menu6 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1370f * (Globals.resX / 1440.0))), Convert.ToInt32(Math.Round(8f * (Globals.resY / 1080)))), bitmap);
                                                 }
-                                                Properties.Settings.Default.gamesettingsfn = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(30 * Globals.sfx)), Convert.ToInt32(Math.Round(16 * Globals.sfy))),bitmap);
+                                                Properties.Settings.Default.gamesettingsfn = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(30 * Globals.sfx)), Convert.ToInt32(Math.Round(16 * Globals.sfy))), bitmap);
                                                 Properties.Settings.Default.Save();
                                                 Properties.Settings.Default.Reload();
-                                                if (GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(30 * Globals.sfx)), Convert.ToInt32(Math.Round(16 * Globals.sfy))),bitmap).A != 0)
+                                                if (GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(30 * Globals.sfx)), Convert.ToInt32(Math.Round(16 * Globals.sfy))), bitmap).A != 0)
                                                 {
                                                     done = true;
                                                 }
@@ -682,7 +704,7 @@ namespace Fortnite_Music
             Globals.victory = Properties.Settings.Default.Victory;
             Globals.stretched = Properties.Settings.Default.stretched;
             Globals.titlemenu = Properties.Settings.Default.TitleMenu;
-            if (Properties.Settings.Default.TitleMenu=="" && Properties.Settings.Default.MainMenu == "" && Properties.Settings.Default.Victory == "")
+            if (Properties.Settings.Default.TitleMenu == "" && Properties.Settings.Default.MainMenu == "" && Properties.Settings.Default.Victory == "")
             {
                 Microsoft.VisualBasic.Interaction.MsgBox("The program has no loaded mp3s, mp3s need to be loaded to play music! Hit browse to load mp3s", Microsoft.VisualBasic.MsgBoxStyle.Information, "No MP3s");
             }
@@ -700,6 +722,7 @@ namespace Fortnite_Music
             MenuMusicFile.Text = Globals.mainmenu;
             TitleMenuFile.Text = Globals.titlemenu;
             VictoryMusicFile.Text = Globals.victory;
+            launchOnStartupToolStripMenuItem.Checked = File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk");
             // Preload
             Thread t = new Thread(() =>
             {
@@ -1005,7 +1028,8 @@ namespace Fortnite_Music
             if (bitmap.GetPixel(location.X, location.Y).A != 0)
             {
                 return bitmap.GetPixel(location.X, location.Y);
-            } else
+            }
+            else
             {
                 return new Color();
             }
@@ -1199,15 +1223,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.", Mic
                                             {
                                                 if (Globals.stretched == false)
                                                 {
-                                                    Properties.Settings.Default.victory1 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(911f * Globals.sfx)), Convert.ToInt32(Math.Round(251f * Globals.sfy))),bitmap);
-                                                    Properties.Settings.Default.victory2 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1087 * Globals.sfx)), Convert.ToInt32(Math.Round(271 * Globals.sfy))),bitmap);
+                                                    Properties.Settings.Default.victory1 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(911f * Globals.sfx)), Convert.ToInt32(Math.Round(251f * Globals.sfy))), bitmap);
+                                                    Properties.Settings.Default.victory2 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1087 * Globals.sfx)), Convert.ToInt32(Math.Round(271 * Globals.sfy))), bitmap);
                                                 }
                                                 else
                                                 {
                                                     var sfx = Globals.resX / 1440.0;
                                                     var sfy = Globals.resY / 1080.0;
-                                                    Properties.Settings.Default.victory1 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(680 * sfx)), Convert.ToInt32(Math.Round(347 * sfy))),bitmap);
-                                                    Properties.Settings.Default.victory2 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(805 * sfx)), Convert.ToInt32(Math.Round(240 * sfy))),bitmap);
+                                                    Properties.Settings.Default.victory1 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(680 * sfx)), Convert.ToInt32(Math.Round(347 * sfy))), bitmap);
+                                                    Properties.Settings.Default.victory2 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(805 * sfx)), Convert.ToInt32(Math.Round(240 * sfy))), bitmap);
                                                 }
                                                 if (Properties.Settings.Default.victory1.A != 0)
                                                 {
@@ -1265,6 +1289,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.", Mic
             {
                 Microsoft.VisualBasic.Interaction.MsgBox(@"Stretched detected. Stretched is a bit weird with how it works, try using CRU (Custom Resolution Utility) to set your fortnite fullscreen resolution", Microsoft.VisualBasic.MsgBoxStyle.Exclamation, "Stretched");
             }
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
