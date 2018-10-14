@@ -349,7 +349,6 @@ namespace Fortnite_Music
             {
                 launchOnStartupToolStripMenuItem.Checked = File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk");
                 Microsoft.VisualBasic.Interaction.MsgBox("Setting this to run on startup requires admin privileges (Close the program, right click, Run as administrator)", Microsoft.VisualBasic.MsgBoxStyle.Exclamation, "Administrator privileges required");
-
             }
 
         }
@@ -590,7 +589,7 @@ namespace Fortnite_Music
             //frame.
             //ibf=new 
             //dd.Capture();
-            string tag = "2.3";
+            string tag = "2.4";
             // minimized
             if (Properties.Settings.Default.StartMinimized)
             {
@@ -764,8 +763,6 @@ namespace Fortnite_Music
 
                 while (true)
                 {
-                    Debug.WriteLine("Starting Loop");
-                    Thread.Sleep(500);//250
 
                     //
                     //GC.Collect();
@@ -1196,7 +1193,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.", Mic
             Debug.WriteLine(Clipboard.ContainsImage());
             //bitmap.Save(@"C:\Users\Aperture\Documents\oof.bmp");
             Microsoft.VisualBasic.Interaction.MsgBox("Press OK and immediately click onto Fortnite", Microsoft.VisualBasic.MsgBoxStyle.Information, "Victory Setup");
-            Thread.Sleep(3000);
             while (true)
             {
                 var b = false;
