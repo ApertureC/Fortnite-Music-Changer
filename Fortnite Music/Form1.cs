@@ -29,6 +29,7 @@ namespace Fortnite_Music
         private static extern IntPtr GetForegroundWindow();
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern Int32 GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
         public static class Globals
         {
             public static string titlemenu = "";
@@ -45,98 +46,7 @@ namespace Fortnite_Music
             public static int resY = Properties.Settings.Default.ResY;
         }
 
-        // P/Invoke declarations
-        //[DllImport("user32.dll")]
-        //static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDc);
-        //[DllImport("gdi32.dll")]
-        //static extern IntPtr DeleteDC(IntPtr hDc);
-        //[DllImport("gdi32.dll")]
-        //static extern IntPtr DeleteObject(IntPtr hDc);
-        //[DllImport("gdi32.dll")]
-        //static extern IntPtr CreateCompatibleBitmap(IntPtr hdc, int nWidth, int nHeight);
-        //[DllImport("gdi32.dll")]
-        //static extern IntPtr CreateCompatibleDC(IntPtr hdc);
-        //[DllImport("gdi32.dll")]
-        //static extern IntPtr SelectObject(IntPtr hdc, IntPtr bmp);
-        //[DllImport("user32.dll")]
-        //public static extern IntPtr GetWindowDC(IntPtr ptr);
 
-        [DllImport("user32.dll")]
-        static extern bool DrawIcon(IntPtr hDC, int X, int Y, IntPtr hIcon);
-        [DllImport("User32.dll")]
-        private static extern short GetAsyncKeyState(int vKey);
-
-        //static Adapter adapter = new Factory1().GetAdapter(0);
-        //static SharpDX.Direct3D11.Device device = new SharpDX.Direct3D11.Device(adapter)
-        /*private DesktopDuplicator desktopDuplication;
-		private int test;
-		private bool togglerunning;
-		private System.Drawing.Bitmap GetBitmap(int resX, int resY)
-		{
-			DesktopFrame frame = new DesktopFrame();
-			if (!togglerunning)
-			{
-				short keyState = GetAsyncKeyState(0x48);
-				bool prntScrnIsPressed = ((keyState >> 15) & 0x0001) == 0x0001;
-				Debug.WriteLine(prntScrnIsPressed);
-				if (!prntScrnIsPressed)
-				{
-					frame = null;
-					while (true)
-					{
-						Debug.WriteLine("!!!!" + desktopDuplication);
-						Debug.WriteLine(desktopDuplication == null);
-						if (desktopDuplication == null)
-						{
-							test++;
-							Debug.WriteLine("Attempting to create!!");
-							desktopDuplication = new DesktopDuplicator(0, resX, resY);
-							Thread.Sleep(50);
-						}
-						Debug.WriteLine("Created: " + test);
-						try
-						{
-							frame = desktopDuplication.GetLatestFrame();
-						}
-						catch
-						{
-							frame = null;
-						}
-						Debug.WriteLine("FRAME IS:" + frame);
-						Debug.WriteLine(frame == null);
-						if (frame == null)
-						{
-							Debug.WriteLine("Null");
-							desktopDuplication.Dispose();
-							Debug.WriteLine("Successfully Disposed");
-							desktopDuplication = null;
-							break;
-						}
-						else
-						{
-							//frame.Save(@"C:\Users\Aperture\Documents\idiot.bmp");
-							break;
-						}
-					}
-				}
-			}
-			else
-			{
-				if (desktopDuplication == null)
-				{
-					desktopDuplication.Dispose();
-					desktopDuplication = null;
-				}
-			}
-			if (frame.DesktopImage!=null)
-			{
-				return frame.DesktopImage;
-			} else
-			{
-				return null;
-			}
-		}
-		*/
         private DialogResult viewImage(string botText, Bitmap bitmap)
         {
             ImageViewer m = new ImageViewer();
@@ -148,41 +58,31 @@ namespace Fortnite_Music
         private bool mainMenuMusic(double sfx, double sfy)
         {
             WriteToLog("----- MAIN MENU -----", false);
-            System.Drawing.Color colorAt = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(428f * sfx)), Convert.ToInt32(Math.Round(548f * sfy))));
+
+            /*System.Drawing.Color colorAt = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(428f * sfx)), Convert.ToInt32(Math.Round(548f * sfy))));
             WriteToLog("menu - purchase check" + colorAt.ToString(), false);
             if (int.Parse(colorAt.R.ToString()) == 11 && int.Parse(colorAt.G.ToString()) == 19 && int.Parse(colorAt.B.ToString()) == 47)
             {
-                //return false;
-            }
-            colorAt = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(512f * sfx)), Convert.ToInt32(Math.Round(36f * sfy))));
-            Debug.WriteLine(colorAt + " " + Properties.Settings.Default.menu2.R + " " + Properties.Settings.Default.menu2.G + " " + Properties.Settings.Default.menu2.B);
+                return false;
+            } */                   // UNCOMMENTING THIS WILL PREVENT MUSIC PLAYING ON THE BUY SCREEN AT 0.5 BRIGHTNESS
 
-            WriteToLog("menu2" + colorAt.ToString() + " FOR: " + Properties.Settings.Default.menu2.ToString(), false);
-            if (int.Parse(colorAt.R.ToString()) == Properties.Settings.Default.menu2.R && int.Parse(colorAt.G.ToString()) == Properties.Settings.Default.menu2.G && int.Parse(colorAt.B.ToString()) == Properties.Settings.Default.menu2.B)
+            if (compareColor(GetColorAt(createPoint(512, 36)), Properties.Settings.Default.menu2))
             {
-                colorAt = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(909f * sfx)), Convert.ToInt32(Math.Round(1047f * sfy))));
-                WriteToLog("menu3" + colorAt.ToString() + " FOR: " + Properties.Settings.Default.menu3.ToString(), false);
-                Debug.WriteLine(colorAt + " " + Properties.Settings.Default.menu3.R + " " + Properties.Settings.Default.menu3.G + " " + Properties.Settings.Default.menu3.B);
-                if (int.Parse(colorAt.R.ToString()) == Properties.Settings.Default.menu3.R && int.Parse(colorAt.G.ToString()) == Properties.Settings.Default.menu3.G && int.Parse(colorAt.B.ToString()) == Properties.Settings.Default.menu3.B)
+                if (compareColor(GetColorAt(createPoint(909, 1047)), Properties.Settings.Default.menu3))
                 {
                     if (Properties.Settings.Default.PlayInParty == false)
                     {
                         if (Globals.stretched == false)
                         {
-                            colorAt = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(20f * sfx)), Convert.ToInt32(Math.Round(1043f * sfy))));
-                            WriteToLog("menu4" + colorAt.ToString() + " FOR: " + Properties.Settings.Default.menu4.ToString(), false);
-                            Debug.WriteLine(colorAt + " " + Properties.Settings.Default.menu4.R + " " + Properties.Settings.Default.menu4.G + " " + Properties.Settings.Default.menu4.B);
-                            if (int.Parse(colorAt.R.ToString()) == Properties.Settings.Default.menu4.R && int.Parse(colorAt.G.ToString()) >= Properties.Settings.Default.menu4.G && int.Parse(colorAt.B.ToString()) >= Properties.Settings.Default.menu4.B)
+                            if (compareColor(GetColorAt(createPoint(20, 1043)), Properties.Settings.Default.menu4))
                             {
                                 return true;
                             }
                         }
                         else
                         {
-                            colorAt = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(13f * (Globals.sfx / 1440.0))), Convert.ToInt32(Math.Round(1055f * (Globals.sfy / 1080.0)))));
-                            WriteToLog("menu4" + colorAt.ToString() + " FOR: " + Properties.Settings.Default.menu4.ToString(), false);
-                            Debug.WriteLine(colorAt + " " + Properties.Settings.Default.menu4.R + " " + Properties.Settings.Default.menu4.G + " " + Properties.Settings.Default.menu4.B);
-                            if (int.Parse(colorAt.R.ToString()) == Properties.Settings.Default.menu4.R && int.Parse(colorAt.G.ToString()) >= Properties.Settings.Default.menu4.G && int.Parse(colorAt.B.ToString()) >= Properties.Settings.Default.menu4.B)
+                            var colorAt = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(13f * (Globals.sfx / 1440.0))), Convert.ToInt32(Math.Round(1055f * (Globals.sfy / 1080.0)))));
+                            if (compareColor(colorAt, Properties.Settings.Default.menu5))
                             {
                                 return true;
                             }
@@ -198,15 +98,9 @@ namespace Fortnite_Music
             Debug.WriteLine("----------------------------------- SETTINGS");
             if (Globals.stretched == false)
             {
-                colorAt = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1897f * sfx)), Convert.ToInt32(Math.Round(10f * sfy))));
-                Debug.WriteLine(colorAt + " " + Properties.Settings.Default.menu5.R + " " + Properties.Settings.Default.menu5.G + " " + Properties.Settings.Default.menu5.B);
-                WriteToLog("menu5" + colorAt.ToString() + " FOR: " + Properties.Settings.Default.menu5.ToString(), false);
-                if (int.Parse(colorAt.R.ToString()) == Properties.Settings.Default.menu5.R && int.Parse(colorAt.G.ToString()) == Properties.Settings.Default.menu5.G && int.Parse(colorAt.B.ToString()) == Properties.Settings.Default.menu5.B)
+                if (compareColor(GetColorAt(createPoint(1897, 10)), Properties.Settings.Default.menu5))
                 {
-                    colorAt = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1825f * sfx)), Convert.ToInt32(Math.Round(10f * sfy))));
-                    WriteToLog("menu6" + colorAt.ToString() + " FOR: " + Properties.Settings.Default.menu6.ToString(), false);
-                    Debug.WriteLine(colorAt + " " + Properties.Settings.Default.menu6.R + " " + Properties.Settings.Default.menu6.G + " " + Properties.Settings.Default.menu6.B);
-                    if (int.Parse(colorAt.R.ToString()) == Properties.Settings.Default.menu6.R && int.Parse(colorAt.G.ToString()) == Properties.Settings.Default.menu6.G && int.Parse(colorAt.B.ToString()) == Properties.Settings.Default.menu6.B)
+                    if (compareColor(GetColorAt(createPoint(1825, 10)), Properties.Settings.Default.menu6))
                     {
                         return true;
                     }
@@ -214,13 +108,11 @@ namespace Fortnite_Music
             }
             else
             {
-                colorAt = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1422f * (Globals.resX / 1440.0))), Convert.ToInt32(Math.Round(8f * (Globals.resY / 1080.0)))));
-                if (int.Parse(colorAt.R.ToString()) == Properties.Settings.Default.menu5.R && int.Parse(colorAt.G.ToString()) == Properties.Settings.Default.menu5.G && int.Parse(colorAt.B.ToString()) == Properties.Settings.Default.menu5.B)
+                var colorAt = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1422f * (Globals.resX / 1440.0))), Convert.ToInt32(Math.Round(8f * (Globals.resY / 1080.0)))));
+                if (compareColor(colorAt, Properties.Settings.Default.menu5))
                 {
                     colorAt = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1370f * (Globals.resX / 1440.0))), Convert.ToInt32(Math.Round(8f * (Globals.resY / 1080.0)))));
-                    WriteToLog("menu6" + colorAt.ToString() + " FOR: " + Properties.Settings.Default.menu6.ToString(), false);
-                    Debug.WriteLine(colorAt + " " + Properties.Settings.Default.menu6.R + " " + Properties.Settings.Default.menu6.G + " " + Properties.Settings.Default.menu6.B);
-                    if (int.Parse(colorAt.R.ToString()) == Properties.Settings.Default.menu6.R && int.Parse(colorAt.G.ToString()) == Properties.Settings.Default.menu6.G && int.Parse(colorAt.B.ToString()) == Properties.Settings.Default.menu6.B)
+                    if (compareColor(colorAt, Properties.Settings.Default.menu6))
                     {
                         return true;
                     }
@@ -234,18 +126,13 @@ namespace Fortnite_Music
         private bool victoryMusic(double sfx, double sfy)
         {
             WriteToLog("----- VICTORY -----", false);
-            if (Properties.Settings.Default.victory1.A != 0 && Properties.Settings.Default.victory2.A != 0)
+            if (Properties.Settings.Default.victory1.A != 0 && Properties.Settings.Default.victory2.A != 0) // check if values aren't nothing
             {
                 if (Properties.Settings.Default.stretched == false)
                 {
-                    System.Drawing.Color colorAt = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(911f * sfx)), Convert.ToInt32(Math.Round(251f * sfy))));
-                    WriteToLog(colorAt.ToString(), false);
-                    if (int.Parse(colorAt.R.ToString()) == Properties.Settings.Default.victory1.R && int.Parse(colorAt.G.ToString()) == Properties.Settings.Default.victory1.G && int.Parse(colorAt.B.ToString()) == Properties.Settings.Default.victory1.B)
+                    if (compareColor(GetColorAt(createPoint(911, 151)), Properties.Settings.Default.victory1))
                     {
-                        colorAt = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1087f * sfx)), Convert.ToInt32(Math.Round(271f * sfy))));
-                        WriteToLog(colorAt.ToString(), false);
-
-                        if (int.Parse(colorAt.R.ToString()) == Properties.Settings.Default.victory2.R && int.Parse(colorAt.G.ToString()) == Properties.Settings.Default.victory2.G && int.Parse(colorAt.B.ToString()) == Properties.Settings.Default.victory2.B)
+                        if (compareColor(GetColorAt(createPoint(1087, 271)), Properties.Settings.Default.victory2))
                         {
                             return true;
                         }
@@ -255,15 +142,10 @@ namespace Fortnite_Music
                 else
                 {
                     System.Drawing.Color colorAt = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(680f * (Properties.Settings.Default.ResX / 1440.0))), Convert.ToInt32(Math.Round(347f * (Properties.Settings.Default.ResY / 1080.0)))));
-                    WriteToLog(colorAt.ToString(), false);
-                    Debug.WriteLine("_----------- VICTORY ---------");
-                    Debug.WriteLine(colorAt + "          " + Properties.Settings.Default.victory1);
-                    if (int.Parse(colorAt.R.ToString()) == Properties.Settings.Default.victory1.R && int.Parse(colorAt.G.ToString()) == Properties.Settings.Default.victory1.G && int.Parse(colorAt.B.ToString()) == Properties.Settings.Default.victory1.B)
+                    if (compareColor(colorAt, Properties.Settings.Default.victory1))
                     {
                         colorAt = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(805f * (Properties.Settings.Default.ResX / 1440.0))), Convert.ToInt32(Math.Round(240f * (Properties.Settings.Default.ResY / 1080.0)))));
-                        WriteToLog(colorAt.ToString(), false);
-                        Debug.WriteLine(colorAt + "          " + Properties.Settings.Default.victory2);
-                        if (int.Parse(colorAt.R.ToString()) == Properties.Settings.Default.victory2.R && int.Parse(colorAt.G.ToString()) >= Properties.Settings.Default.victory2.G && int.Parse(colorAt.B.ToString()) >= Properties.Settings.Default.victory2.B)
+                        if (compareColor(colorAt, Properties.Settings.Default.victory2))
                         {
                             return true;
                         }
@@ -306,33 +188,15 @@ namespace Fortnite_Music
         }
         private void SetStartup()
         {
-            /*RegistryKey rk = Registry.CurrentUser.OpenSubKey
-                ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-
-            if (launchOnStartupToolStripMenuItem.Checked)
-            {
-                Properties.Settings.Default.Startup = true;
-                Properties.Settings.Default.Save();
-                Properties.Settings.Default.Reload();
-                rk.SetValue("Fortnite Music", Application.ExecutablePath);
-            }
-            else
-            {
-                Properties.Settings.Default.Startup = false;
-                Properties.Settings.Default.Save();
-                Properties.Settings.Default.Reload();
-                rk.DeleteValue("Fortnite Music", false);
-            }*/
             //create shortcut to file in startup
-            if (IsAdministrator())
+            if (IsAdministrator()) // Requires admin to start on startup
             {
-                if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk"))
+                if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk")) // If the file exists - Delete it
                 {
                     File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk");
                 }
                 else
                 {
-
                     IWshRuntimeLibrary.WshShell wsh = new IWshRuntimeLibrary.WshShell();
                     IWshRuntimeLibrary.IWshShortcut shortcut = wsh.CreateShortcut(
                         Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk") as IWshRuntimeLibrary.IWshShortcut;
@@ -342,85 +206,77 @@ namespace Fortnite_Music
                     shortcut.Description = "Fortnite Music Changer";
                     shortcut.WorkingDirectory = Environment.CurrentDirectory + @"\";
                     //shortcut.IconLocation = "specify icon location";
-                    shortcut.Save();
+                    shortcut.Save(); // add shortcut to startup
                 }
             }
             else
             {
+                // Inform user that you need to be in startup
                 launchOnStartupToolStripMenuItem.Checked = File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk");
                 Microsoft.VisualBasic.Interaction.MsgBox("Setting this to run on startup requires admin privileges (Close the program, right click, Run as administrator)", Microsoft.VisualBasic.MsgBoxStyle.Exclamation, "Administrator privileges required");
             }
 
         }
-        private void HandleHotkey()
-        {
-            Debug.WriteLine("W pressed");
-        }
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool GetKeyboardState(byte[] lpKeyState);
-        public static byte GetVirtualKeyCode(Keys key)
-        {
-            int value = (int)key;
-            return (byte)(value & 0xFF);
-        }
-        private int wkeycode = GetVirtualKeyCode(Keys.W);
         static int GCD(int a, int b)
         {
             return b == 0 ? Math.Abs(a) : GCD(b, a % b);
         }
+        /// <summary>
+        /// Creates a point with specifified numbers and scales them to the user's aspect ratio (make sure the point is from 16:9)
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        private System.Drawing.Point createPoint(int x, int y)
+        {
+            /// Creates a point with fort
+            return new System.Drawing.Point(Convert.ToInt32(Math.Round(x * Globals.sfx)), Convert.ToInt32(Math.Round(y * Globals.sfy)));
+        }
+        /// Creates a point with fort
         private void setup()
         {
+            // I apologize that you have to read this (literally can't clean it up anymore). visit /r/EyeBleach 
             Microsoft.VisualBasic.Interaction.MsgBox("The program will say it isn't responding while waiting for you to click onto fortnite, this is normal, ignore it.", Microsoft.VisualBasic.MsgBoxStyle.Exclamation, "Not responding is fine");
             int waittime = 5;
             Debug.WriteLine(Properties.Settings.Default.title1);
             Microsoft.VisualBasic.Interaction.MsgBox("1. Go to the title screen (STW or BR selection) on fortnite" + Environment.NewLine + "2. Press Ok on this message" + Environment.NewLine + "3.Click back onto fortnite", Microsoft.VisualBasic.MsgBoxStyle.Information, "Sampling");
             var done = false;
-            while (true)
+            while (true) // wait until the user enters a value
             {
-                if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0)
+                if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0) // Check that fortnite is open
                 {
-                    //System.Drawing.Bitmap BitMap = (System.Drawing.Bitmap)System.Drawing.Image.FromFile(Path.Combine(Environment.CurrentDirectory, @"BitmapReturn\ScreenCapture.bmp"));
-                    //System.Drawing.Bitmap BitMap = GetBitmap();
-                    //BitMap.Save(@"C:\Users\Aperture\source\repos\Fortnite-Music-Changer\Fortnite Music\bin\Debug\SaveImage2.bmp");
                     uint pid;
                     GetWindowThreadProcessId(GetForegroundWindow(), out pid);
-                    if (GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1058 * Globals.sfx)), Convert.ToInt32(Math.Round(28 * Globals.sfy)))).A != 0)
+                    if (GetColorAt(createPoint(1058, 28)).A != 0) // Get a random position and check that the screen isn't nothing
                     {
                         foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
                         {
-                            if (p.Id == pid)
+                            if (p.Id == pid && p.ProcessName == "FortniteClient-Win64-Shipping") // Search processes for fortnite and check if it's selected
                             {
-                                Debug.WriteLine("CURRENTLY FOREGROUND: " + p.ProcessName);
-                                if (p.ProcessName == "FortniteClient-Win64-Shipping")
+                                Thread.Sleep(waittime * 1000);
+
+                                using (Bitmap bitmap = new Bitmap(Globals.resX, Globals.resY))
                                 {
-                                    Thread.Sleep(waittime * 1000);
-                                    Debug.WriteLine("Passed2");
-                                    using (Bitmap bitmap = new Bitmap(Globals.resX, Globals.resY))
+                                    using (Graphics g = Graphics.FromImage(bitmap))
                                     {
-                                        using (Graphics g = Graphics.FromImage(bitmap))
+                                        Rectangle bounds = Screen.GetBounds(Point.Empty);
+                                        g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
+
+                                        var result = viewImage("Is this the title menu?", bitmap); // Opens a window showing the image, asking the user if they want to use it.
+                                        if (result == DialogResult.OK)
                                         {
-                                            Rectangle bounds = Screen.GetBounds(Point.Empty);
-                                            g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
-                                            var result = viewImage("Is this the title menu?", bitmap);
-                                            if (result == DialogResult.OK)
-                                            {
-                                                Properties.Settings.Default.title1 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1058 * Globals.sfx)), Convert.ToInt32(Math.Round(28 * Globals.sfy))), bitmap);
-                                                Properties.Settings.Default.title2 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(985 * Globals.sfx)), Convert.ToInt32(Math.Round(780 * Globals.sfy))), bitmap);
-                                                Properties.Settings.Default.Save();
-                                                Properties.Settings.Default.Reload();
-                                                if (GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1058 * Globals.sfx)), Convert.ToInt32(Math.Round(28 * Globals.sfy)))).A != 0)
-                                                {
-                                                    done = true;
-                                                }
-                                            }
-                                            if (result == DialogResult.Cancel)
-                                            {
-                                                Environment.Exit(0);
-                                            }
+                                            // Set to values
+                                            Properties.Settings.Default.title1 = GetColorAtProvided(createPoint(1028, 28), bitmap);
+                                            Properties.Settings.Default.title2 = GetColorAtProvided(createPoint(985, 780), bitmap);
+                                            Properties.Settings.Default.Save();
+                                            Properties.Settings.Default.Reload();
+                                            done = true;
+                                        }
+                                        if (result == DialogResult.Cancel)
+                                        {
+                                            Environment.Exit(0); // close the program when X is clicked.
                                         }
                                     }
-
                                 }
                             }
                         }
@@ -428,65 +284,56 @@ namespace Fortnite_Music
                     if (done == true)
                     {
                         this.Activate();
-
-                        //Microsoft.VisualBasic.Interaction.MsgBox("Done", Microsoft.VisualBasic.MsgBoxStyle.Information);
                         break;
                     }
                 }
             }
             Microsoft.VisualBasic.Interaction.MsgBox("1. Go to the Battle Royale menu on fortnite " + Environment.NewLine + "2. Press Ok on this message" + Environment.NewLine + "3.Click back onto fortnite", Microsoft.VisualBasic.MsgBoxStyle.Information, "Sampling");
             done = false;
-            while (true)
+            while (true) // wait until the user enters a value
             {
-                if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0)
+                if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0) // Check that fortnite is open
                 {
                     uint pid;
                     GetWindowThreadProcessId(GetForegroundWindow(), out pid);
-                    if (GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1058 * Globals.sfx)), Convert.ToInt32(Math.Round(28 * Globals.sfy)))).A != 0)
+                    if (GetColorAt(createPoint(1058, 28)).A != 0) // Get a random position and check that the screen isn't nothing
                     {
-
                         foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
                         {
-                            if (p.Id == pid)
+                            if (p.Id == pid && p.ProcessName == "FortniteClient-Win64-Shipping") // Search processes for fortnite and check if it's selected
                             {
-                                if (p.ProcessName == "FortniteClient-Win64-Shipping")
+                                Thread.Sleep(waittime * 1000);
+
+                                using (Bitmap bitmap = new Bitmap(Globals.resX, Globals.resY))
                                 {
-                                    Thread.Sleep(waittime * 1000);
-                                    using (Bitmap bitmap = new Bitmap(Globals.resX, Globals.resY))
+                                    using (Graphics g = Graphics.FromImage(bitmap))
                                     {
-                                        using (Graphics g = Graphics.FromImage(bitmap))
+                                        Rectangle bounds = Screen.GetBounds(Point.Empty);
+                                        g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
+                                        var result = viewImage("Is this the Battle Royale menu?", bitmap);
+                                        if (result == DialogResult.OK)
                                         {
-                                            Rectangle bounds = Screen.GetBounds(Point.Empty);
-                                            g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
-                                            var result = viewImage("Is this the Battle Royale menu?", bitmap);
-                                            if (result == DialogResult.OK)
+                                            Properties.Settings.Default.menu2 = GetColorAtProvided(createPoint(512, 36), bitmap);
+                                            Properties.Settings.Default.menu3 = GetColorAtProvided(createPoint(909, 1043), bitmap);
+                                            if (Globals.stretched == false) // Specific value fixes for stretched
                                             {
-                                                Properties.Settings.Default.menu2 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(512f * Globals.sfx)), Convert.ToInt32(Math.Round(36f * Globals.sfy))), bitmap);
-                                                Properties.Settings.Default.menu3 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(909f * Globals.sfx)), Convert.ToInt32(Math.Round(1047f * Globals.sfy))), bitmap);
-                                                if (Globals.stretched == false)
-                                                {
-                                                    Properties.Settings.Default.menu4 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(20f * Globals.sfx)), Convert.ToInt32(Math.Round(1043f * Globals.sfy))), bitmap);
-                                                }
-                                                else
-                                                {
-                                                    Properties.Settings.Default.menu4 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(13f * (Globals.sfx / 1440.0))), Convert.ToInt32(Math.Round(1055f * (Globals.sfy / 1080.0)))), bitmap);
-                                                }
-                                                Properties.Settings.Default.gamemenufn = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(30 * Globals.sfx)), Convert.ToInt32(Math.Round(16 * Globals.sfy))), bitmap);
-                                                Properties.Settings.Default.Save();
-                                                Properties.Settings.Default.Reload();
-                                                if (GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(512f * Globals.sfx)), Convert.ToInt32(Math.Round(36f * Globals.sfy))), bitmap).A != 0)
-                                                {
-                                                    done = true;
-                                                }
+                                                Properties.Settings.Default.menu4 = GetColorAtProvided(createPoint(20, 1043), bitmap);
                                             }
-                                            if (result == DialogResult.Cancel)
+                                            else
                                             {
-                                                Environment.Exit(0);
+                                                Properties.Settings.Default.menu4 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(13f * (Globals.resX / 1440.0))), Convert.ToInt32(Math.Round(1055f * (Globals.resY / 1080.0)))), bitmap);
                                             }
+                                            Properties.Settings.Default.gamemenufn = GetColorAtProvided(createPoint(30, 16), bitmap);
+                                            Properties.Settings.Default.Save();
+                                            Properties.Settings.Default.Reload();
+                                            done = true;
+                                        }
+                                        if (result == DialogResult.Cancel)
+                                        {
+                                            Environment.Exit(0);
                                         }
                                     }
                                 }
-
                             }
                         }
                     }
@@ -501,55 +348,47 @@ namespace Fortnite_Music
             }
             Microsoft.VisualBasic.Interaction.MsgBox("1. Go to the Settings menu on fortnite " + Environment.NewLine + "2. Press Ok on this message" + Environment.NewLine + "3.Click back onto fortnite", Microsoft.VisualBasic.MsgBoxStyle.Information, "Sampling");
             done = false;
-            while (true)
+            while (true) // wait until the user enters a value
             {
-                if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0)
+                if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0) // Check that fortnite is open
                 {
-                    Debug.WriteLine("STUFF1");
-                    //System.Drawing.Bitmap BitMap = (System.Drawing.Bitmap)System.Drawing.Image.FromFile(Path.Combine(Environment.CurrentDirectory, @"BitmapReturn\ScreenCapture.bmp"));
                     uint pid;
                     GetWindowThreadProcessId(GetForegroundWindow(), out pid);
-                    if (GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1058 * Globals.sfx)), Convert.ToInt32(Math.Round(28 * Globals.sfy)))).A != 0)
+                    if (GetColorAt(createPoint(1058, 28)).A != 0) // Get a random position and check that the screen isn't nothing
                     {
                         foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
                         {
-                            if (p.Id == pid)
+                            if (p.Id == pid && p.ProcessName == "FortniteClient-Win64-Shipping") // Search processes for fortnite and check if it's selected
                             {
-                                if (p.ProcessName == "FortniteClient-Win64-Shipping")
+                                Thread.Sleep(waittime * 1000);
+
+                                using (Bitmap bitmap = new Bitmap(Globals.resX, Globals.resY))
                                 {
-                                    Thread.Sleep(waittime * 1000);
-                                    using (Bitmap bitmap = new Bitmap(Globals.resX, Globals.resY))
+                                    using (Graphics g = Graphics.FromImage(bitmap))
                                     {
-                                        using (Graphics g = Graphics.FromImage(bitmap))
+                                        Rectangle bounds = Screen.GetBounds(Point.Empty);
+                                        g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
+                                        var result = viewImage("Is this the Settings menu?", bitmap);
+                                        if (result == DialogResult.OK)
                                         {
-                                            Rectangle bounds = Screen.GetBounds(Point.Empty);
-                                            g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
-                                            var result = viewImage("Is this the Settings menu?", bitmap);
-                                            if (result == DialogResult.OK)
+                                            Debug.WriteLine("STUFF2");
+                                            if (Globals.stretched == false)
                                             {
-                                                Debug.WriteLine("STUFF2");
-                                                Debug.WriteLine(GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1897f * Globals.sfx)), Convert.ToInt32(Math.Round(10f * Globals.sfy)))));
-                                                if (Globals.stretched == false)
-                                                {
-                                                    Properties.Settings.Default.menu5 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1897f * Globals.sfx)), Convert.ToInt32(Math.Round(10f * Globals.sfy))), bitmap);
-                                                    Properties.Settings.Default.menu6 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1825f * Globals.sfx)), Convert.ToInt32(Math.Round(10f * Globals.sfy))), bitmap);
-                                                }
-                                                else
-                                                {
-                                                    Properties.Settings.Default.menu5 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1422f * (Globals.resX / 1440.0))), Convert.ToInt32(Math.Round(8f * (Globals.resY / 1080)))), bitmap);
-                                                    Properties.Settings.Default.menu6 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1370f * (Globals.resX / 1440.0))), Convert.ToInt32(Math.Round(8f * (Globals.resY / 1080)))), bitmap);
-                                                }
-                                                Properties.Settings.Default.gamesettingsfn = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(30 * Globals.sfx)), Convert.ToInt32(Math.Round(16 * Globals.sfy))), bitmap);
-                                                Properties.Settings.Default.Save();
-                                                Properties.Settings.Default.Reload();
-                                                if (GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(30 * Globals.sfx)), Convert.ToInt32(Math.Round(16 * Globals.sfy))), bitmap).A != 0)
-                                                {
-                                                    done = true;
-                                                }
-                                                if (result == DialogResult.Cancel)
-                                                {
-                                                    Environment.Exit(0);
-                                                }
+                                                Properties.Settings.Default.menu5 = GetColorAtProvided(createPoint(1897, 10), bitmap);
+                                                Properties.Settings.Default.menu6 = GetColorAtProvided(createPoint(1825, 10), bitmap);
+                                            }
+                                            else
+                                            {
+                                                Properties.Settings.Default.menu5 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1422f * (Globals.resX / 1440.0))), Convert.ToInt32(Math.Round(8f * (Globals.resY / 1080)))), bitmap);
+                                                Properties.Settings.Default.menu6 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1370f * (Globals.resX / 1440.0))), Convert.ToInt32(Math.Round(8f * (Globals.resY / 1080)))), bitmap);
+                                            }
+                                            Properties.Settings.Default.gamesettingsfn = GetColorAtProvided(createPoint(30, 16), bitmap);
+                                            Properties.Settings.Default.Save();
+                                            Properties.Settings.Default.Reload();
+                                            done = true;
+                                            if (result == DialogResult.Cancel)
+                                            {
+                                                Environment.Exit(0);
                                             }
                                         }
                                     }
@@ -562,7 +401,6 @@ namespace Fortnite_Music
                 if (done == true)
                 {
                     this.Activate();
-                    //Microsoft.VisualBasic.Interaction.MsgBox("Done", Microsoft.VisualBasic.MsgBoxStyle.Information, "Done");
                     break;
                 }
             }
@@ -570,33 +408,78 @@ namespace Fortnite_Music
             Microsoft.VisualBasic.Interaction.MsgBox("Please restart the application (no idea why but it doesn't work without a restart)", Microsoft.VisualBasic.MsgBoxStyle.Information, "Restart");
             Application.Exit();
         }
-        public Form1()
+
+        private void setupGlobalsAndUI()
         {
-            Globals.stretched = false;
-
-            Debug.WriteLine(GetVirtualKeyCode(Keys.W));
-            ServicePointManager.Expect100Continue = true;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
             Globals.writelogs = Properties.Settings.Default.WriteLogs;
-            //Adapter adapter = new Factory1().GetAdapter(0);
-            //var output = adapter.GetOutput(0);
-            //var output1 = output.QueryInterface<Output1>();
-            //SharpDX.Direct3D11.Device device = new SharpDX.Direct3D11.Device(adapter);
-            InitializeComponent();
-            Thread.Sleep(250);
-            //
-            //frame.
-            //ibf=new 
-            //dd.Capture();
-            string tag = "2.4";
-            // minimized
-            if (Properties.Settings.Default.StartMinimized)
+            sfx = Properties.Settings.Default.ResX / 1920.0;
+            sfy = Properties.Settings.Default.ResY / 1080.0;
+
+            // The music 
+            Globals.mainmenu = Properties.Settings.Default.MainMenu;
+            Globals.victory = Properties.Settings.Default.Victory;
+            Globals.stretched = Properties.Settings.Default.stretched;
+            Globals.titlemenu = Properties.Settings.Default.TitleMenu;
+
+            // Tick boxes in the GUI
+            checkBox1.Checked = Properties.Settings.Default.Obscure;
+            launchOnStartupToolStripMenuItem.Checked = Properties.Settings.Default.Startup;
+
+            // Volume 
+            trackBar1.Value = Properties.Settings.Default.Volume;
+            VolumeNum.Text = Properties.Settings.Default.Volume.ToString();
+            wplayer.settings.volume = Properties.Settings.Default.Volume;
+
+            // The path text
+            MenuMusicFile.Text = Globals.mainmenu;
+            TitleMenuFile.Text = Globals.titlemenu;
+            VictoryMusicFile.Text = Globals.victory;
+
+            // Startup text
+            launchOnStartupToolStripMenuItem.Checked = File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk");
+        }
+        private void getResolution()
+        {
+            while (true) // Keep repeating until a valid value is given
             {
-                this.WindowState = FormWindowState.Minimized;
-                startMinimizedToolStripMenuItem.Checked = true;
+                string x = Microsoft.VisualBasic.Interaction.InputBox("Please enter your monitors OR FULLSCREEN (STRETCHED) X Resolution", "Please enter your monitors OR FULLSCREEN (STRETCHED) X Resolution", "", 0, 0);
+
+                try
+                {
+                    // save value to settings
+                    int ix = Convert.ToInt32(x);
+                    Properties.Settings.Default.ResX = ix;
+                    Globals.resX = ix;
+                    Properties.Settings.Default.Save();
+                    Properties.Settings.Default.Reload();
+                    break;
+                }
+                catch
+                {
+                    Microsoft.VisualBasic.Interaction.MsgBox("The value you entered was not a valid value. Please enter a number", Microsoft.VisualBasic.MsgBoxStyle.Information, "Invalid value");
+                }
             }
-            // Auto update
+            while (true) // Keep repeating until a valid value is given
+            {
+                string y = Microsoft.VisualBasic.Interaction.InputBox("Please enter your monitors OR FULLSCREEN (STRETCHED) Y Resolution", "Please enter your monitors OR FULLSCREEN (STRETCHED) Y Resolution", "", 0, 0);
+                try
+                {
+                    // save value to settings
+                    int iy = Convert.ToInt32(y);
+                    Properties.Settings.Default.ResY = iy;
+                    Globals.resY = iy;
+                    Properties.Settings.Default.Save();
+                    Properties.Settings.Default.Reload();
+                    break;
+                }
+                catch
+                {
+                    Microsoft.VisualBasic.Interaction.MsgBox("The value you entered was not a valid value. Please enter a number", Microsoft.VisualBasic.MsgBoxStyle.Information, "Invalid value");
+                }
+            }
+        }
+        private void updateCheck(string tag)
+        {
             string html;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.github.com/repos/ApertureC/Fortnite-Music-Changer/releases/latest?UserAgent=hi");
             request.ContentType = "application/json";
@@ -617,208 +500,135 @@ namespace Fortnite_Music
                     System.Diagnostics.Process.Start("https://github.com/ApertureC/Fortnite-Music-Changer/releases/latest");
                 }
             }
-            WriteToLog("Update availaility done", true);
-            Debug.WriteLine(html);
-            // SETTINGS LOADING
-            //var DPI=(int)Registry.GetValue("HKEY_CURRENT_USER\\Control Panel\\Desktop", "LogPixels", 96);
-            //var scale = 96 / (float)DPI;
-            System.IO.File.WriteAllText(System.Environment.CurrentDirectory + "\\log.txt", "Initizalized!" + System.Environment.NewLine); // to do create logs //
-                                                                                                                                          // to do: just ask for resolution
-            Debug.WriteLine(Properties.Settings.Default.ResX);
-            if (Properties.Settings.Default.ResX == 0)
+        }
+        private void preload()
+        {
+            List<string> list = new List<string>();
+            list.Add(Globals.titlemenu);
+            list.Add(Globals.mainmenu);
+            list.Add(Globals.victory); // Add all music files to list
+            for (int i = 0; i < 3; i++)
             {
-                while (true)
+                wplayer.URL = list[i];
+                if (list[i] != "")
                 {
-                    string x = Microsoft.VisualBasic.Interaction.InputBox("Please enter your monitors OR FULLSCREEN (STRETCHED) X Resolution", "Please enter your monitors OR FULLSCREEN (STRETCHED) X Resolution", "", 0, 0);
+                    wplayer.controls.play(); // Make each one of them play
+                    while (true)
+                    {
+                        var b = false;
+                        try
+                        {
+                            if (wplayer.playState == WMPLib.WMPPlayState.wmppsPlaying)
+                            {
+                                wplayer.controls.stop(); // Stop after they start playing.
+                                b = true;
+                            }
+                        }
+                        catch
+                        {
 
-                    try
-                    {
-                        int ix = Convert.ToInt32(x);
-                        Properties.Settings.Default.ResX = ix;
-                        Globals.resX = ix;
-                        Properties.Settings.Default.Save();
-                        Properties.Settings.Default.Reload();
-                        break;
-                    }
-                    catch
-                    {
-                        Microsoft.VisualBasic.Interaction.MsgBox("The value you entered was not a valid value. Please enter a number", Microsoft.VisualBasic.MsgBoxStyle.Information, "Invalid value");
-                    }
-                }
-                while (true)
-                {
-                    string y = Microsoft.VisualBasic.Interaction.InputBox("Please enter your monitors OR FULLSCREEN (STRETCHED) Y Resolution", "Please enter your monitors OR FULLSCREEN (STRETCHED) Y Resolution", "", 0, 0);
-                    try
-                    {
-                        int iy = Convert.ToInt32(y);
-                        Properties.Settings.Default.ResY = iy;
-                        Globals.resY = iy;
-                        Properties.Settings.Default.Save();
-                        Properties.Settings.Default.Reload();
-                        break;
-                    }
-                    catch
-                    {
-                        Microsoft.VisualBasic.Interaction.MsgBox("The value you entered was not a valid value. Please enter a number", Microsoft.VisualBasic.MsgBoxStyle.Information, "Invalid value");
+                        }
+                        if (b == true)
+                        {
+                            break;
+                        }
                     }
                 }
             }
+        }
+        private bool compareColor(Color c, Color compateTo)
+        {
+            return Int32.Parse(c.R.ToString()) == compateTo.R && Int32.Parse(c.G.ToString()) == compateTo.G && Int32.Parse(c.B.ToString()) == compateTo.B;
+        }
+        public static double sfx;
+        public static double sfy;
+        public Form1()
+        {
+            // Fixes issue with github releases check.
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+            InitializeComponent();
+
+            Thread.Sleep(250);
+            string version = "2.3";
+            updateCheck(version);
+
+            // Set window to minimized if the user has set it to.
+            if (Properties.Settings.Default.StartMinimized)
+            {
+                this.WindowState = FormWindowState.Minimized;
+                startMinimizedToolStripMenuItem.Checked = true;
+            }
+
+            WriteToLog("Update availaility done", true);
+
+            // Write to log 
+            System.IO.File.WriteAllText(System.Environment.CurrentDirectory + "\\log.txt", "Initizalized!" + System.Environment.NewLine);
+
+            if (Properties.Settings.Default.ResX == 0) // if there is no value for the resolution then ask for the resolution
+            {
+                getResolution();
+            }
             WriteToLog("SetRes", true);
-            var sfx = Properties.Settings.Default.ResX / 1920.0;
-            var sfy = Properties.Settings.Default.ResY / 1080.0;
-            //
-            Globals.sfx = sfx;
-            Globals.sfy = sfy;
-            // AUTO STRETCHED
+
+            setupGlobalsAndUI();
+
             Debug.WriteLine(Globals.resX.ToString() + Globals.resY.ToString());
+
+            // Get the user's aspect ratio from what they've entered
             int gcd = GCD(Globals.resX, Globals.resY);
             WriteToLog("Stuff", true);
-            Debug.WriteLine(string.Format("{0}:{1}", Globals.resX / gcd, Globals.resY / gcd));
-            if (Globals.resX / gcd == 4 && Globals.resY / gcd == 3)
+            if (Globals.resX / gcd == 4 && Globals.resY / gcd == 3) // If the ratio is 4:3 then it'll do specific things diffently()
             {
                 Globals.stretched = true;
                 Properties.Settings.Default.stretched = true;
             }
+
+            // if setup hasn't been done or some values are missing, setup will start.
             if (Properties.Settings.Default.title1 == System.Drawing.Color.FromArgb(0, 0, 0, 0) || Properties.Settings.Default.menu2 == System.Drawing.Color.FromArgb(0, 0, 0, 0) || Properties.Settings.Default.menu5 == System.Drawing.Color.FromArgb(0, 0, 0, 0))
             {
                 setup();
             }
+
+            // Log writing
             WriteToLog("Setup done :D", true);
             WriteToLog("Scale factor X: " + sfx.ToString(), false);
             WriteToLog("Scale factor Y: " + sfy.ToString(), false);
-            //
             WriteToLog("Resolution X " + Properties.Settings.Default.ResX, false);
             WriteToLog("Resolution Y " + Properties.Settings.Default.ResY, false);
-            int currentlyplaying = 0; // 0=nothing 1=title 2=menu 3=victory
-                                      //
-                                      //while (true)
-                                      //{
-                                      //    Debug.WriteLine(System.Windows.Forms.Cursor.Position.ToString());
-                                      //    Debug.WriteLine(GetColorAt(BitMap,new Point(System.Windows.Forms.Cursor.Position.X,System.Windows.Forms.Cursor.Position.Y)).ToString());
-                                      //}
-                                      // SETTINGS
+            WriteToLog("Menu " + Globals.mainmenu, false);
+            WriteToLog("Title " + Globals.titlemenu, false);
+            WriteToLog("Victory " + Globals.victory, false);
+
+            int currentlyplaying = 0; // a value that shows which music is playing - so it won't keep trying to play the same music.
 
             Debug.WriteLine("Loaded");
-            Globals.mainmenu = Properties.Settings.Default.MainMenu;
-            Globals.victory = Properties.Settings.Default.Victory;
-            Globals.stretched = Properties.Settings.Default.stretched;
-            Globals.titlemenu = Properties.Settings.Default.TitleMenu;
+
+            // Alert users that there's no MP3s added
             if (Properties.Settings.Default.TitleMenu == "" && Properties.Settings.Default.MainMenu == "" && Properties.Settings.Default.Victory == "")
             {
                 Microsoft.VisualBasic.Interaction.MsgBox("The program has no loaded mp3s, mp3s need to be loaded to play music! Hit browse to load mp3s", Microsoft.VisualBasic.MsgBoxStyle.Information, "No MP3s");
             }
-            Globals.optimize = Properties.Settings.Default.optimize;
-            WriteToLog("Menu " + Globals.mainmenu, false);
-            WriteToLog("Title " + Globals.titlemenu, false);
-            WriteToLog("Victory " + Globals.victory, false);
-            checkBox1.Checked = Properties.Settings.Default.Obscure;
-            launchOnStartupToolStripMenuItem.Checked = Properties.Settings.Default.Startup;
 
-            trackBar1.Value = Properties.Settings.Default.Volume;
-            VolumeNum.Text = Properties.Settings.Default.Volume.ToString();
-            wplayer.settings.volume = Properties.Settings.Default.Volume;
-            // APPLY SETTINGS
-            MenuMusicFile.Text = Globals.mainmenu;
-            TitleMenuFile.Text = Globals.titlemenu;
-            VictoryMusicFile.Text = Globals.victory;
-            launchOnStartupToolStripMenuItem.Checked = File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk");
             // Preload
             Thread t = new Thread(() =>
             {
                 wplayer.settings.setMode("loop", true);
                 wplayer.settings.setMode("autoStart", false);
 
-                List<string> list = new List<string>();
-                list.Add(Globals.titlemenu);
-                list.Add(Globals.mainmenu);
-                list.Add(Globals.victory);
-                for (int i = 0; i < 3; i++)
-                {
-                    wplayer.URL = list[i];
-                    if (list[i] != "")
-                    {
-                        wplayer.controls.play();
-                        while (true)
-                        {
-                            var b = false;
-                            try
-                            {
-                                if (wplayer.playState == WMPLib.WMPPlayState.wmppsPlaying)
-                                {
-                                    wplayer.controls.stop();
-                                    b = true;
-                                }
-                            }
-                            catch
-                            {
-
-                            }
-                            if (b == true)
-                            {
-                                break;
-                            }
-                        }
-                    }
-                }
+                preload();
 
                 while (true)
                 {
-
-                    //
-                    //GC.Collect();
-                    //GC.WaitForPendingFinalizers();
-                    //
                     WriteToLog("----- NEW CYCLE -----", false);
-                    MethodInvoker mouse = delegate
+                    MethodInvoker mouse = delegate // Get the position of the mouse and set label1 as the label it will change text on (must be invoked)
                     {
                         label1.Text = Cursor.Position.ToString();
-                        //using (System.Drawing.Bitmap BitMap = GetBitmap(adapter, device))
-                        //{
-
-                        //label1.Text = System.Windows.Forms.Cursor.Position.ToString() + " " + GetColorAt(BitMap, new System.Drawing.Point(System.Windows.Forms.Cursor.Position.X, System.Windows.Forms.Cursor.Position.Y)).ToString();
-                        //label1.Text = System.Windows.Forms.Screen.PrimaryScreen;
-                        //label2.Text = GetColorAt(BitMap,);
                         return;
-                        //}
                     };
-                    //this.Invoke(mouse);
-                    /*short keyState = GetAsyncKeyState(0x48);
-                    bool prntScrnIsPressed = ((keyState >> 15) & 0x0001) == 0x0001;
-                    if (prntScrnIsPressed)
-                    {
-                        this.Invoke((MethodInvoker)delegate
-                        {
-                            // close the form on the forms thread
-                            this.Close();
-                        });
-
-                        Debug.WriteLine("Awaiting release of button!!!");
-                        while (true)
-                        {
-                            keyState = GetAsyncKeyState(0x48);
-                            prntScrnIsPressed = ((keyState >> 15) & 0x0001) == 0x0001;
-                            if (!prntScrnIsPressed)
-                            {
-                                Debug.WriteLine("released");
-                                break;
-                            }
-                        }
-
-                    } 
-                    keyState = GetAsyncKeyState(0x4A);
-                    prntScrnIsPressed = ((keyState >> 15) & 0x0001) == 0x0001;
-                    if (prntScrnIsPressed)
-                    {
-                        this.Invoke((MethodInvoker)delegate
-                        {
-                            // close the form on the forms thread
-                            this.Close();
-                        });
-
-                    }
-                    */
                     WriteToLog("Fortnite check open", false);
-                    if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0)
+                    if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0) // Check that fortnite is open and focused
                     {
                         bool focused = false;
                         uint pid;
@@ -837,83 +647,75 @@ namespace Fortnite_Music
                         }
                         WriteToLog("focus: " + focused.ToString(), false);
                         Debug.WriteLine("Changing BitMap");
-                        if (focused == true)
+                        if (focused == true) // if fortnite is focused
                         {
-                            if (Globals.releasebitmap == false)
+                            try
                             {
-                                try
+                                if (GetColorAt(new System.Drawing.Point(0, 0)).A != 0)
                                 {
+                                    // Title menu is like this because I didn't add it to a method and I cannot be bothered to that.
+                                    Debug.WriteLine("Passed");
+                                    var c = GetColorAt(createPoint(1058, 28));
 
-                                    //System.Drawing.Bitmap BitMap = new System.Drawing.Bitmap(1920, 1080);
-                                    // REPLACE ERRORS WITH THIS Path.Combine(Environment.CurrentDirectory, @"BitmapReturn\ScreenCapture.bmp")
-                                    if (GetColorAt(new System.Drawing.Point(0, 0)).A != 0)
+                                    if (compareColor(c, Properties.Settings.Default.title1))
                                     {
-                                        Debug.WriteLine("Passed");
-                                        var c = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1058 * sfx)), Convert.ToInt32(Math.Round(28 * sfy))));
+                                        c = GetColorAt(createPoint(985, 780));
                                         WriteToLog(c.ToString(), false);
                                         Debug.WriteLine(c);
-                                        Debug.WriteLine(c + Properties.Settings.Default.title1.R.ToString() + Properties.Settings.Default.title1.G.ToString() + Properties.Settings.Default.title1.B.ToString());
-                                        if (Int32.Parse(c.R.ToString()) == Properties.Settings.Default.title1.R && Int32.Parse(c.G.ToString()) == Properties.Settings.Default.title1.G && Int32.Parse(c.B.ToString()) == Properties.Settings.Default.title1.B)
+                                        if (compareColor(c, Properties.Settings.Default.title2))
                                         {
-                                            c = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(985 * sfx)), Convert.ToInt32(Math.Round(780 * sfy))));
-                                            WriteToLog(c.ToString(), false);
-                                            Debug.WriteLine(c);
-                                            if (Int32.Parse(c.R.ToString()) == Properties.Settings.Default.title2.R && Int32.Parse(c.G.ToString()) == Properties.Settings.Default.title2.G && Int32.Parse(c.B.ToString()) == Properties.Settings.Default.title2.B)
-                                            {
+                                            WriteToLog("Started playing title menu", false);
 
-                                                WriteToLog("Started playing title menu", false);
-
-                                                if ((currentlyplaying != 1 || wplayer.URL != Globals.titlemenu))
-                                                {
-                                                    currentlyplaying = 1;
-                                                    wplayer.controls.pause();
-                                                    wplayer.URL = Globals.titlemenu;
-                                                }
-                                                wplayer.controls.play();
-                                            }
-                                        }
-                                        else if (mainMenuMusic(sfx, sfy) == true) // to do stop thread on menu setup + changing resolution
-                                        {
-                                            WriteToLog("Started playing main menu", false);
-                                            if ((currentlyplaying != 2 || wplayer.URL != Globals.mainmenu))
+                                            if ((currentlyplaying != 1 || wplayer.URL != Globals.titlemenu))
                                             {
-                                                currentlyplaying = 2;
+                                                currentlyplaying = 1;
                                                 wplayer.controls.pause();
-                                                wplayer.URL = Globals.mainmenu;
+                                                wplayer.URL = Globals.titlemenu;
                                             }
                                             wplayer.controls.play();
                                         }
-                                        else if (victoryMusic(sfx, sfy) == true)
+                                    }
+                                    else if (mainMenuMusic(sfx, sfy) == true) // to do stop thread on menu setup + changing resolution
+                                    {
+                                        WriteToLog("Started playing main menu", false);
+                                        if ((currentlyplaying != 2 || wplayer.URL != Globals.mainmenu))
                                         {
-                                            WriteToLog("Started playing victory", false);
-                                            if ((currentlyplaying != 3 || wplayer.URL != Globals.victory))
-                                            {
-                                                currentlyplaying = 3;
-                                                wplayer.controls.pause();
-                                                wplayer.URL = Globals.victory;
-                                            }
-                                            wplayer.controls.play();
+                                            currentlyplaying = 2;
+                                            wplayer.controls.pause();
+                                            wplayer.URL = Globals.mainmenu;
                                         }
-                                        else
+                                        wplayer.controls.play();
+                                    }
+                                    else if (victoryMusic(sfx, sfy) == true)
+                                    {
+                                        WriteToLog("Started playing victory", false);
+                                        if ((currentlyplaying != 3 || wplayer.URL != Globals.victory))
                                         {
-                                            if (checkBox1.Checked == false)
-                                            {
-                                                Debug.WriteLine("STOPHERE");
-                                                wplayer.controls.pause();
-                                                //wplayer.URL = "";
-                                            }
-                                            else if (focused == true)
-                                            {
-                                                Debug.WriteLine("STOPHERE2");
-                                                wplayer.controls.pause();
-                                            }
+                                            currentlyplaying = 3;
+                                            wplayer.controls.pause();
+                                            wplayer.URL = Globals.victory;
+                                        }
+                                        wplayer.controls.play();
+                                    }
+                                    else
+                                    {
+                                        if (checkBox1.Checked == false) // Stop music if "play when obscured" isn't enabled. I don't see the point why this is here but I don't want to break stuff
+                                        {
+                                            Debug.WriteLine("STOPHERE");
+                                            wplayer.controls.pause();
+                                            //wplayer.URL = "";
+                                        }
+                                        else if (focused == true) // If fortnite is focused then stop it.
+                                        {
+                                            Debug.WriteLine("STOPHERE2");
+                                            wplayer.controls.pause();
                                         }
                                     }
                                 }
-                                catch
-                                {
-                                    Debug.WriteLine("Hi");
-                                }
+                            }
+                            catch
+                            {
+                                Debug.WriteLine("Hi");
                             }
                         }
                         else
@@ -923,7 +725,7 @@ namespace Fortnite_Music
                             {
                                 try
                                 {
-                                    wplayer.controls.pause();
+                                    wplayer.controls.pause(); // Stop if "play when obscured" isn't enabled
                                 }
                                 catch
                                 {
@@ -946,61 +748,27 @@ namespace Fortnite_Music
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            // Select title menu file
             Debug.WriteLine("open");
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Globals.titlemenu = openFileDialog1.FileName;
                 TitleMenuFile.Text = openFileDialog1.FileName;
-                Properties.Settings.Default.TitleMenu = openFileDialog1.FileName;
+
+                Properties.Settings.Default.TitleMenu = openFileDialog1.FileName; // save it
                 Properties.Settings.Default.Save();
                 Properties.Settings.Default.Reload();
                 Debug.WriteLine("Hi");
             }
         }
-        private class User32
-        {
-            [StructLayout(LayoutKind.Sequential)]
-            public struct Rect
-            {
-                public int left;
-                public int top;
-                public int right;
-                public int bottom;
-            }
 
-            [DllImport("user32.dll")]
-            public static extern IntPtr GetWindowRect(IntPtr hWnd, ref Rect rect);
-        }
-
-        [DllImport("User32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool PrintWindow(IntPtr hwnd, IntPtr hdc, uint nFlags);
-
-        [DllImport("user32.dll")]
-        static extern bool GetWindowRect(IntPtr handle, out System.Drawing.Rectangle rect);
-
-        [DllImport("user32.dll", EntryPoint = "GetDesktopWindow")]
-        static extern IntPtr GetDesktopWindow();
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        static extern IntPtr FindWindowEx(IntPtr parentHandle, IntPtr childAfter, string lclassName, string windowTitle);
-        //public static extern int BitBlt(IntPtr hDC, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc, int ySrc, int dwRop);
         [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         public static extern int BitBlt(IntPtr hDC, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc, int ySrc, int dwRop);
+
         public static System.Drawing.Color GetColorAt(System.Drawing.Point location)
         {
             Bitmap screenPixel = new Bitmap(1, 1, PixelFormat.Format32bppArgb);
-            ////
-            Rectangle bounds = Screen.GetBounds(Point.Empty);
-            using (Bitmap bitmap = new Bitmap(Globals.resX, Globals.resY))
-            {
-                using (Graphics g = Graphics.FromImage(bitmap))
-                {
-                    g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
-                }
-                //bitmap.Save("test.bmp", ImageFormat.Bmp);
-            }
-            //
+
             while (true)
             {
                 using (Graphics gdest = Graphics.FromImage(screenPixel))
@@ -1032,7 +800,7 @@ namespace Fortnite_Music
             }
         }
         //
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e) // Select Main menu music file
         {
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -1044,7 +812,7 @@ namespace Fortnite_Music
             }
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void checkBox1_CheckedChanged(object sender, EventArgs e) // Play when obscured (doesn't stop music unless the user is selected on fortnite)
         {
             Properties.Settings.Default.Obscure = checkBox1.Checked;
             Properties.Settings.Default.Save();
@@ -1052,7 +820,7 @@ namespace Fortnite_Music
 
         }
 
-        private void trackBar1_Scroll(object sender, EventArgs e)
+        private void trackBar1_Scroll(object sender, EventArgs e) // Volume update
         {
             wplayer.settings.volume = trackBar1.Value;
             VolumeNum.Text = trackBar1.Value.ToString();
@@ -1062,7 +830,7 @@ namespace Fortnite_Music
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e) // Victory music file selector
         {
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -1077,40 +845,8 @@ namespace Fortnite_Music
 
         private void button4_Click(object sender, EventArgs e)
         {
-            while (true)
-            {
-                string x = Microsoft.VisualBasic.Interaction.InputBox("Please enter your monitors OR FULLSCREEN (STRETCHED) X Resolution", "Please enter your monitors OR FULLSCREEN (STRETCHED) X Resolution", "", 0, 0);
-                try
-                {
-                    int ix = Convert.ToInt32(x);
-                    Properties.Settings.Default.ResX = ix;
-                    Globals.resX = ix;
-                    Properties.Settings.Default.Save();
-                    Properties.Settings.Default.Reload();
-                    break;
-                }
-                catch
-                {
-                    Microsoft.VisualBasic.Interaction.MsgBox("The value you entered was not a valid value. Please enter a number", Microsoft.VisualBasic.MsgBoxStyle.Information, "Invalid value");
-                }
-            }
-            while (true)
-            {
-                string y = Microsoft.VisualBasic.Interaction.InputBox("Please enter your monitors OR FULLSCREEN (STRETCHED) Y Resolution", "Please enter your monitors OR FULLSCREEN (STRETCHED) Y Resolution", "", 0, 0);
-                try
-                {
-                    int iy = Convert.ToInt32(y);
-                    Properties.Settings.Default.ResY = iy;
-                    Globals.resY = iy;
-                    Properties.Settings.Default.Save();
-                    Properties.Settings.Default.Reload();
-                    break;
-                }
-                catch
-                {
-                    Microsoft.VisualBasic.Interaction.MsgBox("The value you entered was not a valid value. Please enter a number", Microsoft.VisualBasic.MsgBoxStyle.Information, "Invalid value");
-                }
-            }
+            getResolution();
+
             Microsoft.VisualBasic.Interaction.MsgBox("Please Restart the program", Microsoft.VisualBasic.MsgBoxStyle.Information, "Restart required");
 
         }
@@ -1120,7 +856,7 @@ namespace Fortnite_Music
             setup();
         }
 
-        private void licensesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void licensesToolStripMenuItem_Click(object sender, EventArgs e) // Licenses
         {
             Microsoft.VisualBasic.Interaction.MsgBox(@"MIT License
 
@@ -1188,7 +924,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.", Mic
         // 911, 251
         // 1087, 271
 
-        private void button5_Click(object sender, EventArgs e)
+        private void button5_Click(object sender, EventArgs e) // VICTORY
         {
             Debug.WriteLine(Clipboard.ContainsImage());
             //bitmap.Save(@"C:\Users\Aperture\Documents\oof.bmp");
@@ -1204,37 +940,34 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.", Mic
                     {
                         foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
                         {
-                            if (p.Id == pid)
+                            if (p.Id == pid && p.ProcessName == "FortniteClient-Win64-Shipping")
                             {
-                                if (p.ProcessName == "FortniteClient-Win64-Shipping")
+                                using (Bitmap bitmap = new Bitmap(Globals.resX, Globals.resY))
                                 {
-                                    using (Bitmap bitmap = new Bitmap(Globals.resX, Globals.resY))
+                                    using (Graphics g = Graphics.FromImage(bitmap))
                                     {
-                                        using (Graphics g = Graphics.FromImage(bitmap))
+                                        Rectangle bounds = Screen.GetBounds(Point.Empty);
+                                        g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
+                                        var result = viewImage("Is this the victory image you wish to use menu?", bitmap);
+                                        if (result == DialogResult.OK)
                                         {
-                                            Rectangle bounds = Screen.GetBounds(Point.Empty);
-                                            g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
-                                            var result = viewImage("Is this the victory image you wish to use menu?", bitmap);
-                                            if (result == DialogResult.OK)
+                                            if (Globals.stretched == false)
                                             {
-                                                if (Globals.stretched == false)
-                                                {
-                                                    Properties.Settings.Default.victory1 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(911f * Globals.sfx)), Convert.ToInt32(Math.Round(251f * Globals.sfy))), bitmap);
-                                                    Properties.Settings.Default.victory2 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1087 * Globals.sfx)), Convert.ToInt32(Math.Round(271 * Globals.sfy))), bitmap);
-                                                }
-                                                else
-                                                {
-                                                    var sfx = Globals.resX / 1440.0;
-                                                    var sfy = Globals.resY / 1080.0;
-                                                    Properties.Settings.Default.victory1 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(680 * sfx)), Convert.ToInt32(Math.Round(347 * sfy))), bitmap);
-                                                    Properties.Settings.Default.victory2 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(805 * sfx)), Convert.ToInt32(Math.Round(240 * sfy))), bitmap);
-                                                }
-                                                if (Properties.Settings.Default.victory1.A != 0)
-                                                {
-                                                    //Microsoft.VisualBasic.Interaction.MsgBox("Done!", Microsoft.VisualBasic.MsgBoxStyle.Information, "Victory Setup Done!");
-                                                    b = true;
-                                                    break;
-                                                }
+                                                Properties.Settings.Default.victory1 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(911f * Globals.sfx)), Convert.ToInt32(Math.Round(251f * Globals.sfy))), bitmap);
+                                                Properties.Settings.Default.victory2 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(1087 * Globals.sfx)), Convert.ToInt32(Math.Round(271 * Globals.sfy))), bitmap);
+                                            }
+                                            else
+                                            {
+                                                var sfx = Globals.resX / 1440.0;
+                                                var sfy = Globals.resY / 1080.0;
+                                                Properties.Settings.Default.victory1 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(680 * sfx)), Convert.ToInt32(Math.Round(347 * sfy))), bitmap);
+                                                Properties.Settings.Default.victory2 = GetColorAtProvided(new System.Drawing.Point(Convert.ToInt32(Math.Round(805 * sfx)), Convert.ToInt32(Math.Round(240 * sfy))), bitmap);
+                                            }
+                                            if (Properties.Settings.Default.victory1.A != 0)
+                                            {
+                                                //Microsoft.VisualBasic.Interaction.MsgBox("Done!", Microsoft.VisualBasic.MsgBoxStyle.Information, "Victory Setup Done!");
+                                                b = true;
+                                                break;
                                             }
                                         }
                                     }
@@ -1268,7 +1001,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.", Mic
             Properties.Settings.Default.Reload();
         }
 
-        private void button6_Click(object sender, EventArgs e)
+        private void button6_Click(object sender, EventArgs e) 
         {
             // check for 0,0,0,0 values
             if (Properties.Settings.Default.title1 == Color.FromArgb(0, 0, 0, 0) ||
