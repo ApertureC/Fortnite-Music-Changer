@@ -91,6 +91,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResolutionSetter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResolutionSetter.Designer.cs">
+      <DependentUpon>ResolutionSetter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -108,6 +114,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="ResolutionSetter.resx">
+      <DependentUpon>ResolutionSetter.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Fortnite Music_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
