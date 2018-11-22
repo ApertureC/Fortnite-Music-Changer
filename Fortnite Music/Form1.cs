@@ -249,42 +249,39 @@ namespace Fortnite_Music
             // Title menu
             while (true) // wait until the user enters a value
             {
-                if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0) // Check that fortnite is open
+                if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0 || Process.GetProcessesByName("GeForceNOWStreamer").Length > 0) // Check that fortnite is open
                 {
                     uint pid;
                     GetWindowThreadProcessId(GetForegroundWindow(), out pid);
                     if (GetColorAt(createPoint(1058, 28)).A != 0) // Get a random position and check that the screen isn't nothing
                     {
-                        foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
+                        if (Process.GetProcessById((int)pid).ProcessName == "FortniteClient-Win64-Shipping" || Process.GetProcessById((int)pid).ProcessName == "GeForceNOWStreamer") // Search processes for fortnite and check if it's selected
                         {
-                            if (p.Id == pid && p.ProcessName == "FortniteClient-Win64-Shipping") // Search processes for fortnite and check if it's selected
+                            Thread.Sleep(waittime * 1000);
+                            // set values
+                            Properties.Settings.Default.title1 = GetColorAt(createPoint(1058, 28));
+                            Properties.Settings.Default.title2 = GetColorAt(createPoint(985, 780));
+                            Properties.Settings.Default.Save();
+                            Properties.Settings.Default.Reload();
+                            using (Bitmap bitmap = new Bitmap(resX, resY)) // check if the user wants to use that image
                             {
-                                Thread.Sleep(waittime * 1000);
-                                // set values
-                                Properties.Settings.Default.title1 = GetColorAt(createPoint(1058, 28));
-                                Properties.Settings.Default.title2 = GetColorAt(createPoint(985, 780));
-                                Properties.Settings.Default.Save();
-                                Properties.Settings.Default.Reload();
-                                using (Bitmap bitmap = new Bitmap(resX, resY)) // check if the user wants to use that image
+                                using (Graphics g = Graphics.FromImage(bitmap))
                                 {
-                                    using (Graphics g = Graphics.FromImage(bitmap))
+                                    Rectangle bounds = Screen.GetBounds(Point.Empty);
+                                    g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
+                                    var result = viewImage("Is this the title menu? (If there is black space - ignore it)", bitmap); // Opens a window showing the image, asking the user if they want to use it.
+                                    if (result == DialogResult.OK)
                                     {
-                                        Rectangle bounds = Screen.GetBounds(Point.Empty);
-                                        g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
-                                        var result = viewImage("Is this the title menu? (If there is black space - ignore it)", bitmap); // Opens a window showing the image, asking the user if they want to use it.
-                                        if (result == DialogResult.OK)
-                                        {
-                                            // Set to values
-                                            done = true;
-                                        }
-                                        if (result == DialogResult.Cancel)
-                                        {
-                                            Environment.Exit(0); // close the program when X is clicked.
-                                        }
+                                        // Set to values
+                                        done = true;
+                                    }
+                                    if (result == DialogResult.Cancel)
+                                    {
+                                        Environment.Exit(0); // close the program when X is clicked.
                                     }
                                 }
-
                             }
+
                         }
                     }
                     if (done == true)
@@ -299,48 +296,45 @@ namespace Fortnite_Music
             // Main menu
             while (true) // wait until the user enters a value
             {
-                if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0) // Check that fortnite is open
+                if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0 || Process.GetProcessesByName("GeforceNOWStreamer").Length > 0) // Check that fortnite is open
                 {
                     uint pid;
                     GetWindowThreadProcessId(GetForegroundWindow(), out pid);
                     if (GetColorAt(createPoint(1058, 28)).A != 0) // Get a random position and check that the screen isn't nothing
                     {
-                        foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
+                        if (Process.GetProcessById((int)pid).ProcessName == "FortniteClient-Win64-Shipping" || Process.GetProcessById((int)pid).ProcessName == "GeForceNOWStreamer") // Search processes for fortnite and check if it's selected
                         {
-                            if (p.Id == pid && p.ProcessName == "FortniteClient-Win64-Shipping") // Search processes for fortnite and check if it's selected
+                            Thread.Sleep(waittime * 1000);
+                            // set values
+                            Properties.Settings.Default.menu2 = GetColorAt(createPoint(512, 36));
+                            Properties.Settings.Default.menu3 = GetColorAt(createPoint(909, 1047));
+                            if (stretched == false)
                             {
-                                Thread.Sleep(waittime * 1000);
-                                // set values
-                                Properties.Settings.Default.menu2 = GetColorAt(createPoint(512, 36));
-                                Properties.Settings.Default.menu3 = GetColorAt(createPoint(909, 1047));
-                                if (stretched == false)
-                                {
-                                    Properties.Settings.Default.menu4 = GetColorAt(createPoint(20, 1043));
-                                }
-                                else
-                                {
-                                    Properties.Settings.Default.menu4 = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(13f * (resX / 1440.0))), Convert.ToInt32(Math.Round(1055f * (resY / 1080.0)))));
-                                }
-                                Properties.Settings.Default.gamemenufn = GetColorAt(createPoint(30, 16));
-                                Properties.Settings.Default.Save();
-                                Properties.Settings.Default.Reload();
+                                Properties.Settings.Default.menu4 = GetColorAt(createPoint(20, 1043));
+                            }
+                            else
+                            {
+                                Properties.Settings.Default.menu4 = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(13f * (resX / 1440.0))), Convert.ToInt32(Math.Round(1055f * (resY / 1080.0)))));
+                            }
+                            Properties.Settings.Default.gamemenufn = GetColorAt(createPoint(30, 16));
+                            Properties.Settings.Default.Save();
+                            Properties.Settings.Default.Reload();
 
-                                using (Bitmap bitmap = new Bitmap(resX, resY))
+                            using (Bitmap bitmap = new Bitmap(resX, resY))
+                            {
+                                using (Graphics g = Graphics.FromImage(bitmap))
                                 {
-                                    using (Graphics g = Graphics.FromImage(bitmap))
+                                    Rectangle bounds = Screen.GetBounds(Point.Empty);
+                                    g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
+                                    var result = viewImage("Is this the main menu? (If there is black space - ignore it)", bitmap); // Opens a window showing the image, asking the user if they want to use it.
+                                    if (result == DialogResult.OK)
                                     {
-                                        Rectangle bounds = Screen.GetBounds(Point.Empty);
-                                        g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
-                                        var result = viewImage("Is this the main menu? (If there is black space - ignore it)", bitmap); // Opens a window showing the image, asking the user if they want to use it.
-                                        if (result == DialogResult.OK)
-                                        {
-                                            // Set to values
-                                            done = true;
-                                        }
-                                        if (result == DialogResult.Cancel)
-                                        {
-                                            Environment.Exit(0); // close the program when X is clicked.
-                                        }
+                                        // Set to values
+                                        done = true;
+                                    }
+                                    if (result == DialogResult.Cancel)
+                                    {
+                                        Environment.Exit(0); // close the program when X is clicked.
                                     }
                                 }
                             }
@@ -360,39 +354,37 @@ namespace Fortnite_Music
             done = false;
             while (true) // wait until the user enters a value
             {
-                if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0) // Check that fortnite is open
+                if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0 || Process.GetProcessesByName("GeforceNOWStreamer").Length > 0) // Check that fortnite is open
                 {
                     uint pid;
                     GetWindowThreadProcessId(GetForegroundWindow(), out pid);
                     if (GetColorAt(createPoint(1058, 28)).A != 0) // Get a random position and check that the screen isn't nothing
                     {
-                        foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
+                        if (Process.GetProcessById((int)pid).ProcessName == "FortniteClient-Win64-Shipping" || Process.GetProcessById((int)pid).ProcessName == "GeForceNOWStreamer") // Search processes for fortnite and check if it's selected
                         {
-                            if (p.Id == pid && p.ProcessName == "FortniteClient-Win64-Shipping") // Search processes for fortnite and check if it's selected
-                            {
-                                Thread.Sleep(waittime * 1000);
-                                // set values
-                                Properties.Settings.Default.menu7 = GetColorAt(createPoint(783, 21));
-                                Properties.Settings.Default.menu8 = GetColorAt(createPoint(3, 30));
-                                Properties.Settings.Default.Save();
-                                Properties.Settings.Default.Reload();
+                            Debug.WriteLine("SetupThrough");
+                            Thread.Sleep(waittime * 1000);
+                            // set values
+                            Properties.Settings.Default.menu7 = GetColorAt(createPoint(783, 21));
+                            Properties.Settings.Default.menu8 = GetColorAt(createPoint(3, 30));
+                            Properties.Settings.Default.Save();
+                            Properties.Settings.Default.Reload();
 
-                                using (Bitmap bitmap = new Bitmap(resX, resY))
+                            using (Bitmap bitmap = new Bitmap(resX, resY))
+                            {
+                                using (Graphics g = Graphics.FromImage(bitmap))
                                 {
-                                    using (Graphics g = Graphics.FromImage(bitmap))
+                                    Rectangle bounds = Screen.GetBounds(Point.Empty);
+                                    g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
+                                    var result = viewImage("Is this the friends menu? (If there is black space - ignore it)", bitmap); // Opens a window showing the image, asking the user if they want to use it.
+                                    if (result == DialogResult.OK)
                                     {
-                                        Rectangle bounds = Screen.GetBounds(Point.Empty);
-                                        g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
-                                        var result = viewImage("Is this the friends menu? (If there is black space - ignore it)", bitmap); // Opens a window showing the image, asking the user if they want to use it.
-                                        if (result == DialogResult.OK)
-                                        {
-                                            // Set to values
-                                            done = true;
-                                        }
-                                        if (result == DialogResult.Cancel)
-                                        {
-                                            Environment.Exit(0); // close the program when X is clicked.
-                                        }
+                                        // Set to values
+                                        done = true;
+                                    }
+                                    if (result == DialogResult.Cancel)
+                                    {
+                                        Environment.Exit(0); // close the program when X is clicked.
                                     }
                                 }
                             }
@@ -412,50 +404,47 @@ namespace Fortnite_Music
             done = false;
             while (true) // wait until the user enters a value
             {
-                if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0) // Check that fortnite is open
+                if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0 || Process.GetProcessesByName("GeforceNOWStreamer").Length > 0) // Check that fortnite is open
                 {
                     uint pid;
                     GetWindowThreadProcessId(GetForegroundWindow(), out pid);
                     if (GetColorAt(createPoint(1058, 28)).A != 0) // Get a random position and check that the screen isn't nothing
                     {
-                        foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
+                        if (Process.GetProcessById((int)pid).ProcessName == "FortniteClient-Win64-Shipping" || Process.GetProcessById((int)pid).ProcessName == "GeForceNOWStreamer") // Search processes for fortnite and check if it's selected
                         {
-                            if (p.Id == pid && p.ProcessName == "FortniteClient-Win64-Shipping") // Search processes for fortnite and check if it's selected
+                            Thread.Sleep(waittime * 1000);
+                            if (stretched == false)
                             {
-                                Thread.Sleep(waittime * 1000);
-                                if (stretched == false)
+                                Properties.Settings.Default.menu5 = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1897f * sfx)), Convert.ToInt32(Math.Round(10f * sfy))));
+                                Properties.Settings.Default.menu6 = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1825f * sfx)), Convert.ToInt32(Math.Round(10f * sfy))));
+                            }
+                            else
+                            {
+                                Properties.Settings.Default.menu5 = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1422f * (resX / 1440.0))), Convert.ToInt32(Math.Round(8f * (resY / 1080)))));
+                                Properties.Settings.Default.menu6 = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1370f * (resX / 1440.0))), Convert.ToInt32(Math.Round(8f * (resY / 1080)))));
+                            }
+                            Properties.Settings.Default.gamesettingsfn = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(30 * sfx)), Convert.ToInt32(Math.Round(16 * sfy))));
+                            Properties.Settings.Default.Save();
+                            Properties.Settings.Default.Reload();
+                            using (Bitmap bitmap = new Bitmap(resX, resY))
+                            {
+                                using (Graphics g = Graphics.FromImage(bitmap))
                                 {
-                                    Properties.Settings.Default.menu5 = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1897f * sfx)), Convert.ToInt32(Math.Round(10f * sfy))));
-                                    Properties.Settings.Default.menu6 = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1825f * sfx)), Convert.ToInt32(Math.Round(10f * sfy))));
-                                }
-                                else
-                                {
-                                    Properties.Settings.Default.menu5 = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1422f * (resX / 1440.0))), Convert.ToInt32(Math.Round(8f * (resY / 1080)))));
-                                    Properties.Settings.Default.menu6 = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(1370f * (resX / 1440.0))), Convert.ToInt32(Math.Round(8f * (resY / 1080)))));
-                                }
-                                Properties.Settings.Default.gamesettingsfn = GetColorAt(new System.Drawing.Point(Convert.ToInt32(Math.Round(30 * sfx)), Convert.ToInt32(Math.Round(16 * sfy))));
-                                Properties.Settings.Default.Save();
-                                Properties.Settings.Default.Reload();
-                                using (Bitmap bitmap = new Bitmap(resX, resY))
-                                {
-                                    using (Graphics g = Graphics.FromImage(bitmap))
+                                    Rectangle bounds = Screen.GetBounds(Point.Empty);
+                                    g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
+                                    var result = viewImage("Is this the Settings menu? (If there is black space - ignore it)", bitmap);
+                                    if (result == DialogResult.OK)
                                     {
-                                        Rectangle bounds = Screen.GetBounds(Point.Empty);
-                                        g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
-                                        var result = viewImage("Is this the Settings menu? (If there is black space - ignore it)", bitmap);
-                                        if (result == DialogResult.OK)
-                                        {
-                                            Debug.WriteLine("STUFF2");
-                                            done = true;
-                                        }
-                                        else if (result == DialogResult.Cancel)
-                                        {
-                                            Environment.Exit(0);
-                                        }
+                                        Debug.WriteLine("STUFF2");
+                                        done = true;
+                                    }
+                                    else if (result == DialogResult.Cancel)
+                                    {
+                                        Environment.Exit(0);
                                     }
                                 }
-
                             }
+
                         }
                     }
                 }
@@ -590,7 +579,7 @@ namespace Fortnite_Music
             InitializeComponent();
 
             Thread.Sleep(250);
-            string version = "2.5";
+            string version = "2.6";
             updateCheck(version);
 
             // Set window to minimized if the user has set it to.
@@ -660,6 +649,7 @@ namespace Fortnite_Music
 
                 while (true)
                 {
+                    Debug.WriteLine("Loop");
                     Thread.Sleep(10);
                     WriteToLog("----- NEW CYCLE -----", false);
                     MethodInvoker mouse = delegate // Get the position of the mouse and set label1 as the label it will change text on (must be invoked)
@@ -668,26 +658,22 @@ namespace Fortnite_Music
                         return;
                     };
                     WriteToLog("Fortnite check open", false);
-                    if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0) // Check that fortnite is open and focused
+                    if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0 || Process.GetProcessesByName("GeForceNOWStreamer").Length > 0) // Check that fortnite is open and focused
                     {
+                        Debug.WriteLine("Processes");
                         bool focused = false;
                         uint pid;
                         GetWindowThreadProcessId(GetForegroundWindow(), out pid);
-                        foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
+                        Debug.WriteLine(Process.GetProcessById((int)pid).ProcessName);
+                        if (Process.GetProcessById((int)pid).ProcessName == "FortniteClient-Win64-Shipping" || Process.GetProcessById((int)pid).ProcessName == "GeForceNOWStreamer")
                         {
-                            if (p.Id == pid)
-                            {
-                                if (p.ProcessName == "FortniteClient-Win64-Shipping")
-                                {
-                                    focused = true;
-                                    break;
-                                }
-
-                            }
+                            focused = true;
                         }
                         WriteToLog("focus: " + focused.ToString(), false);
+                        Debug.WriteLine(focused);
                         if (focused == true) // if fortnite is focused
                         {
+                            Debug.WriteLine("Focused");
                             try
                             {
                                 if (GetColorAt(new System.Drawing.Point(0, 0)).A != 0)
