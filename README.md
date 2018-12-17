@@ -10,6 +10,7 @@ Allows you to play music based on where you are in the game - At the title scree
 
 # What I wanted to do:
 * Make the code not look like a disaster (really not worth the effort anymore)
+* Log file reading for omega performance - too many variables (would break geforce now too)
 
 # What you can do:
 * Pull requests if you want to add anything, I doubt this will be a thing anymore since the traffic is slowly dying off, if you open a pull request tell me on reddit /u/ApertureCoder
