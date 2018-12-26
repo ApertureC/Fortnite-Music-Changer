@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Fortnite Music")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("https://github.com/ApertureC/Fortnite-Music-Changer")]
+[assembly: AssemblyCompany("Aperture")]
 [assembly: AssemblyProduct("Fortnite Music By ApertureC")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]

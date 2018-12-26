@@ -184,6 +184,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <UsingTask AssemblyFile="$(SolutionDir)packages\WixSharp.1.8.0\build\SetEnvVar.dll" TaskName="SetEnvVar" />
 </Project>

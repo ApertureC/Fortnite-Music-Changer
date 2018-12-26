@@ -570,6 +570,7 @@ namespace Fortnite_Music
             Debug.WriteLine(c.ToString(), compateTo.ToString());
             return Int32.Parse(c.R.ToString()) == compateTo.R && Int32.Parse(c.G.ToString()) == compateTo.G && Int32.Parse(c.B.ToString()) == compateTo.B;
         }
+
         public Form1()
         {
             // Fixes issue with github releases check.
