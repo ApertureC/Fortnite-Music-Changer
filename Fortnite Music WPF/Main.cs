@@ -29,13 +29,44 @@ namespace Fortnite_Music_WPF
         {
             wmp.settings.setMode("Loop", true);
         }
+        public void preload()
+        {
+            List<string> list = new List<string>() { Properties.Settings.Default.TitleMenu, Properties.Settings.Default.MainMenu, Properties.Settings.Default.Victory };
+            for (int i = 0; i < 3; i++)
+            {
+                wmp.URL = list[i];
+                if (list[i] != "")
+                {
+                    wmp.controls.play(); // Make each one of them play
+                    while (true)
+                    {
+                        var b = false;
+                        try
+                        {
+                            if (wmp.playState == WMPLib.WMPPlayState.wmppsPlaying)
+                            {
+                                wmp.controls.stop(); // Stop after they start playing.
+                                b = true;
+                            }
+                        }
+                        catch
+                        {
+
+                        }
+                        if (b == true)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
         public bool IsFortniteFocused()
         {
             bool focused = false;
             if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length > 0 || Process.GetProcessesByName("GeForceNOWStreamer").Length > 0) // Check that fortnite is open
             {
-                uint pid;
-                GetWindowThreadProcessId(GetForegroundWindow(), out pid);
+                GetWindowThreadProcessId(GetForegroundWindow(), out uint pid);
                 Debug.WriteLine(Process.GetProcessById((int)pid).ProcessName);
                 if (Process.GetProcessById((int)pid).ProcessName == "FortniteClient-Win64-Shipping" || Process.GetProcessById((int)pid).ProcessName == "GeForceNOWStreamer")
                     focused = true;
@@ -49,7 +80,10 @@ namespace Fortnite_Music_WPF
             {
                 for (int i = 0; i < points.Count; i++)
                 {
-                    if (!compareColor(GetColorAt(createPoint(points[i].X, points[i].Y)), colors[i]))
+                    if (colors[i].A==0)
+                        return false;
+
+                    if (!CompareColor(GetColorAt(new System.Drawing.Point(points[i].X, points[i].Y)), colors[i])) // Not create point because the point has already been convered to the display in config.
                     {
                         var gca = GetColorAt(points[i]);
                         Debug.WriteLine("TING" + gca);
@@ -62,7 +96,7 @@ namespace Fortnite_Music_WPF
             else
                 return false;
         }
-        private bool compareColor(Color c, Color compateTo)
+        private bool CompareColor(Color c, Color compateTo)
         {
             var math = (c.R == compateTo.R && c.G == compateTo.G && c.B == compateTo.B);
             return math;
@@ -75,7 +109,8 @@ namespace Fortnite_Music_WPF
                 {
                     wmp.URL = path;
                     wmp.controls.play();
-                } else if (wmp.playState == WMPPlayState.wmppsPaused)
+                }
+                else if (wmp.playState == WMPPlayState.wmppsPaused || wmp.playState == WMPPlayState.wmppsTransitioning)
                 {
                     wmp.controls.play();
                 }
@@ -91,6 +126,12 @@ namespace Fortnite_Music_WPF
                 wmp.controls.pause();
             if (IsFortniteFocused() == false && Properties.Settings.Default.Obscure == false)
                 wmp.controls.pause();
+            Debug.WriteLine("hi");
+        }
+        public void ChangeVolume(int volume)
+        {
+            Debug.WriteLine(volume);
+            wmp.settings.volume = volume+100;
         }
         public static System.Drawing.Color GetColorAt(System.Drawing.Point location)
         {
@@ -116,7 +157,7 @@ namespace Fortnite_Music_WPF
             }
         }
 
-        public System.Drawing.Point createPoint(int x, int y)
+        public System.Drawing.Point CreatePoint(int x, int y)
         {
             // Creates a point with fort
             return new System.Drawing.Point(Convert.ToInt32(Math.Round(x * Properties.Settings.Default.sfx)), Convert.ToInt32(Math.Round(y * Properties.Settings.Default.sfy)));

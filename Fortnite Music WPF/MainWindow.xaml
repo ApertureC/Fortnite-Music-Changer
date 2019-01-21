@@ -37,8 +37,8 @@
             </RichTextBox>
             <Button x:Name="BrowseMenu" Content="Browse" HorizontalAlignment="Left" Margin="298,37,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.484,0.533" Height="20" Grid.Column="1" Click="BrowseMenu_Click"/>
             <Button x:Name="BrowseVictory" Content="Browse" HorizontalAlignment="Left" Margin="298,62,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.484,0.533" Height="21" Grid.Column="1" Click="BrowseVictory_Click"/>
-            <CheckBox x:Name="FortniteNotActive" Content="Play when fortnite isn't visible" HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top" Width="180" Height="21" Checked="FortniteNotActive_Checked" Grid.Column="1"/>
-            <Slider x:Name="Volume" Grid.Column="1" HorizontalAlignment="Left" Margin="55,144,0,0" VerticalAlignment="Top" Width="318" Height="21"/>
+            <CheckBox x:Name="FortniteNotActive" Content="Play when fortnite isn't visible" HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top" Width="180" Height="21" Unchecked="FortniteNotActive_Checked" Checked="FortniteNotActive_Checked" Grid.Column="1"/>
+            <Slider x:Name="Volume" Grid.Column="1" HorizontalAlignment="Left" Margin="55,144,0,0" VerticalAlignment="Top" Width="318" Height="21" ValueChanged="Volume_ValueChanged"/>
             <TextBlock x:Name="VolumeText" Grid.Column="1" HorizontalAlignment="Left" Margin="10,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="21"><Run Text="Volume"/><LineBreak/><Run/></TextBlock>
             <RichTextBox x:Name="TitleMenuPathBox" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top" Width="283" Grid.Column="1" IsEnabled="False">
                 <FlowDocument>
@@ -48,8 +48,8 @@
                 </FlowDocument>
             </RichTextBox>
             <Button x:Name="BrowseTitle" Content="Browse" HorizontalAlignment="Left" Margin="298,10,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.484,0.533" Height="21" Grid.Column="1" Click="BrowseTitle_Click"/>
-            <CheckBox x:Name="LaunchOnStartup" Content="Launch On Startup" HorizontalAlignment="Left" Margin="203,92,0,0" VerticalAlignment="Top" Width="180" Grid.Column="1" Height="21" Checked="LaunchOnStartup_Checked"/>
-            <CheckBox x:Name="LaunchMinimized" Content="Launch Minimized" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Width="180" Grid.Column="1" Height="21" Checked="LaunchMinimized_Checked"/>
+            <CheckBox x:Name="LaunchOnStartup" Content="Launch On Startup" HorizontalAlignment="Left" Margin="203,92,0,0" VerticalAlignment="Top" Width="180" Grid.Column="1" Height="21" Checked="LaunchOnStartup_Checked" Unchecked="FortniteNotActive_Checked"/>
+            <CheckBox x:Name="LaunchMinimized" Content="Launch Minimized" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Width="180" Grid.Column="1" Height="21" Checked="LaunchMinimized_Checked" Unchecked="FortniteNotActive_Checked"/>
             <Button x:Name="VictorySetup" Content="Victory Setup" HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top" Width="127" Click="VictorySetup_Click" Height="21"/>
             <Button x:Name="MenuSetup" Content="Redo Menu Setup" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Width="127" Click="MenuSetup_Click" Height="21"/>
             <Button x:Name="ChangeResolution" Content="Change Resolution" HorizontalAlignment="Left" Margin="10,144,0,0" VerticalAlignment="Top" Width="127" Click="ChangeResolution_Click" Height="21"/>

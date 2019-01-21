@@ -17,7 +17,7 @@ namespace Fortnite_Music_WPF
 {
     class Setup
     {
-        private Main main = new Main();
+        private readonly Main main = new Main();
         private Config config;
         public void SetPixelData()
         {
@@ -28,8 +28,8 @@ namespace Fortnite_Music_WPF
 3. Click back onto fortnite");
 
             var colors = GetColorValuesFromPoints(config.TitleMenuPoints);
-            Properties.Settings.Default.title1 = Color.FromArgb(colors[0].A, colors[0].R, colors[0].G, colors[0].B);
-            Properties.Settings.Default.title2 = Color.FromArgb(colors[1].A, colors[1].R, colors[1].G, colors[1].B);
+            Properties.Settings.Default.title1 = colors[0];
+            Properties.Settings.Default.title2 = colors[1];
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
             MessageBox.Show(@"
@@ -37,12 +37,10 @@ namespace Fortnite_Music_WPF
 2. Press 'OK' on this message once you are on that screen
 3. Click back onto fortnite");
             colors = GetColorValuesFromPoints(config.MainMenuPoints);
-            Properties.Settings.Default.menu2 = Color.FromArgb(colors[0].A, colors[0].R, colors[0].G, colors[0].B);
-            Properties.Settings.Default.menu3 = Color.FromArgb(colors[1].A, colors[1].R, colors[1].G, colors[1].B);
-            if (!Properties.Settings.Default.stretched)
-                Properties.Settings.Default.menu4 = Color.FromArgb(colors[2].A, colors[2].R, colors[2].G, colors[2].B);
-            else
-                Properties.Settings.Default.menu4 = Color.FromArgb(colors[2].A, colors[2].R, colors[2].G, colors[2].B);
+            Properties.Settings.Default.menu2 = colors[0];
+            Properties.Settings.Default.menu3 = colors[1];
+            Properties.Settings.Default.menu4 = colors[2];
+
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
             MessageBox.Show(@"
@@ -51,8 +49,8 @@ namespace Fortnite_Music_WPF
 3. Click back onto fortnite");
 
             colors = GetColorValuesFromPoints(config.FriendsPoints);
-            Properties.Settings.Default.menu7 = Color.FromArgb(colors[0].A, colors[0].R, colors[0].G, colors[0].B);
-            Properties.Settings.Default.menu8 = Color.FromArgb(colors[1].A, colors[1].R, colors[1].G, colors[1].B);
+            Properties.Settings.Default.menu7 = colors[0];
+            Properties.Settings.Default.menu8 = colors[1];
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
             MessageBox.Show(@"
@@ -62,16 +60,8 @@ namespace Fortnite_Music_WPF
 
             colors = GetColorValuesFromPoints(config.SettingPoints);
 
-            if (!Properties.Settings.Default.stretched)
-            {
-                Properties.Settings.Default.menu5 = Color.FromArgb(colors[0].A, colors[0].R, colors[0].G, colors[0].B);
-                Properties.Settings.Default.menu6 = Color.FromArgb(colors[1].A, colors[1].R, colors[1].G, colors[1].B);
-            }
-            else
-            {
-                Properties.Settings.Default.menu5 = Color.FromArgb(colors[0].A, colors[0].R, colors[0].G, colors[0].B);
-                Properties.Settings.Default.menu6 = Color.FromArgb(colors[1].A, colors[1].R, colors[1].G, colors[1].B);
-            }
+            Properties.Settings.Default.menu5 = colors[0];
+            Properties.Settings.Default.menu6 = colors[1];
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
             // JUST DONE: GENERAL SETUP!!!
@@ -80,6 +70,7 @@ namespace Fortnite_Music_WPF
         public void VictorySetup()
         {
             MessageBox.Show("Click back onto fortnite");
+            config = new Config();
 
             var colors = GetColorValuesFromPoints(config.VictoryPoints);
 
@@ -96,7 +87,7 @@ namespace Fortnite_Music_WPF
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
         }
-        public System.Drawing.Point stretchpoint(int num, int num2)
+        public System.Drawing.Point Stretchpoint(int num, int num2)
         {
             return new System.Drawing.Point(Convert.ToInt32(Math.Round(num * (Properties.Settings.Default.ResX / 1440.0))), Convert.ToInt32(Math.Round(num2 * (Properties.Settings.Default.ResY / 1080.0))));
         }
@@ -108,6 +99,8 @@ namespace Fortnite_Music_WPF
             {
                 Properties.Settings.Default.ResX = Convert.ToInt32(window.ResX.Text);
                 Properties.Settings.Default.ResY = Convert.ToInt32(window.ResY.Text);
+                Properties.Settings.Default.Save();
+                Properties.Settings.Default.Reload();
                 //
                 Properties.Settings.Default.sfx = Properties.Settings.Default.ResX / 1920.0; // The scale factor of the current resolution from the resolution used to get the points
                 Properties.Settings.Default.sfy = Properties.Settings.Default.ResY / 1080.0; // ditto
@@ -157,7 +150,7 @@ namespace Fortnite_Music_WPF
         [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         public static extern int BitBlt(IntPtr hDC, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc, int ySrc, int dwRop);
 
-        public System.Drawing.Point createPoint(int x, int y)
+        public System.Drawing.Point CreatePoint(int x, int y)
         {
             // Creates a point with fort
             return new System.Drawing.Point(Convert.ToInt32(Math.Round(x * Properties.Settings.Default.sfx)), Convert.ToInt32(Math.Round(y * Properties.Settings.Default.sfy)));
@@ -169,13 +162,13 @@ namespace Fortnite_Music_WPF
             {
                 if (new Main().IsFortniteFocused())
                 {
-                    if (GetColorAt(createPoint(1058, 28)).A != 0) // Check if the screen is black
+                    if (GetColorAt(CreatePoint(1058, 28)).A != 0) // Check if the screen is black
                     {
                         Thread.Sleep(5000); // wait 5 seconds
                         List<Color> colors = new List<Color>(); // create a new list of colors
 
                         foreach (System.Drawing.Point point in points) // Get the color of each point
-                            colors.Add(GetColorAt(createPoint(point.X,point.Y)));
+                            colors.Add(GetColorAt(new System.Drawing.Point(point.X, point.Y))); // Not create point because the point is already converted to display size
 
                         using (Bitmap bitmap = new Bitmap(Properties.Settings.Default.ResX, Properties.Settings.Default.ResY)) // check if the user wants to use that image
                         {
@@ -189,7 +182,6 @@ namespace Fortnite_Music_WPF
                                     return colors;
                                 else
                                     bitmap.Dispose();
-
                             }
                         }
                     }

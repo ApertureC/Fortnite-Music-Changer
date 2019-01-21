@@ -28,8 +28,8 @@ namespace Fortnite_Music_WPF
             // Holds the title menu's points which it looks for pixel data.
             TitleMenuPoints = new List<System.Drawing.Point>()
             {
-                createPoint(1058,28),
-                createPoint(985, 780),
+                CreatePoint(1058,28),
+                CreatePoint(985, 780),
             };
 
             // Holds the title menu's colors which it compares to pixel data
@@ -43,16 +43,16 @@ namespace Fortnite_Music_WPF
             // Holds the main menu's points which it looks for pixel data.
             MainMenuPoints = new List<System.Drawing.Point>()
             {
-                createPoint(512,36),
-                createPoint(909, 1047),
+                CreatePoint(512,36),
+                CreatePoint(909, 1047),
             };
             if (Properties.Settings.Default.stretched)
             {
-                MainMenuPoints.Add(stretchpoint(13, 1055)); // compared to menu 4
+                MainMenuPoints.Add(StretchPoint(13, 1055)); // compared to menu 4
             }
             else
             {
-                MainMenuPoints.Add(createPoint(20, 1043)); // compared to menu 4
+                MainMenuPoints.Add(CreatePoint(20, 1043)); // compared to menu 4
             }
             MainMenuColors = new List<System.Drawing.Color>()
             {
@@ -67,16 +67,16 @@ namespace Fortnite_Music_WPF
             {
                 SettingPoints = new List<System.Drawing.Point>()
                 {
-                    stretchpoint(1422,8),
-                    stretchpoint(1370,8),
+                    StretchPoint(1422,8),
+                    StretchPoint(1370,8),
                 };
-            } 
+            }
             else
             {
                 SettingPoints = new List<System.Drawing.Point>()
                 {
-                    createPoint(1897, 10),
-                    createPoint(1825, 10),
+                    CreatePoint(1897, 10),
+                    CreatePoint(1825, 10),
                 };
             }
             SettingColors = new List<System.Drawing.Color>()
@@ -89,8 +89,8 @@ namespace Fortnite_Music_WPF
             //
             FriendsPoints = new List<System.Drawing.Point>()
             {
-                createPoint(783, 21),
-                createPoint(3, 30),
+                CreatePoint(783, 21),
+                CreatePoint(3, 30),
             };
 
             FriendsColors = new List<System.Drawing.Color>()
@@ -104,13 +104,19 @@ namespace Fortnite_Music_WPF
 
             if (Properties.Settings.Default.stretched)
             {
-                stretchpoint(680, 347);
-                stretchpoint(805, 240);
+                VictoryPoints = new List<System.Drawing.Point>()
+                {
+                    StretchPoint(680, 347),
+                    StretchPoint(805, 240),
+                };
             }
             else
             {
-                createPoint(911, 251);
-                createPoint(1087, 271);
+                VictoryPoints = new List<System.Drawing.Point>()
+                {
+                    CreatePoint(911, 251),
+                    CreatePoint(1087, 271),
+                };
             }
 
             VictoryColors = new List<System.Drawing.Color>()
@@ -120,12 +126,12 @@ namespace Fortnite_Music_WPF
             };
         }
 
-        private System.Drawing.Point stretchpoint(int num, int num2)
+        private System.Drawing.Point StretchPoint(int num, int num2)
         {
             return new System.Drawing.Point(Convert.ToInt32(Math.Round(num * (Properties.Settings.Default.ResX / 1440.0))), Convert.ToInt32(Math.Round(num2 * (Properties.Settings.Default.ResY / 1080.0))));
         }
 
-        public System.Drawing.Point createPoint(int x, int y)
+        public System.Drawing.Point CreatePoint(int x, int y)
         {
             // Creates a point with fort
             return new System.Drawing.Point(Convert.ToInt32(Math.Round(x * Properties.Settings.Default.sfx)), Convert.ToInt32(Math.Round(y * Properties.Settings.Default.sfy)));

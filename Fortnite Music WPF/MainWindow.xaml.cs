@@ -28,12 +28,11 @@ namespace Fortnite_Music_WPF
         // CONFIG
         //
         private Setup setup = new Setup();
+        private Main main = new Main();
 
 
         public MainWindow()
         {
-            Config config = new Config();
-
             // Fixes issue with github releases check.
             ServicePointManager.Expect100Continue = true;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -57,39 +56,38 @@ namespace Fortnite_Music_WPF
                 setup.SetPixelData();
             }
 
-            Main main = new Main();
-
+            Config config = new Config();
             //
             Thread MainThread = new Thread(() =>
             {
+                main.preload();
                 while (true)
                 {
                     Thread.Sleep(100); // Memory leak fix - Time:
-                    if (main.DoColorsMatch(config.TitleMenuPoints, config.TitleMenuColors))
-                        main.PlayMusic(Properties.Settings.Default.TitleMenu);
-                    else
+                    if (main.IsFortniteFocused())
                     {
-                        List<System.Drawing.Color> MainListColor = new List<System.Drawing.Color>();
-                        MainListColor = MainListColor.Concat(config.MainMenuColors).ToList();
-                        MainListColor = MainListColor.Concat(config.FriendsColors).ToList();
-                        MainListColor = MainListColor.Concat(config.SettingColors).ToList();
+                        if (main.DoColorsMatch(config.TitleMenuPoints, config.TitleMenuColors))
 
-                        List<System.Drawing.Point> MainListPoints = new List<System.Drawing.Point>();
-                        MainListPoints = MainListPoints.Concat(config.MainMenuPoints).ToList();
-                        MainListPoints = MainListPoints.Concat(config.FriendsPoints).ToList();
-                        MainListPoints = MainListPoints.Concat(config.SettingPoints).ToList();
-
-                        if (main.DoColorsMatch(MainListPoints, MainListColor))
-                            main.PlayMusic(Properties.Settings.Default.MainMenu);
+                            main.PlayMusic(Properties.Settings.Default.TitleMenu);
                         else
 
-                        if (main.DoColorsMatch(config.VictoryPoints, config.VictoryColors))
+                        if (main.DoColorsMatch(config.MainMenuPoints, config.MainMenuColors)
+                        || main.DoColorsMatch(config.FriendsPoints, config.FriendsColors)
+                        || main.DoColorsMatch(config.SettingPoints, config.SettingColors))
+
+                            main.PlayMusic(Properties.Settings.Default.MainMenu);
+                        else
+                            if (main.DoColorsMatch(config.VictoryPoints, config.VictoryColors))
                             main.PlayMusic(Properties.Settings.Default.Victory);
                         else
                             main.PauseMusic();
+                    } else
+                    {
+                        main.PauseMusic();
                     }
                 }
             });
+            MainThread.IsBackground = true;
             MainThread.Start();
             //
         }
@@ -99,20 +97,13 @@ namespace Fortnite_Music_WPF
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern Int32 GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
 
-        private System.Drawing.Point createPoint(int x, int y)
-        {
-            // Creates a point with fort
-            return new System.Drawing.Point(Convert.ToInt32(Math.Round(x * Properties.Settings.Default.sfx)), Convert.ToInt32(Math.Round(y * Properties.Settings.Default.sfy)));
-        }
-        public System.Drawing.Point stretchpoint(int num, int num2)
-        {
-            return new System.Drawing.Point(Convert.ToInt32(Math.Round(num * (Properties.Settings.Default.ResX / 1440.0))), Convert.ToInt32(Math.Round(num2 * (Properties.Settings.Default.ResY / 1080.0))));
-        }
         private OpenFileDialog BrowseFile()
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "Audio Files | *.mp3;*.wav";
-            openFileDialog1.Title = "Select an Audio File";
+            OpenFileDialog openFileDialog1 = new OpenFileDialog
+            {
+                Filter = "Audio Files | *.mp3;*.wav",
+                Title = "Select an Audio File"
+            };
 
             openFileDialog1.ShowDialog();
             return openFileDialog1;
@@ -193,7 +184,6 @@ namespace Fortnite_Music_WPF
                     shortcut.WindowStyle = 1;
                     shortcut.Description = "Fortnite Music Changer";
                     shortcut.WorkingDirectory = Environment.CurrentDirectory + @"\";
-                    //shortcut.IconLocation = "specify icon location";
                     shortcut.Save(); // add shortcut to startup
                 }
             }
@@ -215,6 +205,14 @@ namespace Fortnite_Music_WPF
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.reddit.com/user/ApertureCoder");
+        }
+
+        private void Volume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Properties.Settings.Default.Volume = (int)Volume.Value;
+            main.ChangeVolume((int)Volume.Value);
+            Properties.Settings.Default.Save();
+            Properties.Settings.Default.Reload();
         }
     }
 }
