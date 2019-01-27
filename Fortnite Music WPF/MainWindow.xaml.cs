@@ -81,6 +81,7 @@ namespace Fortnite_Music_WPF
                             else
                             {
                                 Debug.WriteLine("VICTORY TIME BOIIIS");
+                                Debug.WriteLine(main.DoColorsMatch(config.VictoryPoints, config.VictoryColors));
                                 if (main.DoColorsMatch(config.VictoryPoints, config.VictoryColors))
                                     main.PlayMusic(Properties.Settings.Default.Victory);
                                 else

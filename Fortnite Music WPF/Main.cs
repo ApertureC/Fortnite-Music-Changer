@@ -39,26 +39,34 @@ namespace Fortnite_Music_WPF
                 wmp.URL = list[i];
                 if (list[i] != "")
                 {
-                    wmp.controls.play(); // Make each one of them play
-                    while (true)
+                    try
                     {
-                        var b = false;
-                        try
+                        wmp.controls.play(); // Make each one of them play
+                        while (true)
                         {
-                            if (wmp.playState == WMPLib.WMPPlayState.wmppsPlaying)
+                            var b = false;
+                            try
                             {
-                                wmp.controls.stop(); // Stop after they start playing.
-                                b = true;
+                                if (wmp.playState == WMPLib.WMPPlayState.wmppsPlaying)
+                                {
+                                    wmp.URL = "";
+                                    wmp.controls.stop(); // Stop after they start playing.
+                                    b = true;
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                            if (b == true)
+                            {
+                                break;
                             }
                         }
-                        catch
-                        {
+                    }
+                    catch
+                    {
 
-                        }
-                        if (b == true)
-                        {
-                            break;
-                        }
                     }
                 }
             }
@@ -101,7 +109,8 @@ namespace Fortnite_Music_WPF
         }
         private bool CompareColor(Color c, Color compateTo) // Compares 2 colors to see if they're the same
         {
-            return (c == compateTo);
+            var math = (c.R == compateTo.R && c.G == compateTo.G && c.B == compateTo.B); // Apparently it doesn't work without doing it like this, variable because it's easier to test sometimes...
+            return math;
         }
         public void PlayMusic(string path) // Plays music
         {
