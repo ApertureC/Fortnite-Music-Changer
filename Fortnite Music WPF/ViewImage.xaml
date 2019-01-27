@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Fortnite_Music_WPF"
         mc:Ignorable="d"
-        Title="ViewImage" Height="450" Width="800">
+        Title="ViewImage" Height="450" Width="800" Topmost="True">
     <Grid>
         <TextBlock x:Name="text" HorizontalAlignment="Left" Margin="10,377,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="309" Height="32"><Run Text="TextBlock"/></TextBlock>
         <Image x:Name="image" HorizontalAlignment="Left" Height="362" Margin="10,10,0,0" VerticalAlignment="Top" Width="772"/>

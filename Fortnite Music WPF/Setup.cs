@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Setup.cs
+// Holds methods and functions for setting up from starting the program, and first time setup.
+
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Runtime.InteropServices;
@@ -19,7 +22,7 @@ namespace Fortnite_Music_WPF
     {
         private readonly Main main = new Main();
         private Config config;
-        public void SetPixelData()
+        public void SetPixelData() // Runs setup to get the pixel values at different screens.
         {
             config = new Config();
             MessageBox.Show(@"
@@ -39,7 +42,6 @@ namespace Fortnite_Music_WPF
             colors = GetColorValuesFromPoints(config.MainMenuPoints);
             Properties.Settings.Default.menu2 = colors[0];
             Properties.Settings.Default.menu3 = colors[1];
-            Properties.Settings.Default.menu4 = colors[2];
 
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
@@ -53,7 +55,10 @@ namespace Fortnite_Music_WPF
             Properties.Settings.Default.menu8 = colors[1];
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
-            MessageBox.Show(@"
+
+            // THIS IS NO LONGER USEFUL - CHANGES MADE THIS USELESS - KEEPING IT HERE IF FORTNITE CHANGES IN THE FUTURE.
+
+            /*MessageBox.Show(@"
 1. Go to the Settings menu (Where you adjust graphical settings etc.)
 2. Press 'OK' on this message once you are on that screen
 3. Click back onto fortnite");
@@ -62,36 +67,35 @@ namespace Fortnite_Music_WPF
 
             Properties.Settings.Default.menu5 = colors[0];
             Properties.Settings.Default.menu6 = colors[1];
+
             Properties.Settings.Default.Save();
-            Properties.Settings.Default.Reload();
+            Properties.Settings.Default.Reload(); */
             // JUST DONE: GENERAL SETUP!!!
+
+            MessageBox.Show("Done! Please restart the music changer");
         }
 
-        public void VictorySetup()
+        public void VictorySetup() // Does the setup for victory
         {
             MessageBox.Show("Click back onto fortnite");
             config = new Config();
 
             var colors = GetColorValuesFromPoints(config.VictoryPoints);
 
-            if (!Properties.Settings.Default.stretched)
-            {
-                Properties.Settings.Default.victory1 = colors[0];
-                Properties.Settings.Default.victory2 = colors[1];
-            }
-            else
-            {
-                Properties.Settings.Default.victory1 = colors[0];
-                Properties.Settings.Default.victory2 = colors[1];
-            }
+            Properties.Settings.Default.victory1 = colors[0];
+            Properties.Settings.Default.victory2 = colors[1];
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
+            Debug.WriteLine(Properties.Settings.Default.victory1);
+
+            MessageBox.Show("Close and then reopen the music changer.");
+
         }
-        public System.Drawing.Point Stretchpoint(int num, int num2)
+        public System.Drawing.Point Stretchpoint(int num, int num2) // Creates a point that is stretched
         {
             return new System.Drawing.Point(Convert.ToInt32(Math.Round(num * (Properties.Settings.Default.ResX / 1440.0))), Convert.ToInt32(Math.Round(num2 * (Properties.Settings.Default.ResY / 1080.0))));
         }
-        public void GetResolution()
+        public void GetResolution() // Creates a dialog that asks for your screen resolution.
         {
             GetResolutionWindow window = new GetResolutionWindow();
             var result = window.ShowDialog();
@@ -126,7 +130,7 @@ namespace Fortnite_Music_WPF
             Box.Document.Blocks.Add(new Paragraph(new Run(SetTo)));
         }
 
-        public void SetUIValues(MainWindow mainWindow) // Sets UI elements to what they should be
+        public void SetUIValues(MainWindow mainWindow) // Sets UI elements to what they should be (eg. Volume slider to 50 because 50 was the last volume used)
         {
             if (Properties.Settings.Default.StartMinimized)
             {
@@ -150,7 +154,7 @@ namespace Fortnite_Music_WPF
         [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         public static extern int BitBlt(IntPtr hDC, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc, int ySrc, int dwRop);
 
-        public System.Drawing.Point CreatePoint(int x, int y)
+        public System.Drawing.Point CreatePoint(int x, int y) // Creates a point that is scaled to the screen
         {
             // Creates a point with fort
             return new System.Drawing.Point(Convert.ToInt32(Math.Round(x * Properties.Settings.Default.sfx)), Convert.ToInt32(Math.Round(y * Properties.Settings.Default.sfy)));
@@ -176,8 +180,10 @@ namespace Fortnite_Music_WPF
                             {
                                 Rectangle bounds = new Rectangle(0, 0, Properties.Settings.Default.ResX, Properties.Settings.Default.ResY);
                                 g.CopyFromScreen(System.Drawing.Point.Empty, System.Drawing.Point.Empty, bounds.Size);
+                                Debug.WriteLine(colors);
                                 var imageview = new ViewImage("Is this the image you want to use?", bitmap);
                                 var result = imageview.ShowDialog();
+
                                 if (result == true)
                                     return colors;
                                 else

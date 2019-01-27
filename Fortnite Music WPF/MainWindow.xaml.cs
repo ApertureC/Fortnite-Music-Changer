@@ -50,8 +50,8 @@ namespace Fortnite_Music_WPF
                 setup.GetResolution();
 
             if (Properties.Settings.Default.title1 == System.Drawing.Color.FromArgb(0, 0, 0, 0) || // Does it have empty values? If so then re-do setup.
-                Properties.Settings.Default.menu2 == System.Drawing.Color.FromArgb(0, 0, 0, 0) ||
-                Properties.Settings.Default.menu5 == System.Drawing.Color.FromArgb(0, 0, 0, 0))
+                Properties.Settings.Default.menu2 == System.Drawing.Color.FromArgb(0, 0, 0, 0))
+                //Properties.Settings.Default.menu5 == System.Drawing.Color.FromArgb(0, 0, 0, 0))
             {
                 setup.SetPixelData();
             }
@@ -67,21 +67,28 @@ namespace Fortnite_Music_WPF
                     if (main.IsFortniteFocused())
                     {
                         if (main.DoColorsMatch(config.TitleMenuPoints, config.TitleMenuColors))
-
+                        {
                             main.PlayMusic(Properties.Settings.Default.TitleMenu);
+                        }
                         else
-
-                        if (main.DoColorsMatch(config.MainMenuPoints, config.MainMenuColors)
-                        || main.DoColorsMatch(config.FriendsPoints, config.FriendsColors)
-                        || main.DoColorsMatch(config.SettingPoints, config.SettingColors))
-
-                            main.PlayMusic(Properties.Settings.Default.MainMenu);
-                        else
-                            if (main.DoColorsMatch(config.VictoryPoints, config.VictoryColors))
-                            main.PlayMusic(Properties.Settings.Default.Victory);
-                        else
-                            main.PauseMusic();
-                    } else
+                        {
+                            if (main.DoColorsMatch(config.MainMenuPoints, config.MainMenuColors)
+                                || main.DoColorsMatch(config.FriendsPoints, config.FriendsColors))
+                                //|| main.DoColorsMatch(config.SettingPoints, config.SettingColors))
+                            {
+                                main.PlayMusic(Properties.Settings.Default.MainMenu);
+                            }
+                            else
+                            {
+                                Debug.WriteLine("VICTORY TIME BOIIIS");
+                                if (main.DoColorsMatch(config.VictoryPoints, config.VictoryColors))
+                                    main.PlayMusic(Properties.Settings.Default.Victory);
+                                else
+                                    main.PauseMusic();
+                            }
+                        }
+                    }
+                    else
                     {
                         main.PauseMusic();
                     }
@@ -173,6 +180,9 @@ namespace Fortnite_Music_WPF
                 if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk")) // If the file exists - Delete it
                 {
                     File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk");
+                    Properties.Settings.Default.Startup = false;
+                    Properties.Settings.Default.Save();
+                    Properties.Settings.Default.Reload();
                 }
                 else
                 {
@@ -180,11 +190,14 @@ namespace Fortnite_Music_WPF
                     IWshRuntimeLibrary.IWshShortcut shortcut = wsh.CreateShortcut(
                         Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk") as IWshRuntimeLibrary.IWshShortcut;
                     shortcut.Arguments = "";
-                    shortcut.TargetPath = Environment.CurrentDirectory + @"\Fortnite Music.exe";
+                    shortcut.TargetPath = Environment.CurrentDirectory + @"\Fortnite Music WPF.exe";
                     shortcut.WindowStyle = 1;
                     shortcut.Description = "Fortnite Music Changer";
                     shortcut.WorkingDirectory = Environment.CurrentDirectory + @"\";
                     shortcut.Save(); // add shortcut to startup
+                    Properties.Settings.Default.Startup = true;
+                    Properties.Settings.Default.Save();
+                    Properties.Settings.Default.Reload();
                 }
             }
             else
@@ -213,6 +226,11 @@ namespace Fortnite_Music_WPF
             main.ChangeVolume((int)Volume.Value);
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/ApertureC/Fortnite-Music-Changer");
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿// UpdateChecker.cs
+// Checks for updates
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,7 +12,7 @@ namespace Fortnite_Music_WPF
 {
     class UpdateChecker
     {
-        public void Check(string tag)
+        public void Check(string tag) // Method that checks for updates.
         {
             string html;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.github.com/repos/ApertureC/Fortnite-Music-Changer/releases/latest?UserAgent=hi");

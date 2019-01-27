@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Config.cs
+// Holds information such as the positions of pixels, change data in here and redo menu setup for new positions.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,27 +46,19 @@ namespace Fortnite_Music_WPF
             // Holds the main menu's points which it looks for pixel data.
             MainMenuPoints = new List<System.Drawing.Point>()
             {
-                CreatePoint(512,36),
-                CreatePoint(909, 1047),
+                CreatePoint(982 ,1051),
+                CreatePoint(1497, 1057),
             };
-            if (Properties.Settings.Default.stretched)
-            {
-                MainMenuPoints.Add(StretchPoint(13, 1055)); // compared to menu 4
-            }
-            else
-            {
-                MainMenuPoints.Add(CreatePoint(20, 1043)); // compared to menu 4
-            }
             MainMenuColors = new List<System.Drawing.Color>()
             {
                 Properties.Settings.Default.menu2,
                 Properties.Settings.Default.menu3,
-                Properties.Settings.Default.menu4,
             };
             //
             // SETTINGS
             //
-            if (Properties.Settings.Default.stretched)
+            /* NO LONGER USEFUL - MAY BE USEFUL IN THE FUTURE 
+             * if (Properties.Settings.Default.stretched)
             {
                 SettingPoints = new List<System.Drawing.Point>()
                 {
@@ -75,15 +70,15 @@ namespace Fortnite_Music_WPF
             {
                 SettingPoints = new List<System.Drawing.Point>()
                 {
-                    CreatePoint(1897, 10),
-                    CreatePoint(1825, 10),
+                    CreatePoint(1894, 8),
+                    CreatePoint(1825, 11),
                 };
             }
             SettingColors = new List<System.Drawing.Color>()
             {
                 Properties.Settings.Default.menu5,
                 Properties.Settings.Default.menu6,
-            };
+            }; */ 
             //
             //
             //
@@ -126,12 +121,12 @@ namespace Fortnite_Music_WPF
             };
         }
 
-        private System.Drawing.Point StretchPoint(int num, int num2)
+        private System.Drawing.Point StretchPoint(int num, int num2) // Creates a point with stretched values
         {
             return new System.Drawing.Point(Convert.ToInt32(Math.Round(num * (Properties.Settings.Default.ResX / 1440.0))), Convert.ToInt32(Math.Round(num2 * (Properties.Settings.Default.ResY / 1080.0))));
         }
 
-        public System.Drawing.Point CreatePoint(int x, int y)
+        public System.Drawing.Point CreatePoint(int x, int y) // Creates a point.
         {
             // Creates a point with fort
             return new System.Drawing.Point(Convert.ToInt32(Math.Round(x * Properties.Settings.Default.sfx)), Convert.ToInt32(Math.Round(y * Properties.Settings.Default.sfy)));
