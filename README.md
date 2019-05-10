@@ -5,4 +5,4 @@ Special Thanks: Wumbo, PATXS, Sebastijan_Galaxy
 
 ## How does it work?
 
-It gets 2-3 set pixels on the screen, tests their color against what it should be for that menu, and if they match - it will play it.
+It reads the log files
