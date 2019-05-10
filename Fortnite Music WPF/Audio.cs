@@ -31,7 +31,7 @@ namespace Fortnite_Music_WPF
             try // Try / catch is here to prevent crashes when WMP says it's currently in use.
             {
                 wmp.URL = path; // if not, just play it.
-                if (wmp.playState == WMPPlayState.wmppsPaused || wmp.playState == WMPPlayState.wmppsTransitioning)
+                if (wmp.playState == WMPPlayState.wmppsPaused || wmp.playState == WMPPlayState.wmppsTransitioning || wmp.playState == WMPPlayState.wmppsUndefined)
                 {
                     wmp.controls.play(); // If it's currently paused or swapping tracks, play it.
                 }
@@ -49,7 +49,7 @@ namespace Fortnite_Music_WPF
                 {
                     Debug.WriteLine(wmp.playState);
                     wmp.controls.stop();
-                    if (wmp.playState == WMPPlayState.wmppsStopped || wmp.playState == WMPPlayState.wmppsReady)
+                    if (wmp.playState == WMPPlayState.wmppsStopped || wmp.playState == WMPPlayState.wmppsReady || wmp.playState == WMPPlayState.wmppsUndefined)
                     {
                         break;
                     }

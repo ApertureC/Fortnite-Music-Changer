@@ -19,6 +19,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Path = System.IO.Path;
+
 namespace Fortnite_Music_WPF
 {
     /// <summary>
@@ -58,7 +60,7 @@ namespace Fortnite_Music_WPF
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
             TitleMenuPathBox.Document.Blocks.Clear();
-            TitleMenuPathBox.Document.Blocks.Add(new Paragraph(new Run(file)));
+            TitleMenuPathBox.Document.Blocks.Add(new Paragraph(new Run(Path.GetFileName(file))));
         }
 
         private void BrowseMenu_Click(object sender, RoutedEventArgs e)
@@ -68,7 +70,7 @@ namespace Fortnite_Music_WPF
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
             MainMenuPathBox.Document.Blocks.Clear();
-            MainMenuPathBox.Document.Blocks.Add(new Paragraph(new Run(file)));
+            MainMenuPathBox.Document.Blocks.Add(new Paragraph(new Run(Path.GetFileName(file))));
         }
 
         private void BrowseVictory_Click(object sender, RoutedEventArgs e)
@@ -78,7 +80,7 @@ namespace Fortnite_Music_WPF
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
             VictoryPathBox.Document.Blocks.Clear();
-            VictoryPathBox.Document.Blocks.Add(new Paragraph(new Run(file)));
+            VictoryPathBox.Document.Blocks.Add(new Paragraph(new Run(Path.GetFileName(file))));
         }
 
 
