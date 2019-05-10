@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
@@ -28,83 +29,17 @@ namespace Fortnite_Music_WPF
         // CONFIG
         //
         private Setup setup = new Setup();
-        private Main main = new Main();
-
-
+        private Audio main = new Audio();
+        private LogFileReader logFileReader = new LogFileReader();
         public MainWindow()
         {
-            // Fixes issue with github releases check.
-            ServicePointManager.Expect100Continue = true;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
             InitializeComponent();
 
-            Thread.Sleep(250);
-            string version = "3.0";
-            new UpdateChecker().Check(version);
-
-
+            string version = "4.0";
+            new UpdateChecker().Check(version, this);
             setup.SetUIValues(this);
 
-            if (Properties.Settings.Default.ResX == 0 || Properties.Settings.Default.ResY == 0)
-                setup.GetResolution();
-
-            if (Properties.Settings.Default.title1 == System.Drawing.Color.FromArgb(0, 0, 0, 0) || // Does it have empty values? If so then re-do setup.
-                Properties.Settings.Default.menu2 == System.Drawing.Color.FromArgb(0, 0, 0, 0))
-                //Properties.Settings.Default.menu5 == System.Drawing.Color.FromArgb(0, 0, 0, 0))
-            {
-                setup.SetPixelData();
-            }
-
-            Config config = new Config();
-            //
-            Thread MainThread = new Thread(() =>
-            {
-                main.preload();
-                while (true)
-                {
-                    Thread.Sleep(100); // Memory leak fix - Time:
-                    if (main.IsFortniteFocused())
-                    {
-                        if (main.DoColorsMatch(config.TitleMenuPoints, config.TitleMenuColors))
-                        {
-                            main.PlayMusic(Properties.Settings.Default.TitleMenu);
-                        }
-                        else
-                        {
-                            if (main.DoColorsMatch(config.MainMenuPoints, config.MainMenuColors)
-                                || main.DoColorsMatch(config.FriendsPoints, config.FriendsColors))
-                                //|| main.DoColorsMatch(config.SettingPoints, config.SettingColors))
-                            {
-                                main.PlayMusic(Properties.Settings.Default.MainMenu);
-                            }
-                            else
-                            {
-                                Debug.WriteLine("VICTORY TIME BOIIIS");
-                                Debug.WriteLine(main.DoColorsMatch(config.VictoryPoints, config.VictoryColors));
-                                if (main.DoColorsMatch(config.VictoryPoints, config.VictoryColors))
-                                    main.PlayMusic(Properties.Settings.Default.Victory);
-                                else
-                                    main.PauseMusic();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        main.PauseMusic();
-                    }
-                }
-            });
-            MainThread.IsBackground = true;
-            MainThread.Start();
-            //
         }
-
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern Int32 GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
-
         private OpenFileDialog BrowseFile()
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog
@@ -139,34 +74,13 @@ namespace Fortnite_Music_WPF
         private void BrowseVictory_Click(object sender, RoutedEventArgs e)
         {
             var file = BrowseFile().FileName;
-            Properties.Settings.Default.Victory = file;
+            Properties.Settings.Default.VictoryMusic = file;
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
             VictoryPathBox.Document.Blocks.Clear();
             VictoryPathBox.Document.Blocks.Add(new Paragraph(new Run(file)));
         }
 
-        private void FortniteNotActive_Checked(object sender, RoutedEventArgs e)
-        {
-            Properties.Settings.Default.Obscure = FortniteNotActive.IsChecked ?? false;
-            Properties.Settings.Default.Save();
-            Properties.Settings.Default.Reload();
-        }
-
-        private void VictorySetup_Click(object sender, RoutedEventArgs e)
-        {
-            setup.VictorySetup();
-        }
-
-        private void MenuSetup_Click(object sender, RoutedEventArgs e)
-        {
-            setup.SetPixelData();
-        }
-
-        private void ChangeResolution_Click(object sender, RoutedEventArgs e)
-        {
-            setup.GetResolution();
-        }
 
         private bool IsAdministrator()
         {
@@ -174,9 +88,9 @@ namespace Fortnite_Music_WPF
                       .IsInRole(WindowsBuiltInRole.Administrator);
         }
 
-        private void LaunchOnStartup_Checked(object sender, RoutedEventArgs e)
+        public void LaunchOnStartup_Clicked(object sender, RoutedEventArgs e)
         {
-            if (IsAdministrator()) // Requires admin to start on startup
+            if (IsAdministrator()) // Requires admin to set it to start on startup
             {
                 if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk")) // If the file exists - Delete it
                 {
@@ -209,7 +123,7 @@ namespace Fortnite_Music_WPF
             }
         }
 
-        private void LaunchMinimized_Checked(object sender, RoutedEventArgs e)
+        private void LaunchMinimized_Clicked(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.StartMinimized = LaunchMinimized.IsChecked ?? false;
             Properties.Settings.Default.Save();
@@ -232,6 +146,18 @@ namespace Fortnite_Music_WPF
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/ApertureC/Fortnite-Music-Changer");
+        }
+
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/ApertureC/Fortnite-Music-Changer/releases/latest");
+        }
+
+        private void LogFileUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.LogFileFolder = logFileReader.GetLogFolderPath(); ;
+            Properties.Settings.Default.Save();
+            Properties.Settings.Default.Reload();
         }
     }
 }

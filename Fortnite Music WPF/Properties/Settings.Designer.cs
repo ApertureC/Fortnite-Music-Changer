@@ -12,7 +12,7 @@ namespace Fortnite_Music_WPF.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.0.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -49,18 +49,6 @@ namespace Fortnite_Music_WPF.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Obscure {
-            get {
-                return ((bool)(this["Obscure"]));
-            }
-            set {
-                this["Obscure"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int Volume {
             get {
@@ -73,133 +61,13 @@ namespace Fortnite_Music_WPF.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool stretched {
-            get {
-                return ((bool)(this["stretched"]));
-            }
-            set {
-                this["stretched"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Victory {
+        public string VictoryMusic {
             get {
-                return ((string)(this["Victory"]));
+                return ((string)(this["VictoryMusic"]));
             }
             set {
-                this["Victory"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int ResX {
-            get {
-                return ((int)(this["ResX"]));
-            }
-            set {
-                this["ResX"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int ResY {
-            get {
-                return ((int)(this["ResY"]));
-            }
-            set {
-                this["ResY"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
-        public global::System.Drawing.Color title1 {
-            get {
-                return ((global::System.Drawing.Color)(this["title1"]));
-            }
-            set {
-                this["title1"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
-        public global::System.Drawing.Color title2 {
-            get {
-                return ((global::System.Drawing.Color)(this["title2"]));
-            }
-            set {
-                this["title2"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
-        public global::System.Drawing.Color menu2 {
-            get {
-                return ((global::System.Drawing.Color)(this["menu2"]));
-            }
-            set {
-                this["menu2"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
-        public global::System.Drawing.Color menu3 {
-            get {
-                return ((global::System.Drawing.Color)(this["menu3"]));
-            }
-            set {
-                this["menu3"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
-        public global::System.Drawing.Color menu4 {
-            get {
-                return ((global::System.Drawing.Color)(this["menu4"]));
-            }
-            set {
-                this["menu4"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
-        public global::System.Drawing.Color menu5 {
-            get {
-                return ((global::System.Drawing.Color)(this["menu5"]));
-            }
-            set {
-                this["menu5"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
-        public global::System.Drawing.Color menu6 {
-            get {
-                return ((global::System.Drawing.Color)(this["menu6"]));
-            }
-            set {
-                this["menu6"] = value;
+                this["VictoryMusic"] = value;
             }
         }
         
@@ -217,18 +85,6 @@ namespace Fortnite_Music_WPF.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool FirstStartup {
-            get {
-                return ((bool)(this["FirstStartup"]));
-            }
-            set {
-                this["FirstStartup"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool Startup {
             get {
@@ -241,133 +97,13 @@ namespace Fortnite_Music_WPF.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool optimize {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LogFileFolder {
             get {
-                return ((bool)(this["optimize"]));
+                return ((string)(this["LogFileFolder"]));
             }
             set {
-                this["optimize"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool PlayInParty {
-            get {
-                return ((bool)(this["PlayInParty"]));
-            }
-            set {
-                this["PlayInParty"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool WriteLogs {
-            get {
-                return ((bool)(this["WriteLogs"]));
-            }
-            set {
-                this["WriteLogs"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
-        public global::System.Drawing.Color gamemenufn {
-            get {
-                return ((global::System.Drawing.Color)(this["gamemenufn"]));
-            }
-            set {
-                this["gamemenufn"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
-        public global::System.Drawing.Color gamesettingsfn {
-            get {
-                return ((global::System.Drawing.Color)(this["gamesettingsfn"]));
-            }
-            set {
-                this["gamesettingsfn"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
-        public global::System.Drawing.Color victory1 {
-            get {
-                return ((global::System.Drawing.Color)(this["victory1"]));
-            }
-            set {
-                this["victory1"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
-        public global::System.Drawing.Color victory2 {
-            get {
-                return ((global::System.Drawing.Color)(this["victory2"]));
-            }
-            set {
-                this["victory2"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
-        public global::System.Drawing.Color menu7 {
-            get {
-                return ((global::System.Drawing.Color)(this["menu7"]));
-            }
-            set {
-                this["menu7"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
-        public global::System.Drawing.Color menu8 {
-            get {
-                return ((global::System.Drawing.Color)(this["menu8"]));
-            }
-            set {
-                this["menu8"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double sfx {
-            get {
-                return ((double)(this["sfx"]));
-            }
-            set {
-                this["sfx"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double sfy {
-            get {
-                return ((double)(this["sfy"]));
-            }
-            set {
-                this["sfy"] = value;
+                this["LogFileFolder"] = value;
             }
         }
     }
