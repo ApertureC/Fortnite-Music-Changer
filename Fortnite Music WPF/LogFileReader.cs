@@ -17,6 +17,7 @@ namespace Fortnite_Music_WPF
         private int lastlinecount = 0; // line count from the last time LogFileRead was run.
         private void LogFileRead(object source, FileSystemEventArgs e) // When fortnite writes to the file, run this - vastly more efficient than getting screenshots :)
         {
+            audio.ChangeVolume(); // needs to keep running, doesn't work without it - setting it from the bar change itself doesn't work and I can't find out why. DIY fix.
             using (FileStream stream = File.Open(Properties.Settings.Default.LogFileFolder + @"\FortniteGame.log", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             { // opens the file, but also allows fortnite to continue writing.
                 using (StreamReader reader = new StreamReader(stream))

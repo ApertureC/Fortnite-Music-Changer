@@ -19,7 +19,7 @@ namespace Fortnite_Music_WPF
 {
     class Audio
     {
-        WindowsMediaPlayer wmp = new WindowsMediaPlayer();
+        public WindowsMediaPlayer wmp = new WindowsMediaPlayer();
 
         public Audio()
         {
@@ -30,7 +30,9 @@ namespace Fortnite_Music_WPF
         {
             try // Try / catch is here to prevent crashes when WMP says it's currently in use.
             {
-                wmp.URL = path; // if not, just play it.
+                wmp.URL = path; // just play it.
+                ChangeVolume();
+                Debug.WriteLine(wmp.settings.volume);
                 if (wmp.playState == WMPPlayState.wmppsPaused || wmp.playState == WMPPlayState.wmppsTransitioning || wmp.playState == WMPPlayState.wmppsUndefined)
                 {
                     wmp.controls.play(); // If it's currently paused or swapping tracks, play it.
@@ -60,9 +62,16 @@ namespace Fortnite_Music_WPF
                 }
             }
         }
-        public void ChangeVolume(int volume) // Changes the volume ("wow couldn't tell!" - you) 
-        {
-            wmp.settings.volume = volume;
+        public void ChangeVolume() // Changes the volume ("wow couldn't tell!" - you) 
+        { // this is currently bricked for absolutely no reason
+            try
+            {
+                wmp.settings.volume = Properties.Settings.Default.Volume;
+            }
+            catch
+            {
+
+            }
         }
     }
 

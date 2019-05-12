@@ -37,7 +37,7 @@ namespace Fortnite_Music_WPF
         {
             InitializeComponent();
 
-            string version = "4.0";
+            string version = "4.1";
             new UpdateChecker().Check(version, this);
             setup.SetUIValues(this);
 
@@ -140,9 +140,9 @@ namespace Fortnite_Music_WPF
         private void Volume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Properties.Settings.Default.Volume = (int)Volume.Value;
-            main.ChangeVolume((int)Volume.Value);
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
+            main.ChangeVolume();
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
