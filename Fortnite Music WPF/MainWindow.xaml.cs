@@ -28,16 +28,14 @@ namespace Fortnite_Music_WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        // CONFIG
-        //
         private Setup setup = new Setup();
-        private Audio main = new Audio();
+        private Audio audio = new Audio();
         private LogFileReader logFileReader = new LogFileReader();
         public MainWindow()
         {
             InitializeComponent();
 
-            string version = "4.1";
+            string version = "4.2";
             new UpdateChecker().Check(version, this);
             setup.SetUIValues(this);
 
@@ -56,9 +54,8 @@ namespace Fortnite_Music_WPF
         private void BrowseTitle_Click(object sender, RoutedEventArgs e)
         {
             var file = BrowseFile().FileName;
-            Properties.Settings.Default.TitleMenu = file;
-            Properties.Settings.Default.Save();
-            Properties.Settings.Default.Reload();
+            ChangeProperty("TitleMenu", file);
+
             TitleMenuPathBox.Document.Blocks.Clear();
             TitleMenuPathBox.Document.Blocks.Add(new Paragraph(new Run(Path.GetFileName(file))));
         }
@@ -66,9 +63,8 @@ namespace Fortnite_Music_WPF
         private void BrowseMenu_Click(object sender, RoutedEventArgs e)
         {
             var file = BrowseFile().FileName;
-            Properties.Settings.Default.MainMenu = file;
-            Properties.Settings.Default.Save();
-            Properties.Settings.Default.Reload();
+            ChangeProperty("MainMenu", file);
+
             MainMenuPathBox.Document.Blocks.Clear();
             MainMenuPathBox.Document.Blocks.Add(new Paragraph(new Run(Path.GetFileName(file))));
         }
@@ -76,9 +72,8 @@ namespace Fortnite_Music_WPF
         private void BrowseVictory_Click(object sender, RoutedEventArgs e)
         {
             var file = BrowseFile().FileName;
-            Properties.Settings.Default.VictoryMusic = file;
-            Properties.Settings.Default.Save();
-            Properties.Settings.Default.Reload();
+            ChangeProperty("VictoryMusic", file);
+
             VictoryPathBox.Document.Blocks.Clear();
             VictoryPathBox.Document.Blocks.Add(new Paragraph(new Run(Path.GetFileName(file))));
         }
@@ -94,27 +89,17 @@ namespace Fortnite_Music_WPF
         {
             if (IsAdministrator()) // Requires admin to set it to start on startup
             {
-                if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk")) // If the file exists - Delete it
+                if (Properties.Settings.Default.Startup == false)
                 {
-                    File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk");
-                    Properties.Settings.Default.Startup = false;
-                    Properties.Settings.Default.Save();
-                    Properties.Settings.Default.Reload();
+                    var RegKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true); // sets it in registery
+                    RegKey.SetValue("Fortnite_Music", System.Reflection.Assembly.GetExecutingAssembly().Location, RegistryValueKind.String);
+                    ChangeProperty("Startup", true);
                 }
                 else
                 {
-                    IWshRuntimeLibrary.WshShell wsh = new IWshRuntimeLibrary.WshShell();
-                    IWshRuntimeLibrary.IWshShortcut shortcut = wsh.CreateShortcut(
-                        Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\Fortnite Music Changer.lnk") as IWshRuntimeLibrary.IWshShortcut;
-                    shortcut.Arguments = "";
-                    shortcut.TargetPath = Environment.CurrentDirectory + @"\Fortnite Music WPF.exe";
-                    shortcut.WindowStyle = 1;
-                    shortcut.Description = "Fortnite Music Changer";
-                    shortcut.WorkingDirectory = Environment.CurrentDirectory + @"\";
-                    shortcut.Save(); // add shortcut to startup
-                    Properties.Settings.Default.Startup = true;
-                    Properties.Settings.Default.Save();
-                    Properties.Settings.Default.Reload();
+                    var RegKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true); // deletes it in registery
+                    RegKey.DeleteValue("Fortnite_Music");
+                    ChangeProperty("Startup", false);
                 }
             }
             else
@@ -127,9 +112,7 @@ namespace Fortnite_Music_WPF
 
         private void LaunchMinimized_Clicked(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.StartMinimized = LaunchMinimized.IsChecked ?? false;
-            Properties.Settings.Default.Save();
-            Properties.Settings.Default.Reload();
+            ChangeProperty("StartMinimized", LaunchMinimized.IsChecked ?? false);
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -139,10 +122,8 @@ namespace Fortnite_Music_WPF
 
         private void Volume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            Properties.Settings.Default.Volume = (int)Volume.Value;
-            Properties.Settings.Default.Save();
-            Properties.Settings.Default.Reload();
-            main.ChangeVolume();
+            ChangeProperty("Volume", (int)Volume.Value);
+            audio.ChangeVolume((int)Volume.Value);
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -157,7 +138,18 @@ namespace Fortnite_Music_WPF
 
         private void LogFileUpdate_Click(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.LogFileFolder = logFileReader.GetLogFolderPath(); ;
+            ChangeProperty("LogFileFolder", logFileReader.GetLogFolderPath());
+        }
+
+        private void Obscure_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeProperty("PlayInBackground", Obscure.IsChecked ?? false);
+        }
+
+        private void ChangeProperty(string name, object value)
+        {
+            Properties.Settings.Default[name] = value;
+            Debug.WriteLine(Properties.Settings.Default.StartMinimized);
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
         }

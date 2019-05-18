@@ -1,20 +1,7 @@
-﻿// Setup.cs
-// Holds methods and functions for setting up from starting the program, and first time setup.
-
-using System;
-using System.Diagnostics;
-using System.Threading;
-using System.Runtime.InteropServices;
-using System.Net;
-using System.IO;
-using Microsoft.Win32;
-using System.Xml.Linq;
-using System.Drawing;
-using System.Collections.Generic;
-using System.Security.Principal;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Documents;
-using System.Drawing.Imaging;
+
 namespace Fortnite_Music_WPF
 {
     class Setup
@@ -35,7 +22,7 @@ namespace Fortnite_Music_WPF
 
             mainWindow.LaunchMinimized.IsChecked = Properties.Settings.Default.StartMinimized;
             mainWindow.LaunchOnStartup.IsChecked = Properties.Settings.Default.Startup;
-
+            mainWindow.Obscure.IsChecked = Properties.Settings.Default.PlayInBackground;
             mainWindow.Volume.Value = Properties.Settings.Default.Volume;
 
             SetTextOfRichTextBox(mainWindow.TitleMenuPathBox, Path.GetFileName(Properties.Settings.Default.TitleMenu)); // Set the text of TitleMenuPathBox to the path of the Title music

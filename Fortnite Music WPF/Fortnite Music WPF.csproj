@@ -64,17 +64,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="GetResolutionWindow.xaml.cs">
-      <DependentUpon>GetResolutionWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="LogFileReader.cs" />
     <Compile Include="Audio.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="UpdateChecker.cs" />
-    <Page Include="GetResolutionWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

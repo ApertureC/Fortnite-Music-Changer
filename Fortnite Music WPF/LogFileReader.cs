@@ -3,9 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using System.Windows;
 
 namespace Fortnite_Music_WPF
@@ -14,67 +12,99 @@ namespace Fortnite_Music_WPF
     {
         private Audio audio = new Audio();
 
+        // DLL IMPORTS
+
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, WinEventProc lpfnWinEventProc, int idProcess, int idThread, uint dwflags);
+
+        [DllImport("user32.dll")]
+        internal static extern int UnhookWinEvent(IntPtr hWinEventHook);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetWindowThreadProcessId(IntPtr hWnd, out uint ProcessId);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+        internal delegate void WinEventProc(IntPtr hWinEventHook, uint iEvent, IntPtr hWnd, int idObject, int idChild, int dwEventThread, int dwmsEventTime);
+
+        //
+
         private int lastlinecount = 0; // line count from the last time LogFileRead was run.
         private void LogFileRead(object source, FileSystemEventArgs e) // When fortnite writes to the file, run this - vastly more efficient than getting screenshots :)
         {
-            audio.ChangeVolume(); // needs to keep running, doesn't work without it - setting it from the bar change itself doesn't work and I can't find out why. DIY fix.
             using (FileStream stream = File.Open(Properties.Settings.Default.LogFileFolder + @"\FortniteGame.log", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             { // opens the file, but also allows fortnite to continue writing.
                 using (StreamReader reader = new StreamReader(stream))
                 {
-                    int linecount = 0;
-                    string line = "";
-                    List<string> newlines = new List<string>();
+                    int LineCount = 0;
+                    string CurrentLine = "";
+                    List<string> NewLines = new List<string>(); // holds the new lines that were just written to the file
                     reader.BaseStream.Seek(lastlinecount, SeekOrigin.Begin);
-                    while ((line = reader.ReadLine()) != null)
+                    while ((CurrentLine = reader.ReadLine()) != null)
                     {
-                        linecount++; // counts number of lines
-                        if (linecount > lastlinecount && line != "") // if the line is new, add it to the list.
+                        LineCount++; 
+                        if (LineCount > lastlinecount && CurrentLine != "") // if the line is new, add it to the list.
                         {
-                            newlines.Add(line); // list because it can usually be 2 or more per update.
+                            NewLines.Add(CurrentLine); // list because it can usually be 2 or more per update.
                         }
                     }
-                    foreach (string i in newlines) // go through the new lines.
+                    foreach (string i in NewLines) // go through the new lines.
                     {
                         //Debug.WriteLine(i); // just prints log output.
 
-                        if (i.Contains("to SubgameSelect")) // Title menu
+                        // Title menu
+                        if (i.Contains("to SubgameSelect"))
                         {
                             Debug.WriteLine("State: Subgame");
                             audio.PlayMusic(Properties.Settings.Default.TitleMenu);
                         }
+                        //
 
-                        if (i.Contains("to FrontEnd")) // Main Menu
+                        // Main Menu
+                        if (i.Contains("to FrontEnd"))
                         {
                             Debug.WriteLine("State: FrontEnd");
                             audio.PlayMusic(Properties.Settings.Default.MainMenu);
                         }
+                        //
 
-                        if (i.Contains("NewState: Finished")) // Matchmaking Finished
+                        // Matchmaking Finished
+                        if (i.Contains("NewState: Finished"))
                         {
                             Debug.WriteLine("State: MatchmakingFinished");
                             audio.StopMusic();
                         }
-                        if (i.Contains("current=WaitingPostMatch")) // the game has ended, hopefully a victory royale, but it's hard to tell
+                        //
+
+                        // Game end
+                        if (i.Contains("current=WaitingPostMatch"))
                         {
                             audio.PlayMusic(Properties.Settings.Default.VictoryMusic);
                         }
+                        //
 
-                        if (i.Contains("Preparing to exit")) // the game has ended, hopefully a victory royale, but it's hard to tell
+                        // Game End
+                        if (i.Contains("Preparing to exit"))
                         {
                             Debug.WriteLine("State: Exit");
                             audio.StopMusic();
                         }
+                        //
                     }
-                    lastlinecount = linecount;
+                    lastlinecount = LineCount;
                 }
             }
         }
+        WinEventProc listener;
+        IntPtr winHook;
         public LogFileReader()
         {
-            Debug.WriteLine(Properties.Settings.Default.LogFileFolder == "");
+            // windows event hooking for getting when the foreground window changes
+            listener = new WinEventProc(ForegroundWindowChanged);
+            winHook = SetWinEventHook(3, 3, IntPtr.Zero, listener, 0, 0, 0);
+            //
+
             var defaultPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\FortniteGame\Saved\Logs";
-            Debug.WriteLine(defaultPath);
             if (!Directory.Exists(defaultPath)) // Checks for the log file, and if it already exists.
             {
                 if (Properties.Settings.Default.LogFileFolder == "")
@@ -101,8 +131,10 @@ namespace Fortnite_Music_WPF
             watcher.NotifyFilter = NotifyFilters.LastWrite;
             watcher.Changed += LogFileRead; // Once the file changes, run it.
             watcher.EnableRaisingEvents = true;
-            object uh = new object();
-            LogFileRead(uh, new FileSystemEventArgs(WatcherChangeTypes.Changed, "doesn't", "matter")); // run it to catch up if fortnite is open.
+            object EmptyObject = new object();
+            audio.ChangeVolume(0); // prevent blasting people's speakers for a second while it's still going through the logs (especially on startup)
+            LogFileRead(EmptyObject, new FileSystemEventArgs(WatcherChangeTypes.Changed, "", "")); // run it to catch up if fortnite is open.
+            audio.ChangeVolume(Properties.Settings.Default.Volume); // prevent blasting people's speakers while it's still going through the logs (especially on startup)
         }
 
         public string GetLogFolderPath()
@@ -112,8 +144,8 @@ namespace Fortnite_Music_WPF
             {
                 return defaultPath; // log files are located here!
             }
-            var path = BrowseFile().FileName;
-            path = path.Replace("FortniteGame.log", "");
+            var path = BrowseFile().FileName; // find the file
+            path = path.Replace("FortniteGame.log", ""); // get rid of the fortnitegame.log because we only want the directory.
             return path;
         }
         private OpenFileDialog BrowseFile()
@@ -127,6 +159,27 @@ namespace Fortnite_Music_WPF
             return openFileDialog1;
         }
 
+        private uint ForegroundWindowName()
+        {
+            var window = GetForegroundWindow();
+            uint pid;
+            GetWindowThreadProcessId(window, out pid);
 
+            return pid;
+        }
+        private void ForegroundWindowChanged(IntPtr hWinEventHook, uint iEvent, IntPtr hWnd, int idObject, int idChild, int dwEventThread, int dwmsEventTime)
+        {
+            var FortniteProcessId = ForegroundWindowName();
+            Process p = Process.GetProcessById((int)FortniteProcessId);
+            if (p.ProcessName != "FortniteClient-Win64-Shipping" && Properties.Settings.Default.PlayInBackground == false)
+            {
+                audio.ChangeVolume(0);
+            }
+            else
+            {
+                audio.ChangeVolume(Properties.Settings.Default.Volume);
+            }
+
+        }
     }
 }

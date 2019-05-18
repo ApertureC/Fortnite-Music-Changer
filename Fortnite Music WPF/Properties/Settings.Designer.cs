@@ -106,5 +106,17 @@ namespace Fortnite_Music_WPF.Properties {
                 this["LogFileFolder"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PlayInBackground {
+            get {
+                return ((bool)(this["PlayInBackground"]));
+            }
+            set {
+                this["PlayInBackground"] = value;
+            }
+        }
     }
 }

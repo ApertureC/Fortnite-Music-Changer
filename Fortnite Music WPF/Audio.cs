@@ -1,39 +1,26 @@
-﻿// Main.cs
-// Holds functions that are used in MainWindow.xaml.cs, keeping it cleaner.
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Diagnostics;
 using WMPLib;
 
 namespace Fortnite_Music_WPF
 {
     class Audio
     {
-        public WindowsMediaPlayer wmp = new WindowsMediaPlayer();
+        public static WindowsMediaPlayer wmp = new WindowsMediaPlayer();
 
         public Audio()
         {
             wmp.settings.setMode("Loop", true); // Make sure audio loops
         }
 
+        /// <summary>
+        /// Uses WMP to play music from a given path
+        /// </summary>
         public void PlayMusic(string path) // Plays music
         {
             try // Try / catch is here to prevent crashes when WMP says it's currently in use.
             {
                 wmp.URL = path; // just play it.
-                ChangeVolume();
-                Debug.WriteLine(wmp.settings.volume);
-                if (wmp.playState == WMPPlayState.wmppsPaused || wmp.playState == WMPPlayState.wmppsTransitioning || wmp.playState == WMPPlayState.wmppsUndefined)
+                if (wmp.playState == WMPPlayState.wmppsPaused || wmp.playState == WMPPlayState.wmppsTransitioning || wmp.playState == WMPPlayState.wmppsUndefined) // only play if it's not already playing
                 {
                     wmp.controls.play(); // If it's currently paused or swapping tracks, play it.
                 }
@@ -43,13 +30,16 @@ namespace Fortnite_Music_WPF
 
             }
         }
+
+        /// <summary>
+        /// Stop playing music that it's playing.
+        /// </summary>
         public void StopMusic() // Pauses the music 
         {
-            while (true) // loop + try/catch because wmp sometimes doesn't want to play ball.
+            while (true) // loop + try / catch because wmp sometimes doesn't want to play ball.
             {
                 try
                 {
-                    Debug.WriteLine(wmp.playState);
                     wmp.controls.stop();
                     if (wmp.playState == WMPPlayState.wmppsStopped || wmp.playState == WMPPlayState.wmppsReady || wmp.playState == WMPPlayState.wmppsUndefined)
                     {
@@ -62,16 +52,13 @@ namespace Fortnite_Music_WPF
                 }
             }
         }
-        public void ChangeVolume() // Changes the volume ("wow couldn't tell!" - you) 
-        { // this is currently bricked for absolutely no reason
-            try
-            {
-                wmp.settings.volume = Properties.Settings.Default.Volume;
-            }
-            catch
-            {
 
-            }
+        /// <summary>
+        /// Changes the music that's playing.
+        /// </summary>
+        public void ChangeVolume(int volume) // Changes the volume ("wow couldn't tell!" - you) 
+        { 
+            wmp.settings.volume = volume;
         }
     }
 
