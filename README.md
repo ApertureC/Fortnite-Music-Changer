@@ -7,7 +7,7 @@ Allows you to replace fortnite music by reading log files, and playing music whe
 ### Can I be banned?
 No, this doesn't touch the game itself so the anti cheats don't care
 
-##Special thanks to:
+## Special thanks to:
 
 * [PATXS](https://www.reddit.com/user/PATXS) - Finding bugs and other things 
 
