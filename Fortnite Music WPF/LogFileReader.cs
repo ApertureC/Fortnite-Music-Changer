@@ -53,7 +53,7 @@ namespace Fortnite_Music_WPF
                         //Debug.WriteLine(i); // just prints log output.
 
                         // Title menu
-                        if (i.Contains("to SubgameSelect"))
+                        if (i.Contains("to [UI.State.Startup.SubgameSelect]"))
                         {
                             Debug.WriteLine("State: Subgame");
                             audio.PlayMusic(Properties.Settings.Default.TitleMenu);
@@ -61,7 +61,7 @@ namespace Fortnite_Music_WPF
                         //
 
                         // Main Menu
-                        if (i.Contains("to FrontEnd"))
+                        if (i.Contains("to [UI.State.Athena.Frontend]"))
                         {
                             Debug.WriteLine("State: FrontEnd");
                             audio.PlayMusic(Properties.Settings.Default.MainMenu);
