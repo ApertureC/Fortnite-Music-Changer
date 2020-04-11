@@ -98,7 +98,7 @@ namespace Fortnite_Music_WPF
                     RefreshPlayingMusic();
                 }
 
-                if (i.Contains("to [UI.State.Athena.Frontend]")) // Main Menu
+                if (i.Contains("to [UI.State.Athena.Frontend]") || i.Contains("to FrontEnd")) // Main Menu // "to FrontEnd" is for STW support.
                 {
                     Debug.WriteLine("State: FrontEnd");
                     FortniteState = FortniteState.Menu;
