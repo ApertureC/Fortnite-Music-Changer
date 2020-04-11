@@ -65,7 +65,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="LogFileReader.cs" />
-    <Compile Include="Audio.cs" />
+    <Compile Include="AudioPlayer.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="UpdateChecker.cs" />
     <Page Include="MainWindow.xaml">

@@ -1,24 +1,11 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Runtime.InteropServices;
 using System.Security.Principal;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Path = System.IO.Path;
 
 namespace Fortnite_Music_WPF
@@ -29,17 +16,17 @@ namespace Fortnite_Music_WPF
     public partial class MainWindow : Window
     {
         private Setup setup = new Setup();
-        private Audio audio = new Audio();
         private LogFileReader logFileReader = new LogFileReader();
         public MainWindow()
         {
             InitializeComponent();
 
             string version = "4.3";
-            new UpdateChecker().Check(version, this);
+            UpdateChecker.CheckForUpdate(version, this);
             setup.SetUIValues(this);
 
         }
+
         private OpenFileDialog BrowseFile()
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog
@@ -51,6 +38,7 @@ namespace Fortnite_Music_WPF
             openFileDialog1.ShowDialog();
             return openFileDialog1;
         }
+
         private void BrowseTitle_Click(object sender, RoutedEventArgs e)
         {
             var file = BrowseFile().FileName;
@@ -123,7 +111,7 @@ namespace Fortnite_Music_WPF
         private void Volume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             ChangeProperty("Volume", (int)Volume.Value);
-            audio.ChangeVolume((int)Volume.Value);
+            AudioPlayer.ChangeVolume((int)Volume.Value);
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)

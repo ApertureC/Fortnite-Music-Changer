@@ -8,17 +8,12 @@ using System.Windows;
 
 namespace Fortnite_Music_WPF
 {
-    class LogFileReader
+    public class LogFileReader
     {
-        private Audio audio = new Audio();
-
         // DLL IMPORTS
 
         [DllImport("user32.dll", SetLastError = true)]
-        internal static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, WinEventProc lpfnWinEventProc, int idProcess, int idThread, uint dwflags);
-
-        [DllImport("user32.dll")]
-        internal static extern int UnhookWinEvent(IntPtr hWinEventHook);
+        internal static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, WinEventProc lpfnWinEventProc, int idProcess, int idThread, uint dwflags); // Used to see when the currently foreground window changes
 
         [DllImport("user32.dll")]
         public static extern IntPtr GetWindowThreadProcessId(IntPtr hWnd, out uint ProcessId);
@@ -30,16 +25,18 @@ namespace Fortnite_Music_WPF
         //
 
         private int lastlinecount = 0; // line count from the last time LogFileRead was run.
+        
         private void LogFileRead(object source, FileSystemEventArgs e) // When fortnite writes to the file, run this - vastly more efficient than getting screenshots :)
         {
-            using (FileStream stream = File.Open(Properties.Settings.Default.LogFileFolder + @"\FortniteGame.log", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            { // opens the file, but also allows fortnite to continue writing.
+            using (FileStream stream = File.Open(Properties.Settings.Default.LogFileFolder + @"\FortniteGame.log", FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) // opens the file, but also allows fortnite to continue writing.
+            { 
                 using (StreamReader reader = new StreamReader(stream))
                 {
                     int LineCount = 0;
                     string CurrentLine = "";
                     List<string> NewLines = new List<string>(); // holds the new lines that were just written to the file
                     reader.BaseStream.Seek(lastlinecount, SeekOrigin.Begin);
+
                     while ((CurrentLine = reader.ReadLine()) != null)
                     {
                         LineCount++; 
@@ -50,13 +47,11 @@ namespace Fortnite_Music_WPF
                     }
                     foreach (string i in NewLines) // go through the new lines.
                     {
-                        //Debug.WriteLine(i); // just prints log output.
-
                         // Title menu
                         if (i.Contains("to [UI.State.Startup.SubgameSelect]"))
                         {
                             Debug.WriteLine("State: Subgame");
-                            audio.PlayMusic(Properties.Settings.Default.TitleMenu);
+                            AudioPlayer.PlayMusic(Properties.Settings.Default.TitleMenu);
                         }
                         //
 
@@ -64,7 +59,7 @@ namespace Fortnite_Music_WPF
                         if (i.Contains("to [UI.State.Athena.Frontend]"))
                         {
                             Debug.WriteLine("State: FrontEnd");
-                            audio.PlayMusic(Properties.Settings.Default.MainMenu);
+                            AudioPlayer.PlayMusic(Properties.Settings.Default.MainMenu);
                         }
                         //
 
@@ -72,14 +67,14 @@ namespace Fortnite_Music_WPF
                         if (i.Contains("NewState: Finished"))
                         {
                             Debug.WriteLine("State: MatchmakingFinished");
-                            audio.StopMusic();
+                            AudioPlayer.StopMusic();
                         }
                         //
 
                         // Game end
                         if (i.Contains("current=WaitingPostMatch"))
                         {
-                            audio.PlayMusic(Properties.Settings.Default.VictoryMusic);
+                            AudioPlayer.PlayMusic(Properties.Settings.Default.VictoryMusic);
                         }
                         //
 
@@ -87,7 +82,7 @@ namespace Fortnite_Music_WPF
                         if (i.Contains("Preparing to exit"))
                         {
                             Debug.WriteLine("State: Exit");
-                            audio.StopMusic();
+                            AudioPlayer.StopMusic();
                         }
                         //
                     }
@@ -132,9 +127,9 @@ namespace Fortnite_Music_WPF
             watcher.Changed += LogFileRead; // Once the file changes, run it.
             watcher.EnableRaisingEvents = true;
             object EmptyObject = new object();
-            audio.ChangeVolume(0); // prevent blasting people's speakers for a second while it's still going through the logs (especially on startup)
+            AudioPlayer.ChangeVolume(0); // prevent blasting people's speakers for a second while it's still going through the logs (especially on startup)
             LogFileRead(EmptyObject, new FileSystemEventArgs(WatcherChangeTypes.Changed, "", "")); // run it to catch up if fortnite is open.
-            audio.ChangeVolume(Properties.Settings.Default.Volume); // prevent blasting people's speakers while it's still going through the logs (especially on startup)
+            AudioPlayer.ChangeVolume(Properties.Settings.Default.Volume); // prevent blasting people's speakers while it's still going through the logs (especially on startup)
         }
 
         public string GetLogFolderPath()
@@ -173,11 +168,11 @@ namespace Fortnite_Music_WPF
             Process p = Process.GetProcessById((int)FortniteProcessId);
             if (p.ProcessName != "FortniteClient-Win64-Shipping" && Properties.Settings.Default.PlayInBackground == false)
             {
-                audio.ChangeVolume(0);
+                AudioPlayer.ChangeVolume(0);
             }
             else
             {
-                audio.ChangeVolume(Properties.Settings.Default.Volume);
+                AudioPlayer.ChangeVolume(Properties.Settings.Default.Volume);
             }
 
         }
