@@ -5,6 +5,8 @@ namespace Fortnite_Music_WPF
 {
     public static class AudioPlayer
     {
+        private static WindowsMediaPlayer mediaPlayer = new WindowsMediaPlayer();
+
         /// <summary>
         /// Uses WMP to play music from a given path
         /// </summary>
@@ -53,8 +55,6 @@ namespace Fortnite_Music_WPF
         {
             mediaPlayer.settings.volume = volume;
         }
-
-        private static WindowsMediaPlayer mediaPlayer = new WindowsMediaPlayer();
     }
 
 }
