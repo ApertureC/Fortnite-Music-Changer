@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Fortnite_Music_WPF"
         mc:Ignorable="d"
-        Title="Fortnite Music Changer: Log file Edition (v4)" Height="207.558" Width="553.778" ResizeMode="NoResize">
+        Title="Fortnite Music Changer: Log file Edition (v4)" Height="225.148" Width="553.778" ResizeMode="NoResize">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_About">
@@ -50,7 +50,6 @@
             <CheckBox x:Name="LaunchMinimized" Content="Launch Minimized" HorizontalAlignment="Left" Margin="252,88,0,0" VerticalAlignment="Top" Width="118" Grid.Column="1" Height="21" Click="LaunchMinimized_Clicked"/>
             <TextBlock x:Name="Credit" HorizontalAlignment="Left" Margin="10,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="127"> <Hyperlink NavigateUri="https://github.com/ApertureC" RequestNavigate="Credit_RequestNavigate"> By ApertureC </Hyperlink></TextBlock>
             <Button x:Name="LogFileUpdate" Content="Change log file location" HorizontalAlignment="Left" Margin="10,113,0,0" VerticalAlignment="Top" Width="132" Click="LogFileUpdate_Click"/>
-            <Label x:Name="label" Content="Music not playing? Restart the program after adding the audio files." Grid.Column="1" HorizontalAlignment="Left" Margin="0,127,0,0" VerticalAlignment="Top" Width="386" Height="27" FontWeight="Bold"/>
             <CheckBox x:Name="PlayInBackground" Content="Play in background" HorizontalAlignment="Left" Margin="0,88,0,0" VerticalAlignment="Top" Width="122" Height="21" Click="PlayInBackground_Click" Grid.Column="1"/>
         </Grid>
     </DockPanel>

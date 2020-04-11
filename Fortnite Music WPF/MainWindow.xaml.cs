@@ -137,6 +137,7 @@ namespace Fortnite_Music_WPF
 
             TitleMenuPathBox.Document.Blocks.Clear();
             TitleMenuPathBox.Document.Blocks.Add(new Paragraph(new Run(Path.GetFileName(file))));
+            logFileReader.RefreshPlayingMusic();
         }
 
         /// <summary>
@@ -151,6 +152,7 @@ namespace Fortnite_Music_WPF
 
             MainMenuPathBox.Document.Blocks.Clear();
             MainMenuPathBox.Document.Blocks.Add(new Paragraph(new Run(Path.GetFileName(file))));
+            logFileReader.RefreshPlayingMusic();
         }
 
         /// <summary>
@@ -165,6 +167,7 @@ namespace Fortnite_Music_WPF
 
             VictoryPathBox.Document.Blocks.Clear();
             VictoryPathBox.Document.Blocks.Add(new Paragraph(new Run(Path.GetFileName(file))));
+            logFileReader.RefreshPlayingMusic();
         }
 
         /// <summary>

@@ -10,6 +10,8 @@ namespace Fortnite_Music_WPF
 {
     public class LogFileReader
     {
+        public FortniteState FortniteState { get; set; } = FortniteState.None;
+
         /// <summary>
         /// The file stream for the fortnite log file
         /// </summary>
@@ -44,6 +46,29 @@ namespace Fortnite_Music_WPF
         }
 
         /// <summary>
+        /// Refreshes the current playing music and restarts it
+        /// </summary>
+        public void RefreshPlayingMusic()
+        {
+            switch (FortniteState)
+            {
+                case FortniteState.Title:
+                    AudioPlayer.PlayMusic(Properties.Settings.Default.TitleMenu);
+                    break;
+                case FortniteState.Menu:
+                    AudioPlayer.PlayMusic(Properties.Settings.Default.MainMenu);
+                    break;
+                case FortniteState.GameEnd:
+                    AudioPlayer.PlayMusic(Properties.Settings.Default.VictoryMusic);
+                    break;
+                case FortniteState.InGame:
+                case FortniteState.None:
+                    AudioPlayer.StopMusic();
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Reads all of the new lines in a log file
         /// </summary>
         private void readNewLines(object source, FileSystemEventArgs e) // When fortnite writes to the file, run this - vastly more efficient than getting screenshots :)
@@ -69,34 +94,40 @@ namespace Fortnite_Music_WPF
                 if (i.Contains("to [UI.State.Startup.SubgameSelect]")) // Title menu
                 {
                     Debug.WriteLine("State: Subgame");
-                    AudioPlayer.PlayMusic(Properties.Settings.Default.TitleMenu); // Plays the 
+                    FortniteState = FortniteState.Title;
+                    RefreshPlayingMusic();
                 }
 
                 if (i.Contains("to [UI.State.Athena.Frontend]")) // Main Menu
                 {
                     Debug.WriteLine("State: FrontEnd");
-                    AudioPlayer.PlayMusic(Properties.Settings.Default.MainMenu);
+                    FortniteState = FortniteState.Menu;
+                    RefreshPlayingMusic();
                 }
 
                 if (i.Contains("NewState: Finished")) // Matchmaking finished
                 {
                     Debug.WriteLine("State: MatchmakingFinished");
-                    AudioPlayer.StopMusic();
+                    FortniteState = FortniteState.InGame;
+                    RefreshPlayingMusic();
                 }
 
                 if (i.Contains("current=WaitingPostMatch")) // game end
                 {
-                    AudioPlayer.PlayMusic(Properties.Settings.Default.VictoryMusic);
+                    FortniteState = FortniteState.GameEnd;
+                    RefreshPlayingMusic();
                 }
 
                 if (i.Contains("Preparing to exit")) // Fortnite closed
                 {
                     Debug.WriteLine("State: Exit");
-                    AudioPlayer.StopMusic();
+                    FortniteState = FortniteState.None;
+                    RefreshPlayingMusic();
                 }
             }
         }
 
+        
         /// <summary>
         /// Checks if the fortnite log file has been reset, and tells you if fortnite has just launched
         /// </summary>
@@ -112,5 +143,14 @@ namespace Fortnite_Music_WPF
 
             return isReset;
         }
+    }
+
+    public enum FortniteState
+    {
+        None,
+        Title,
+        Menu,
+        InGame,
+        GameEnd
     }
 }
