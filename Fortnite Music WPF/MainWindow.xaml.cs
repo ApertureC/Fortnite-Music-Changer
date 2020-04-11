@@ -35,7 +35,7 @@ namespace Fortnite_Music_WPF
         {
             InitializeComponent();
 
-            string version = "4.2";
+            string version = "4.3";
             new UpdateChecker().Check(version, this);
             setup.SetUIValues(this);
 
