@@ -9,7 +9,7 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_About">
-                <MenuItem Header="_Github" Click="MenuItem_Click"/>
+                <MenuItem Header="_Github" Click="GithubLink_Click"/>
             </MenuItem>
         </Menu>
         <Grid>
@@ -49,7 +49,6 @@
             <CheckBox x:Name="LaunchOnStartup" Content="Launch On Startup" HorizontalAlignment="Left" Margin="125,88,0,0" VerticalAlignment="Top" Width="122" Grid.Column="1" Height="21" Click="LaunchOnStartup_Clicked"/>
             <CheckBox x:Name="LaunchMinimized" Content="Launch Minimized" HorizontalAlignment="Left" Margin="252,88,0,0" VerticalAlignment="Top" Width="118" Grid.Column="1" Height="21" Click="LaunchMinimized_Clicked"/>
             <TextBlock x:Name="Credit" HorizontalAlignment="Left" Margin="10,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="127"> <Hyperlink NavigateUri="https://github.com/ApertureC" RequestNavigate="Credit_RequestNavigate"> By ApertureC </Hyperlink></TextBlock>
-            <Button x:Name="UpdateButton" Content="Update Available" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" Width="132" Click="UpdateButton_Click" Visibility="Hidden"/>
             <Button x:Name="LogFileUpdate" Content="Change log file location" HorizontalAlignment="Left" Margin="10,113,0,0" VerticalAlignment="Top" Width="132" Click="LogFileUpdate_Click"/>
             <Label x:Name="label" Content="Music not playing? Restart the program after adding the audio files." Grid.Column="1" HorizontalAlignment="Left" Margin="0,127,0,0" VerticalAlignment="Top" Width="386" Height="27" FontWeight="Bold"/>
             <CheckBox x:Name="PlayInBackground" Content="Play in background" HorizontalAlignment="Left" Margin="0,88,0,0" VerticalAlignment="Top" Width="122" Height="21" Click="PlayInBackground_Click" Grid.Column="1"/>

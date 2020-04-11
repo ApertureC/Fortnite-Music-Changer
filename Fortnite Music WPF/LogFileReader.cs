@@ -24,16 +24,16 @@ namespace Fortnite_Music_WPF
         /// Creates a new log file reader
         /// </summary>
         /// <param name="fortniteLogPath">The fortnite log file to read</param>
-        public LogFileReader(string fortniteLogPath)
+        public LogFileReader(string fortniteLogDirectory)
         {
-            fileStream = File.Open(fortniteLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            fileStream = File.Open(fortniteLogDirectory + @"\FortniteGame.log", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             streamReader = new StreamReader(fileStream);
 
-            Debug.WriteLine("Using Fortnite log file: " + fortniteLogPath);
+            Debug.WriteLine("Using Fortnite log file: " + fortniteLogDirectory);
 
             FileSystemWatcher watcher = new FileSystemWatcher();
             watcher.Filter = "FortniteGame.log";
-            watcher.Path = fortniteLogPath;
+            watcher.Path = fortniteLogDirectory;
             watcher.NotifyFilter = NotifyFilters.LastWrite;
             watcher.Changed += readNewLines; // Once the file changes, read the new lines
             watcher.EnableRaisingEvents = true;

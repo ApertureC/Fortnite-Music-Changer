@@ -35,7 +35,7 @@ namespace Fortnite_Music_WPF
 
         public MainWindow()
         {
-            logFileReader = new LogFileReader(getLogFilePath() + @"\FortniteGame.log");
+            logFileReader = new LogFileReader(getLogFilePath());
 
             // windows event hooking for getting when the foreground window changes
             foregroundWindowChangedListener = new WinEventProc(onForegroundWindowChanged);
