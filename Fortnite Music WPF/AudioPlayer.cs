@@ -5,7 +5,10 @@ namespace Fortnite_Music_WPF
 {
     public static class AudioPlayer
     {
-        private static WindowsMediaPlayer mediaPlayer = new WindowsMediaPlayer();
+        static AudioPlayer()
+        {
+            mediaPlayer.settings.setMode("Loop", true);
+        }
 
         /// <summary>
         /// Uses WMP to play music from a given path
@@ -16,9 +19,7 @@ namespace Fortnite_Music_WPF
             {
                 mediaPlayer.URL = path; // just play it.
                 if (mediaPlayer.playState == WMPPlayState.wmppsPaused || mediaPlayer.playState == WMPPlayState.wmppsTransitioning || mediaPlayer.playState == WMPPlayState.wmppsUndefined) // only play if it's not already playing
-                {
                     mediaPlayer.controls.play(); // If it's currently paused or swapping tracks, play it.
-                }
             }
             catch
             {
@@ -31,15 +32,13 @@ namespace Fortnite_Music_WPF
         /// </summary>
         public static void StopMusic() // Pauses the music 
         {
-            while (true) // loop + try / catch because wmp sometimes doesn't want to play ball.
+            while (true) // loop + try / catch because wmp sometimes throws random errors
             {
                 try
                 {
                     mediaPlayer.controls.stop();
                     if (mediaPlayer.playState == WMPPlayState.wmppsStopped || mediaPlayer.playState == WMPPlayState.wmppsReady || mediaPlayer.playState == WMPPlayState.wmppsUndefined)
-                    {
                         break;
-                    }
                 }
                 catch
                 {
@@ -51,10 +50,12 @@ namespace Fortnite_Music_WPF
         /// <summary>
         /// Changes the volume.
         /// </summary>
-        public static void ChangeVolume(int volume) // Changes the volume ("wow couldn't tell!" - you) 
+        public static void ChangeVolume(int volume)
         {
             mediaPlayer.settings.volume = volume;
         }
+
+        private static WindowsMediaPlayer mediaPlayer = new WindowsMediaPlayer();
     }
 
 }
