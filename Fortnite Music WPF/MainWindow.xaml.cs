@@ -43,7 +43,7 @@ namespace Fortnite_Music_WPF
 
             InitializeComponent();
 
-            string version = "4.3";
+            string version = "4.3.1";
             UpdateChecker.CheckForUpdate(version);
 
             if (Properties.Settings.Default.StartMinimized) // check if we should minimize
