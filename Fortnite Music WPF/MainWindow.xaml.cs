@@ -59,6 +59,7 @@ namespace Fortnite_Music_WPF
             SetTextOfRichTextBox(TitleMenuPathBox, Path.GetFileName(Properties.Settings.Default.TitleMenu)); // Set the text of TitleMenuPathBox to the path of the Title music
             SetTextOfRichTextBox(MainMenuPathBox, Path.GetFileName(Properties.Settings.Default.MainMenu)); // Set the text of MainMenuPathBox to the path of the Menu music
             SetTextOfRichTextBox(VictoryPathBox, Path.GetFileName(Properties.Settings.Default.VictoryMusic)); // Set the text of VictoryPathBox to the path of the Victory music
+            SetTextOfRichTextBox(InGamePathBox, Path.GetFileName(Properties.Settings.Default.InGameMusic)); // Set the text of InGamePathBox to the path of the In game music
         }
 
         /// <summary>
@@ -167,6 +168,16 @@ namespace Fortnite_Music_WPF
 
             VictoryPathBox.Document.Blocks.Clear();
             VictoryPathBox.Document.Blocks.Add(new Paragraph(new Run(Path.GetFileName(file))));
+            logFileReader.RefreshPlayingMusic();
+        }
+
+        private void BrowseInGame_Click(object sender, RoutedEventArgs e)
+        {
+            var file = BrowseFile().FileName;
+            ChangeProperty("InGameMusic", file);
+
+            InGamePathBox.Document.Blocks.Clear();
+            InGamePathBox.Document.Blocks.Add(new Paragraph(new Run(Path.GetFileName(file))));
             logFileReader.RefreshPlayingMusic();
         }
 
@@ -289,7 +300,6 @@ namespace Fortnite_Music_WPF
         private void ChangeProperty(string name, object value)
         {
             Properties.Settings.Default[name] = value;
-            Debug.WriteLine(Properties.Settings.Default.StartMinimized);
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
         }

@@ -65,9 +65,11 @@ namespace Fortnite_Music_WPF
                     AudioPlayer.PlayMusic(Properties.Settings.Default.MainMenu);
                     break;
                 case FortniteState.GameEnd:
-                    AudioPlayer.PlayMusic(Properties.Settings.Default.VictoryMusic);
+                    AudioPlayer.PlayMusic(Properties.Settings.Default.VictoryMusic); // This is called "Victory music" because a very long time ago it used to be on victory (before I used log files, it used to use pixel colours!! Unfortunately victories aren't logged)
                     break;
                 case FortniteState.InGame:
+                    AudioPlayer.PlayMusic(Properties.Settings.Default.InGameMusic);
+                    break;
                 case FortniteState.None:
                     AudioPlayer.StopMusic();
                     break;

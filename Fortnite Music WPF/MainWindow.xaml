@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Fortnite_Music_WPF"
         mc:Ignorable="d"
-        Title="Fortnite Music Changer" Height="190" Width="570" ResizeMode="NoResize">
+        Title="Fortnite Music Changer" Height="227.267" Width="570" ResizeMode="NoResize">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_About">
@@ -19,38 +19,48 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <TextBlock x:Name="MainMenuText" HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="21" Width="147" TextAlignment="Right"><Run Text="Main Menu Music File"/><Run Text=":"/></TextBlock>
-            <TextBlock x:Name="VictoryText" HorizontalAlignment="Left" Margin="10,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="21" Width="147" TextAlignment="Right"><Run Text="Game End"/><Run Text=" Music File:"/></TextBlock>
-            <TextBlock x:Name="TitleMenuText" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="21" Width="147" TextAlignment="Right"><Run Text="Title Menu Music File"/><Run Text=":"/></TextBlock>
-            <RichTextBox x:Name="MainMenuPathBox" HorizontalAlignment="Left" Height="21" Margin="162,41,0,0" VerticalAlignment="Top" Width="302" IsEnabled="False">
+            <TextBlock x:Name="MainMenuText" HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="21" Width="122" TextAlignment="Right"><Run Text="Main Menu Music File"/><Run Text=":"/></TextBlock>
+            <TextBlock x:Name="VictoryText" HorizontalAlignment="Left" Margin="10,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="21" Width="122" TextAlignment="Right"><Run Text="Game End"/><Run Text=" Music File:"/></TextBlock>
+            <TextBlock x:Name="TitleMenuText" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="21" Width="122" TextAlignment="Right"><Run Text="Title Menu Music File"/><Run Text=":"/></TextBlock>
+            <RichTextBox x:Name="MainMenuPathBox" HorizontalAlignment="Left" Height="21" Margin="137,41,0,0" VerticalAlignment="Top" Width="327" IsEnabled="False">
                 <FlowDocument>
                     <Paragraph>
-                        <Run Text="RichTextBox"/>
+                        <Run Text=""/>
                     </Paragraph>
                 </FlowDocument>
             </RichTextBox>
-            <RichTextBox x:Name="VictoryPathBox" HorizontalAlignment="Left" Height="21" Margin="162,71,0,0" VerticalAlignment="Top" Width="302" IsEnabled="False">
+            <RichTextBox x:Name="VictoryPathBox" HorizontalAlignment="Left" Height="21" Margin="137,71,0,0" VerticalAlignment="Top" Width="327" IsEnabled="False">
                 <FlowDocument>
                     <Paragraph>
-                        <Run Text="RichTextBox"/>
+                        <Run Text=""/>
                     </Paragraph>
                 </FlowDocument>
             </RichTextBox>
             <Button x:Name="BrowseMenu" Content="Browse" HorizontalAlignment="Left" Margin="469,41,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.484,0.533" Height="21" Click="BrowseMenu_Click"/>
             <Button x:Name="BrowseVictory" Content="Browse" HorizontalAlignment="Left" Margin="469,71,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.484,0.533" Height="21" Click="BrowseVictory_Click"/>
-            <Slider x:Name="Volume" HorizontalAlignment="Left" Margin="55,97,0,0" VerticalAlignment="Top" Width="102" Height="21" ValueChanged="Volume_ValueChanged" Maximum="100"/>
-            <TextBlock x:Name="VolumeText" HorizontalAlignment="Left" Margin="10,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="21"><Run Text="Volume"/><LineBreak/><Run/></TextBlock>
-            <RichTextBox x:Name="TitleMenuPathBox" HorizontalAlignment="Left" Height="21" Margin="162,10,0,0" VerticalAlignment="Top" Width="302" IsEnabled="False">
+            <Slider x:Name="Volume" HorizontalAlignment="Left" Margin="55,140,0,0" VerticalAlignment="Top" Width="102" Height="21" ValueChanged="Volume_ValueChanged" Maximum="100"/>
+            <TextBlock x:Name="VolumeText" HorizontalAlignment="Left" Margin="10,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="21"><Run Text="Volume"/><LineBreak/><Run/></TextBlock>
+            <RichTextBox x:Name="TitleMenuPathBox" HorizontalAlignment="Left" Height="21" Margin="137,10,0,0" VerticalAlignment="Top" Width="327" IsEnabled="False">
                 <FlowDocument>
                     <Paragraph>
-                        <Run Text="RichTextBox"/>
+                        <Run Text=""/>
                     </Paragraph>
                 </FlowDocument>
             </RichTextBox>
             <Button x:Name="BrowseTitle" Content="Browse" HorizontalAlignment="Left" Margin="469,10,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.484,0.533" Height="21" Click="BrowseTitle_Click"/>
-            <CheckBox x:Name="LaunchOnStartup" Content="Launch On Startup" HorizontalAlignment="Left" Margin="299,97,0,0" VerticalAlignment="Top" Width="122" Height="21" Click="LaunchOnStartup_Clicked"/>
-            <CheckBox x:Name="LaunchMinimized" Content="Launch Minimized" HorizontalAlignment="Left" Margin="426,97,0,0" VerticalAlignment="Top" Width="118" Height="21" Click="LaunchMinimized_Clicked"/>
-            <CheckBox x:Name="PlayInBackground" Content="Play in background" HorizontalAlignment="Left" Margin="172,97,0,0" VerticalAlignment="Top" Width="122" Height="21" Click="PlayInBackground_Click"/>
+            <CheckBox x:Name="LaunchOnStartup" Content="Launch On Startup" HorizontalAlignment="Left" Margin="299,140,0,0" VerticalAlignment="Top" Width="122" Height="21" Click="LaunchOnStartup_Clicked"/>
+            <CheckBox x:Name="LaunchMinimized" Content="Launch Minimized" HorizontalAlignment="Left" Margin="426,140,0,0" VerticalAlignment="Top" Width="118" Height="21" Click="LaunchMinimized_Clicked"/>
+            <CheckBox x:Name="PlayInBackground" Content="Play in background" HorizontalAlignment="Left" Margin="172,140,0,0" VerticalAlignment="Top" Width="122" Height="21" Click="PlayInBackground_Click"/>
+            <TextBlock x:Name="InGameText" HorizontalAlignment="Left" Margin="10,101,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="21" Width="122" TextAlignment="Right"><Run Text="In Game"/><Run Text=" Music File:"/></TextBlock>
+            <RichTextBox x:Name="InGamePathBox" HorizontalAlignment="Left" Height="21" Margin="137,101,0,0" VerticalAlignment="Top" Width="327" IsEnabled="False">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text=""/>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+            <Button x:Name="BrowseInGame" Content="Browse" HorizontalAlignment="Left" Margin="469,101,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.484,0.533" Height="21" Click="BrowseInGame_Click"/>
+            <Button x:Name="BrowseTitle_Copy" Content="Browse" HorizontalAlignment="Left" Margin="469,10,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.484,0.533" Height="21" Click="BrowseTitle_Click"/>
         </Grid>
     </DockPanel>
 </Window>
