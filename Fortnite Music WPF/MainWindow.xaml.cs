@@ -27,9 +27,8 @@ namespace Fortnite_Music_WPF
 
         internal delegate void WinEventProc(IntPtr hWinEventHook, uint iEvent, IntPtr hWnd, int idObject, int idChild, int dwEventThread, int dwmsEventTime);
 
+        // Used for play in background
         private WinEventProc foregroundWindowChangedListener;
-
-        private IntPtr foregroundWindowChangeHook;
 
         private LogFileReader logFileReader;
 
@@ -37,20 +36,19 @@ namespace Fortnite_Music_WPF
         {
             logFileReader = new LogFileReader(getLogFilePath());
 
-            // windows event hooking for getting when the foreground window changes
+            // Used to detect when the user swaps window to stop music if they request it
             foregroundWindowChangedListener = new WinEventProc(onForegroundWindowChanged);
-            foregroundWindowChangeHook = SetWinEventHook(3, 3, IntPtr.Zero, foregroundWindowChangedListener, 0, 0, 0);
+            SetWinEventHook(3, 3, IntPtr.Zero, foregroundWindowChangedListener, 0, 0, 0);
 
             InitializeComponent();
 
-            string version = "4.3.1";
+            string version = "4.4";
             UpdateChecker.CheckForUpdate(version);
 
             if (Properties.Settings.Default.StartMinimized) // check if we should minimize
-            {
                 WindowState = WindowState.Minimized;
-            }
 
+            // Load the saved values into the UI
             LaunchMinimized.IsChecked = Properties.Settings.Default.StartMinimized; // set the LaunchMinimized checkbox
             LaunchOnStartup.IsChecked = Properties.Settings.Default.Startup; // set the LaunchOnStarup checkbox
             PlayInBackground.IsChecked = Properties.Settings.Default.PlayInBackground; // set the Obscure
@@ -69,12 +67,9 @@ namespace Fortnite_Music_WPF
         private string getLogFilePath()
         {
             if (Properties.Settings.Default.LogFileFolder != "")
-            {
                 return Properties.Settings.Default.LogFileFolder; // we already have a path set
-            }
 
             // We don't have a log folder location, lets find one!
-
             var defaultPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\FortniteGame\Saved\Logs"; // the default location - %localappdata%\FortniteGame\Saved\Logs
 
             if (!Directory.Exists(defaultPath)) // Checks for the log file, and if it already exists.

@@ -98,7 +98,7 @@ namespace Fortnite_Music_WPF
             // Get all of the new lines in the log file since the last update
             List<string> newLines = new List<string>();
             string currentLine;
-            while ((currentLine = streamReader.ReadLine()) != null)
+            while ((currentLine = streamReader.ReadLine()) != null) // This crashes some times and idk why (some encoding problem) only happens once in a while so probably isn't a problem. Just relaunch the program!
                 if (currentLine != "")
                     newLines.Add(currentLine);
 
