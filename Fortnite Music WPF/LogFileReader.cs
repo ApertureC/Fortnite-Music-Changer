@@ -12,37 +12,37 @@ namespace Fortnite_Music_WPF
     {
         public FortniteState FortniteState { get; set; } = FortniteState.None;
 
-        /// <summary>
-        /// The file stream for the fortnite log file
-        /// </summary>
+        // The file stream for the fortnite log file
         private FileStream fileStream;
 
-        /// <summary>
-        /// The stream reader for the fortnite log file
-        /// </summary>
+        // The stream reader for the fortnite log file
         private StreamReader streamReader;
+
+        private readonly string fortniteLogDirectory;
 
         /// <summary>
         /// Creates a new log file reader
         /// </summary>
         /// <param name="fortniteLogPath">The fortnite log file to read</param>
-        public LogFileReader(string fortniteLogDirectory)
+        public LogFileReader(string t_fortniteLogDirectory)
         {
-            fileStream = File.Open(fortniteLogDirectory + @"\FortniteGame.log", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            streamReader = new StreamReader(fileStream);
+            fortniteLogDirectory = t_fortniteLogDirectory;
 
             Debug.WriteLine("Using Fortnite log file: " + fortniteLogDirectory);
 
-            FileSystemWatcher watcher = new FileSystemWatcher();
-            watcher.Filter = "FortniteGame.log";
-            watcher.Path = fortniteLogDirectory;
-            watcher.NotifyFilter = NotifyFilters.LastWrite;
+            // Watch for file system events for the fortnite log file
+            FileSystemWatcher watcher = new FileSystemWatcher
+            {
+                Filter = "FortniteGame.log",
+                Path = fortniteLogDirectory,
+                NotifyFilter = NotifyFilters.LastWrite
+            };
             watcher.Changed += readNewLines; // Once the file changes, read the new lines
             watcher.EnableRaisingEvents = true;
 
-            AudioPlayer.ChangeVolume(0); // prevent blasting people's speakers for a second while it's still going through the logs (especially on startup)
+            AudioPlayer.ChangeVolume(0); // prevent blasting people's speakers for a second while it's still going through the logs (especially on startup), so set the volume to 0
             readNewLines(new object(), new FileSystemEventArgs(WatcherChangeTypes.Changed, "", "")); // run it to catch up if fortnite is open.
-            AudioPlayer.ChangeVolume(Properties.Settings.Default.Volume); // prevent blasting people's speakers while it's still going through the logs (especially on startup)
+            AudioPlayer.ChangeVolume(Properties.Settings.Default.Volume);
         }
 
         /// <summary>
@@ -50,6 +50,12 @@ namespace Fortnite_Music_WPF
         /// </summary>
         public void RefreshPlayingMusic()
         {
+            if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length == 0)
+            {
+                AudioPlayer.StopMusic();
+                return;
+            }
+
             switch (FortniteState)
             {
                 case FortniteState.Title:
@@ -73,23 +79,28 @@ namespace Fortnite_Music_WPF
         /// </summary>
         private void readNewLines(object source, FileSystemEventArgs e) // When fortnite writes to the file, run this - vastly more efficient than getting screenshots :)
         {
-            string CurrentLine = "";
-            List<string> NewLines = new List<string>(); // holds the new lines that were just written to the file
+            // Create the stream reader and file system if the file exists.
+            if (fileStream == null && streamReader == null && File.Exists(fortniteLogDirectory + @"\FortniteGame.log"))
+            {
+                fileStream = File.Open(fortniteLogDirectory + @"\FortniteGame.log", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                streamReader = new StreamReader(fileStream);
+            }
+
+            if (fileStream == null && streamReader == null)
+                return; // If still null just return, it wasn't created
+
 
             if (isLogFileEmpty()) // this is true when fortnite has started up and has cleared the existing log file 
-            {
                 streamReader.BaseStream.Seek(0, SeekOrigin.Begin); // reset log position
-            }
 
-            while ((CurrentLine = streamReader.ReadLine()) != null)
-            {
-                if (CurrentLine != "") // if the line is new, add it to the list.
-                {
-                    NewLines.Add(CurrentLine); // list because it can usually be 2 or more per update.
-                }
-            }
+            // Get all of the new lines in the log file since the last update
+            List<string> newLines = new List<string>();
+            string currentLine;
+            while ((currentLine = streamReader.ReadLine()) != null)
+                if (currentLine != "")
+                    newLines.Add(currentLine);
 
-            foreach (string i in NewLines) // go through the new lines.
+            foreach (string i in newLines) // go through the new lines.
             {
                 if (i.Contains("to [UI.State.Startup.SubgameSelect]")) // Title menu
                 {
@@ -97,28 +108,24 @@ namespace Fortnite_Music_WPF
                     FortniteState = FortniteState.Title;
                     RefreshPlayingMusic();
                 }
-
-                if (i.Contains("to [UI.State.Athena.Frontend]") || i.Contains("to FrontEnd")) // Main Menu // "to FrontEnd" is for STW support.
+                else if (i.Contains("to [UI.State.Athena.Frontend]") || i.Contains("to FrontEnd")) // Main Menu // "to FrontEnd" is for STW support.
                 {
                     Debug.WriteLine("State: FrontEnd");
                     FortniteState = FortniteState.Menu;
                     RefreshPlayingMusic();
                 }
-
-                if (i.Contains("NewState: Finished")) // Matchmaking finished
+                else if (i.Contains("NewState: Finished")) // Matchmaking finished
                 {
                     Debug.WriteLine("State: MatchmakingFinished");
                     FortniteState = FortniteState.InGame;
                     RefreshPlayingMusic();
                 }
-
-                if (i.Contains("current=WaitingPostMatch")) // game end
+                else if (i.Contains("current=WaitingPostMatch")) // game end
                 {
                     FortniteState = FortniteState.GameEnd;
                     RefreshPlayingMusic();
                 }
-
-                if (i.Contains("Preparing to exit")) // Fortnite closed
+                else if (i.Contains("Preparing to exit")) // Fortnite closed
                 {
                     Debug.WriteLine("State: Exit");
                     FortniteState = FortniteState.None;
@@ -127,7 +134,6 @@ namespace Fortnite_Music_WPF
             }
         }
 
-        
         /// <summary>
         /// Checks if the fortnite log file has been reset, and tells you if fortnite has just launched
         /// </summary>
