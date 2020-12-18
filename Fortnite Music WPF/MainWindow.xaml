@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Fortnite_Music_WPF"
         mc:Ignorable="d"
-        Title="Fortnite Music Changer" Height="227.267" Width="570" ResizeMode="NoResize">
+        Title="Fortnite Music Changer" Height="227.267" Width="570" ResizeMode="CanMinimize">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_About">
