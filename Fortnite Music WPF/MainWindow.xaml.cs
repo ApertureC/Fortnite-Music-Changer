@@ -54,7 +54,6 @@ namespace Fortnite_Music_WPF
             PlayInBackground.IsChecked = Properties.Settings.Default.PlayInBackground; // set the Obscure
             Volume.Value = Properties.Settings.Default.Volume;
 
-            SetTextOfRichTextBox(TitleMenuPathBox, Path.GetFileName(Properties.Settings.Default.TitleMenu)); // Set the text of TitleMenuPathBox to the path of the Title music
             SetTextOfRichTextBox(MainMenuPathBox, Path.GetFileName(Properties.Settings.Default.MainMenu)); // Set the text of MainMenuPathBox to the path of the Menu music
             SetTextOfRichTextBox(VictoryPathBox, Path.GetFileName(Properties.Settings.Default.VictoryMusic)); // Set the text of VictoryPathBox to the path of the Victory music
             SetTextOfRichTextBox(InGamePathBox, Path.GetFileName(Properties.Settings.Default.InGameMusic)); // Set the text of InGamePathBox to the path of the In game music
@@ -119,21 +118,6 @@ namespace Fortnite_Music_WPF
 
             openFileDialog1.ShowDialog();
             return openFileDialog1;
-        }
-
-        /// <summary>
-        /// Called when the Title Menu "Browse" button is pressed, creates a dialog to find the audio file to play
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void BrowseTitle_Click(object sender, RoutedEventArgs e)
-        {
-            var file = BrowseFile().FileName;
-            ChangeProperty("TitleMenu", file);
-
-            TitleMenuPathBox.Document.Blocks.Clear();
-            TitleMenuPathBox.Document.Blocks.Add(new Paragraph(new Run(Path.GetFileName(file))));
-            logFileReader.RefreshPlayingMusic();
         }
 
         /// <summary>

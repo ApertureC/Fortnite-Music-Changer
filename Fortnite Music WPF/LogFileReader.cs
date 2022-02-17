@@ -58,9 +58,6 @@ namespace Fortnite_Music_WPF
 
             switch (FortniteState)
             {
-                case FortniteState.Title:
-                    AudioPlayer.PlayMusic(Properties.Settings.Default.TitleMenu);
-                    break;
                 case FortniteState.Menu:
                     AudioPlayer.PlayMusic(Properties.Settings.Default.MainMenu);
                     break;
@@ -103,14 +100,8 @@ namespace Fortnite_Music_WPF
                     newLines.Add(currentLine);
 
             foreach (string i in newLines) // go through the new lines.
-            {
-                if (i.Contains("to [UI.State.Startup.SubgameSelect]")) // Title menu
-                {
-                    Debug.WriteLine("State: Subgame");
-                    FortniteState = FortniteState.Title;
-                    RefreshPlayingMusic();
-                }
-                else if (i.Contains("to [UI.State.Athena.Frontend]") || i.Contains("to FrontEnd")) // Main Menu // "to FrontEnd" is for STW support.
+            { 
+                if (i.Contains("to [UI.State.Athena.Frontend]") || i.Contains("to FrontEnd")) // Main Menu // "to FrontEnd" is for STW support.
                 {
                     Debug.WriteLine("State: FrontEnd");
                     FortniteState = FortniteState.Menu;
@@ -156,7 +147,7 @@ namespace Fortnite_Music_WPF
     public enum FortniteState
     {
         None,
-        Title,
+        // Title, // Title screen was removed in v19.30 https://www.epicgames.com/fortnite/en-US/news/load-into-the-lobby-in-fortnite-game-mode-select-screen-removed
         Menu,
         InGame,
         GameEnd
