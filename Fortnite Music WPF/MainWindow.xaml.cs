@@ -34,7 +34,7 @@ namespace Fortnite_Music_WPF
 
         public MainWindow()
         {
-            logFileReader = new LogFileReader(getLogFilePath());
+            logFileReader = new LogFileReader(fortniteLogDirectory);
 
             // Used to detect when the user swaps window to stop music if they request it
             foregroundWindowChangedListener = new WinEventProc(onForegroundWindowChanged);
@@ -59,50 +59,8 @@ namespace Fortnite_Music_WPF
             SetTextOfRichTextBox(InGamePathBox, Path.GetFileName(Properties.Settings.Default.InGameMusic)); // Set the text of InGamePathBox to the path of the In game music
         }
 
-        /// <summary>
-        /// Gets the log file path by seeing if one is already set, attempts to find it or the user is prompted to find it.
-        /// </summary>
-        /// <returns>The directory for the log file</returns>
-        private string getLogFilePath()
-        {
-            if (Properties.Settings.Default.LogFileFolder != "")
-                return Properties.Settings.Default.LogFileFolder; // we already have a path set
-
-            // We don't have a log folder location, lets find one!
-            var defaultPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\FortniteGame\Saved\Logs"; // the default location - %localappdata%\FortniteGame\Saved\Logs
-
-            if (!Directory.Exists(defaultPath)) // Checks for the log file, and if it already exists.
-            {
-                MessageBox.Show("Failed to find log file! You probably installed fortnite somewhere else. You'll have to find it.");
-                Properties.Settings.Default.LogFileFolder = browseLogLocation();
-            }
-            else
-            {
-                Properties.Settings.Default.LogFileFolder = defaultPath; // set it as the default path
-            }
-
-            Properties.Settings.Default.Save();
-            Properties.Settings.Default.Reload();
-
-            return Properties.Settings.Default.LogFileFolder;
-        }
-
-        /// <summary>
-        /// Double checks the default path and then creates a dialog for the thing
-        /// </summary>
-        /// <returns></returns>
-        private string browseLogLocation()
-        {
-            var defaultPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\FortniteGame\Saved\Logs";
-            if (File.Exists(defaultPath))
-            {
-                return defaultPath; // log files are located here!
-            }
-
-            var path = BrowseFile().FileName; // find the file
-            path = path.Replace("FortniteGame.log", ""); // get rid of the fortnitegame.log because we only want the directory.
-            return path;
-        }
+        // the default location - %localappdata%\FortniteGame\Saved\Logs
+        private static readonly string fortniteLogDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\FortniteGame\Saved\Logs";
 
         /// <summary>
         /// Creates a file dialog to allow the user to select a log file
@@ -239,17 +197,6 @@ namespace Fortnite_Music_WPF
         private void GithubLink_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/ApertureC/Fortnite-Music-Changer");
-        }
-
-        /// <summary>
-        /// Called when the log file update button is clicked, and opens a dialog to select a new location
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void LogFileUpdate_Click(object sender, RoutedEventArgs e)
-        {
-            ChangeProperty("LogFileFolder", browseLogLocation());
-            MessageBox.Show("Log location reset, please restart the program", "", MessageBoxButton.OK);
         }
 
         /// <summary>

@@ -11,9 +11,6 @@
             <MenuItem Header="_About">
                 <MenuItem Header="_Github" Click="GithubLink_Click"/>
             </MenuItem>
-            <MenuItem Header="Advanced">
-                <MenuItem Header="Change log file location (Dangerous!)" Click="LogFileUpdate_Click" />
-            </MenuItem>
         </Menu>
         <Grid>
             <Grid.ColumnDefinitions>
