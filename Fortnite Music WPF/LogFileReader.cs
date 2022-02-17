@@ -107,13 +107,15 @@ namespace Fortnite_Music_WPF
                     FortniteState = FortniteState.Menu;
                     RefreshPlayingMusic();
                 }
-                else if (i.Contains("NewState: Finished")) // Matchmaking finished
+                else if (i.Contains("NewState: Finished") // Matchmaking finished 
+                         || i.Contains("BeginTearingDown for /Game/Maps/Frontend")) // Save the world matchmaking finish
                 {
                     Debug.WriteLine("State: MatchmakingFinished");
                     FortniteState = FortniteState.InGame;
                     RefreshPlayingMusic();
                 }
-                else if (i.Contains("current=WaitingPostMatch")) // game end
+                else if (i.Contains("current=WaitingPostMatch") // game end for fortnitebr
+                         || i.Contains("End of Match (FortGameStatePvE")) // game end for stw
                 {
                     FortniteState = FortniteState.GameEnd;
                     RefreshPlayingMusic();
