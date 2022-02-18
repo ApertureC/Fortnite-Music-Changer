@@ -30,12 +30,8 @@ namespace Fortnite_Music_WPF
         // Used for play in background
         private WinEventProc foregroundWindowChangedListener;
 
-        private LogFileReader logFileReader;
-
         public MainWindow()
         {
-            logFileReader = new LogFileReader(fortniteLogDirectory);
-
             // Used to detect when the user swaps window to stop music if they request it
             foregroundWindowChangedListener = new WinEventProc(onForegroundWindowChanged);
             SetWinEventHook(3, 3, IntPtr.Zero, foregroundWindowChangedListener, 0, 0, 0);
@@ -58,9 +54,6 @@ namespace Fortnite_Music_WPF
             SetTextOfRichTextBox(VictoryPathBox, Path.GetFileName(Properties.Settings.Default.VictoryMusic)); // Set the text of VictoryPathBox to the path of the Victory music
             SetTextOfRichTextBox(InGamePathBox, Path.GetFileName(Properties.Settings.Default.InGameMusic)); // Set the text of InGamePathBox to the path of the In game music
         }
-
-        // the default location - %localappdata%\FortniteGame\Saved\Logs
-        private static readonly string fortniteLogDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\FortniteGame\Saved\Logs";
 
         /// <summary>
         /// Creates a file dialog to allow the user to select a log file
@@ -90,7 +83,7 @@ namespace Fortnite_Music_WPF
 
             MainMenuPathBox.Document.Blocks.Clear();
             MainMenuPathBox.Document.Blocks.Add(new Paragraph(new Run(Path.GetFileName(file))));
-            logFileReader.RefreshPlayingMusic();
+            AudioPlayer.RefreshPlayingMusic();
         }
 
         /// <summary>
@@ -105,7 +98,7 @@ namespace Fortnite_Music_WPF
 
             VictoryPathBox.Document.Blocks.Clear();
             VictoryPathBox.Document.Blocks.Add(new Paragraph(new Run(Path.GetFileName(file))));
-            logFileReader.RefreshPlayingMusic();
+            AudioPlayer.RefreshPlayingMusic();
         }
 
         private void BrowseInGame_Click(object sender, RoutedEventArgs e)
@@ -115,7 +108,7 @@ namespace Fortnite_Music_WPF
 
             InGamePathBox.Document.Blocks.Clear();
             InGamePathBox.Document.Blocks.Add(new Paragraph(new Run(Path.GetFileName(file))));
-            logFileReader.RefreshPlayingMusic();
+            AudioPlayer.RefreshPlayingMusic();
         }
 
         /// <summary>

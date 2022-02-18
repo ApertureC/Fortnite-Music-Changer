@@ -8,6 +8,40 @@ namespace Fortnite_Music_WPF
         static AudioPlayer()
         {
             mediaPlayer.settings.setMode("Loop", true);
+            LogFileReader.AddFortniteGameStatusCallback(OnGameStateUpdated);
+        }
+
+        private static void OnGameStateUpdated(FortniteState state)
+        {
+            RefreshPlayingMusic();
+        }
+
+        /// <summary>
+        /// Refreshes the current playing music and restarts it
+        /// </summary>
+        public static void RefreshPlayingMusic()
+        {
+            if (Process.GetProcessesByName("FortniteClient-Win64-Shipping").Length == 0)
+            {
+                StopMusic();
+                return;
+            }
+
+            switch (LogFileReader.FortniteState)
+            {
+                case FortniteState.Menu:
+                    PlayMusic(Properties.Settings.Default.MainMenu);
+                    break;
+                case FortniteState.GameEnd:
+                    PlayMusic(Properties.Settings.Default.VictoryMusic); // This is called "Victory music" because a very long time ago it used to be on victory (before I used log files, it used to use pixel colours!! Unfortunately victories aren't logged)
+                    break;
+                case FortniteState.InGame:
+                    PlayMusic(Properties.Settings.Default.InGameMusic);
+                    break;
+                case FortniteState.None:
+                    StopMusic();
+                    break;
+            }
         }
 
         /// <summary>
