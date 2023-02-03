@@ -87,7 +87,7 @@ namespace Fortnite_Music_WPF
 
                 // Post match
                 else if (currentLine.Contains("current=WaitingPostMatch") // game end for fortnitebr
-                         || currentLine.Contains("End of Match (FortGameStatePvE")) // game end for stw
+                         || currentLine.Contains("Snapshot: End of Match")) // game end for stw
                     newFortniteState = FortniteState.GameEnd;
 
                 // Game closed
