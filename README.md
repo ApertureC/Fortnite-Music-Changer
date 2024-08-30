@@ -1,3 +1,5 @@
+# Fortnite Music changer is no longer maintained. The last release was in Februrary 2023, so it will almost certainly not work with the latest versions of Fortnite.
+
 # Fortnite Music Changer
 
 Allows you to replace fortnite music by reading log files, and playing music when it's relevant
